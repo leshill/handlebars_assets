@@ -17,11 +17,13 @@ module HandlebarsAssets
           }).call(this);
         PARTIAL
       else
-        # TODO cache the hbs template
+        template_name = scope.logical_path.inspect
         <<-TEMPLATE
           function(context) {
-            return Handlebars.template(#{compiled_hbs})(context);
+            return HandlebarsTemplates[#{template_name}](context);
           };
+          this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
+          this.HandlebarsTemplates[#{template_name}] = Handlebars.template(#{compiled_hbs});
         TEMPLATE
       end
     end
