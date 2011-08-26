@@ -1,6 +1,6 @@
 module HandlebarsAssets
   class Engine < ::Rails::Engine
-    config.after_initialize do |app|
+    initializer "sprockets.handlebars", after: "sprockets.environment" do |app|
       app.assets.register_engine('.hbs', TiltHandlebars)
     end
   end
