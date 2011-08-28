@@ -12,11 +12,11 @@ Load `handlebars_assets` in your `Gemfile`
 
     gem 'handlebars_assets'
 
-Require `handlebars.js` to your Javascript manifest (i.e. `application.js`)
+Require `handlebars.js` in your Javascript manifest (i.e. `application.js`)
 
     //= require handlebars
 
-# Using Handlebars for your Javascript templates
+# Compiling your Javascript templates in the asset pipeline
 
 ## Templates directory
 
@@ -24,11 +24,9 @@ You should located your templates under `app/assets/templates`. In your Javascri
 
     //= require_tree ../templates
 
-## Templates
-
 ## The template file
 
-Write your Handlebars templates as standalone files in the location specified in your Javascript manifest. Organize the templates similarly to your Rails views. Name your files with `.jst.hbs` to add them to the `JST` global for your Javascript.
+Write your Handlebars templates as standalone files in your templates directory. Organize the templates similarly to Rails views.
 
 For example, if you have new, edit, and show templates for a Contact model
 
@@ -38,18 +36,24 @@ For example, if you have new, edit, and show templates for a Contact model
         edit.jst.hbs
         show.jst.hbs
 
-Based on the extensions, the asset pipeline will generate a Javascript asset for each file
+Your file extensions, tell the asset pipeline how to process the file. Use `.hbs` to compile with Handlebars, and combine it with `.jst` to add them to the `JST` global variable.
 
-1. Compile the Handlebars template to Javascript
-1. Add the template to the `JST` global under the templates name
+If your file is `templates/contacts/new.jst.hbs`, the asset pipeline will generate a Javascript asset as follows
+
+1. Compile the Handlebars template to Javascript code
+1. Add the template code to the `JST` global under the name `contacts/new`
+
+You can then invoke the resulting template in your Javascript code
+
+    JST['contacts/new'](context);
 
 ## Partials
 
-If you begin the name of the template with an underscore, it will be recognized as a partial. You can invoke partials using the Handlebars partial syntax:
+If you begin the name of the template with an underscore, it will be recognized as a partial. You can invoke partials inside a template using the Handlebars partial syntax:
 
     Invoke a {{> partial }}
 
-**Important!** Handlebars does not understand nested partials and neither does this engine. No matter how nested, the partial is always named on the basename. The following will lead to much frustration (so don't do it :)
+**Important!** Handlebars does not understand nested partials and neither does this engine. No matter how nested, the partial is named from the asset's basename. The following will lead to much frustration (so don't do it :)
 
     templates/
       contacts/
@@ -67,7 +71,7 @@ Thank you Charles Lowell (@cowboyd) for [therubyracer](https://github.com/cowboy
 
 # Contributing
 
-Once you've made your great commits:
+Once you've made your great commits
 
 1. Fork
 1. Create a topic branch - git checkout -b my_branch
