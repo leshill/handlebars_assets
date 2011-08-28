@@ -36,14 +36,14 @@ For example, if you have new, edit, and show templates for a Contact model
         edit.jst.hbs
         show.jst.hbs
 
-Your file extensions, tell the asset pipeline how to process the file. Use `.hbs` to compile with Handlebars, and combine it with `.jst` to add them to the `JST` global variable.
+Your file extensions tell the asset pipeline how to process the file. Use `.hbs` to compile the template with Handlebars. Combine it with `.jst` to add the compiled template to the `JST` global variable.
 
-If your file is `templates/contacts/new.jst.hbs`, the asset pipeline will generate a Javascript asset as follows
+If your file is `templates/contacts/new.jst.hbs`, the asset pipeline will generate Javascript code
 
 1. Compile the Handlebars template to Javascript code
 1. Add the template code to the `JST` global under the name `contacts/new`
 
-You can then invoke the resulting template in your Javascript code
+You can then invoke the resulting template in your application's Javascript
 
     JST['contacts/new'](context);
 
