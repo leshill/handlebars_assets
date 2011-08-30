@@ -8,7 +8,7 @@ module HandlebarsAssets
 
     def evaluate(scope, locals, &block)
       name = basename(scope.logical_path)
-      compiled_hbs = Handlebars.precompile data
+      compiled_hbs = Handlebars.precompile(data)
 
       if name.starts_with?('_')
         partial_name = name[1..-1].inspect
