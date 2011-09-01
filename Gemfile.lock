@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    handlebars_assets (0.0.2)
+    handlebars_assets (0.0.3)
       therubyracer
       tilt
 
