@@ -82,3 +82,7 @@ Once you've made your great commits
 # Author
 
 Les Hill : @leshill
+
+# Contributors
+
+Matt Burke : @spraints ( execjs support )
