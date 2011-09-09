@@ -1,5 +1,7 @@
 # Based on https://github.com/josh/ruby-coffee-script
 require 'execjs'
+require 'pathname'
+
 module HandlebarsAssets
   class Handlebars
     class << self
