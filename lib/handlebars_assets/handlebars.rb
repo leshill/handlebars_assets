@@ -1,17 +1,13 @@
 # Based on https://github.com/cowboyd/handlebars.rb
 module HandlebarsAssets
-  module Handlebars
-    @loader = Loader.new
+  class Handlebars
+    class << self
+      def precompile(*args)
+        context.call('Handlebars.precompile', *args)
+      end
 
-    module_function
-
-    def precompile(*args)
-      handlebars.precompile(*args)
-    end
-
-    def handlebars
-      Handlebars.module_eval do
-        @loader.require('handlebars')
+      def context
+        @context ||= Loader.new.load_context
       end
     end
   end
