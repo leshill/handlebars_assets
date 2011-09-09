@@ -20,4 +20,8 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "execjs"
   s.add_runtime_dependency "tilt"
+
+  s.add_development_dependency "activesupport", "~> 3.1.0"
+  s.add_development_dependency "therubyracer"
+  s.add_development_dependency "rake"
 end
