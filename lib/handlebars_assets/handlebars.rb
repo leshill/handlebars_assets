@@ -1,4 +1,5 @@
-# Based on https://github.com/cowboyd/handlebars.rb
+# Based on https://github.com/josh/ruby-coffee-script
+require 'execjs'
 module HandlebarsAssets
   class Handlebars
     class << self
@@ -6,8 +7,21 @@ module HandlebarsAssets
         context.call('Handlebars.precompile', *args)
       end
 
+      private
       def context
-        @context ||= Loader.new.load_context
+        @context ||= ExecJS.compile(source)
+      end
+
+      def source
+        @source ||= path.read
+      end
+
+      def path
+        @path ||= assets_path.join('javascripts', 'handlebars.js')
+      end
+
+      def assets_path
+        @assets_path ||= Pathname(__FILE__).dirname.join('..','..','vendor','assets')
       end
     end
   end
