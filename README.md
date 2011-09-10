@@ -81,8 +81,9 @@ Once you've made your great commits
 
 # Author
 
-Les Hill : @leshill
+Les Hill (@leshill)
 
 # Contributors
 
-Matt Burke : @spraints ( execjs support )
+Matt Burke (@spraints)   : execjs support
+           (@kendagriff) : 1.8.7 compatibility
