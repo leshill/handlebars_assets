@@ -10,6 +10,7 @@ module HandlebarsAssets
       end
 
       private
+
       def context
         @context ||= ExecJS.compile(source)
       end
