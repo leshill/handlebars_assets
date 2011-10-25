@@ -8,10 +8,10 @@ Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handle
 
 ## Installation
 
-Load `handlebars_assets` and **edge** `execjs` in your `Gemfile`
+Load `handlebars_assets` and `execjs` in your `Gemfile`
 
     gem 'handlebars_assets'
-    gem 'execjs', :git => 'git://github.com/sstephenson/execjs.git'
+    gem 'execjs'
 
 Require `handlebars.js` in your Javascript manifest (i.e. `application.js`)
 
