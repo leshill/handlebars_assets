@@ -13,7 +13,11 @@ Load `handlebars_assets` and `execjs` in your `Gemfile`
     gem 'handlebars_assets'
     gem 'execjs'
 
-Require `handlebars.js` in your Javascript manifest (i.e. `application.js`)
+Require `handlebars.vm.js` in your Javascript manifest (i.e. `application.js`)
+
+    //= require handlebars.vm
+
+If you need to compile your Javascript templates in the browser as well, you should instead require `handlebars.js` (which is significantly larger)
 
     //= require handlebars
 
