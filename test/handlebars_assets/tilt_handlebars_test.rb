@@ -20,7 +20,7 @@ module HandlebarsAssets
 
 
   buffer += "This is ";
-  stack1 = helpers.handlebars || depth0.handlebars
+  stack1 = helpers.handlebars || depth0.handlebars;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "handlebars", { hash: {} }); }
   buffer += escapeExpression(stack1);
