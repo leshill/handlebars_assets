@@ -8,10 +8,11 @@ Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handle
 
 ## Installation
 
-Load `handlebars_assets` and `execjs` in your `Gemfile`
+Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
 
-    gem 'handlebars_assets'
-    gem 'execjs'
+    group :assets do
+      gem 'handlebars_assets'
+    end
 
 Require `handlebars.vm.js` in your Javascript manifest (i.e. `application.js`)
 
@@ -23,9 +24,15 @@ If you need to compile your Javascript templates in the browser as well, you sho
 
 # Compiling your Javascript templates in the asset pipeline
 
+## Precompiling
+
+`handlebars_assets` also works when you are precompiling your assets. If you are deploying to Heroku, be sure to read the [Rails guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) and in your `config/application.rb` set:
+
+    config.assets.initialize_on_precompile = false
+
 ## Templates directory
 
-You should located your templates under `app/assets/templates`. In your Javascript manifest file, use `require_tree`
+You should locate your templates with your other assets, for example `app/assets/templates`. In your Javascript manifest file, use `require_tree` to pull in the templates
 
     //= require_tree ../templates
 
@@ -90,5 +97,6 @@ Once you've made your great commits
 
 # Contributors
 
-* Matt Burke (@spraints)   : execjs support
-*            (@kendagriff) : 1.8.7 compatibility
+* Matt Burke       (@spraints)   : execjs support
+*                  (@kendagriff) : 1.8.7 compatibility
+* Thorben Schröder (@walski)     : 3.1 asset group for precompile
