@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    handlebars_assets (0.1.3)
+    handlebars_assets (0.1.4)
       execjs (>= 1.2.9)
       tilt
 
