@@ -10,7 +10,7 @@ module HandlebarsAssets
       name = basename(scope.logical_path)
       compiled_hbs = Handlebars.precompile(data)
 
-      if name.starts_with?('_')
+      if name.start_with?('_')
         partial_name = name[1..-1].inspect
         <<-PARTIAL
           (function() {
