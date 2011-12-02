@@ -1,10 +1,12 @@
-# Use handlebars.js templates with the asset pipeline
+# Use handlebars.js templates with the asset pipeline and sprockets
 
 **ALPHA**
 
 Are your `handlebars.js` templates littering your Rails views with `script` tags? Wondering why the nifty Rails 3.1 asset pipeline streamlines all your Javascript except for your Handlebars templates? Wouldn't it be nice to have your Handlebars templates compiled, compressed, and cached like your other Javascript?
 
 Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handlebars templates their own files (including partials) and have them compiled, compressed, and cached as part of the Rails 3.1 asset pipeline!
+
+Using `sprockets` with Sinatra or another framework? **handlebars_assets** works outside of Rails too (as of v0.2.0)
 
 ## Installation
 
@@ -14,6 +16,8 @@ Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
       gem 'handlebars_assets'
     end
 
+# Compiling your Javascript templates in the Rails asset pipeline
+
 Require `handlebars.vm.js` in your Javascript manifest (i.e. `application.js`)
 
     //= require handlebars.vm
@@ -21,8 +25,6 @@ Require `handlebars.vm.js` in your Javascript manifest (i.e. `application.js`)
 If you need to compile your Javascript templates in the browser as well, you should instead require `handlebars.js` (which is significantly larger)
 
     //= require handlebars
-
-# Compiling your Javascript templates in the asset pipeline
 
 ## Precompiling
 
@@ -73,6 +75,8 @@ If you begin the name of the template with an underscore, it will be recognized 
       todos/
         _form.hbs
 
+## TODO document Sinatra setup
+
 # Thanks
 
 This gem is standing on the shoulders of giants.
@@ -100,3 +104,4 @@ Once you've made your great commits
 * Matt Burke       (@spraints)   : execjs support
 *                  (@kendagriff) : 1.8.7 compatibility
 * Thorben Schröder (@walski)     : 3.1 asset group for precompile
+* Erwan Barrier    (@erwanb)     : Support for plain sprockets
