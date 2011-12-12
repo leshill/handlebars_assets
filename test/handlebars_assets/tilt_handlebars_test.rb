@@ -23,9 +23,7 @@ module HandlebarsAssets
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "handlebars", { hash: {} }); }
   buffer += escapeExpression(stack1);
   return buffer;});
-            return function(context) {
-              return HandlebarsTemplates["x11"](context);
-            };
+            return HandlebarsTemplates["x11"];
           }).call(this);
 END_EXPECTED
     end

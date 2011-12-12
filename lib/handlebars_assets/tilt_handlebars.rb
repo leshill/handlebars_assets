@@ -23,9 +23,7 @@ module HandlebarsAssets
           (function() {
             this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
             this.HandlebarsTemplates[#{template_name}] = Handlebars.template(#{compiled_hbs});
-            return function(context) {
-              return HandlebarsTemplates[#{template_name}](context);
-            };
+            return HandlebarsTemplates[#{template_name}];
           }).call(this);
         TEMPLATE
       end
