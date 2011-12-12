@@ -8,13 +8,24 @@ Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handle
 
 Using `sprockets` with Sinatra or another framework? **handlebars_assets** works outside of Rails too (as of v0.2.0)
 
-## Installation
+## handlebars.js
+
+`handlebars_assets` is packaged with `v1.0.beta.4` of `handlebars.js`.
+
+## Installation with Rails 3.1+
 
 Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
 
     group :assets do
       gem 'handlebars_assets'
     end
+
+## Installation without Rails 3.1+
+
+Load `handlebars_assets` in your `Gemfile`
+
+    gem 'handlebars_assets'
+
 
 # Compiling your Javascript templates in the Rails asset pipeline
 
@@ -46,20 +57,29 @@ For example, if you have new, edit, and show templates for a Contact model
 
     templates/
       contacts/
-        new.jst.hbs
-        edit.jst.hbs
-        show.jst.hbs
+        new.hbs
+        edit.hbs
+        show.hbs
 
 Your file extensions tell the asset pipeline how to process the file. Use `.hbs` to compile the template with Handlebars. Combine it with `.jst` to add the compiled template to the `JST` global variable.
 
-If your file is `templates/contacts/new.jst.hbs`, the asset pipeline will generate Javascript code
+If your file is `templates/contacts/new.hbs`, the asset pipeline will generate Javascript code
 
 1. Compile the Handlebars template to Javascript code
-1. Add the template code to the `JST` global under the name `contacts/new`
+1. Add the template code to the `HandlebarsTemplates` global under the name `contacts/new`
 
 You can then invoke the resulting template in your application's Javascript
 
-    JST['contacts/new'](context);
+    HandlebarsTemplates['contacts/new'](context);
+
+## JST
+
+`sprockets` ships with a simple JavaScript template wrapper called `JST` for
+use with the `ejs` and other gems.
+
+`handlebars_assets` is compatible with `JST`. If you name your template files
+`name.jst.hbs`, you will have access to your templates through the `JST` global
+just like your `ejs` templates.
 
 ## Partials
 
