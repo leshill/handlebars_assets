@@ -1,7 +1,7 @@
 // lib/handlebars/base.js
 var Handlebars = {};
 
-Handlebars.VERSION = "1.0.beta.2";
+Handlebars.VERSION = "1.0.beta.4";
 
 Handlebars.helpers  = {};
 Handlebars.partials = {};
@@ -545,7 +545,7 @@ case 25: return 5;
 break;
 }
 };
-lexer.rules = [/^[^\x00]*?(?=(\{\{))/,/^[^\x00]+/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{![\s\S]*?\}\}/,/^\{\{/,/^=/,/^\.(?=[} ])/,/^\.\./,/^[/.]/,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^true(?=[}\s])/,/^false(?=[}\s])/,/^[0-9]+(?=[}\s])/,/^[a-zA-Z0-9_$-]+(?=[=}\s/.])/,/^\[.*\]/,/^./,/^$/];
+lexer.rules = [/^[^\x00]*?(?=(\{\{))/,/^[^\x00]+/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{![\s\S]*?\}\}/,/^\{\{/,/^=/,/^\.(?=[} ])/,/^\.\./,/^[/.]/,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^true(?=[}\s])/,/^false(?=[}\s])/,/^[0-9]+(?=[}\s])/,/^[a-zA-Z0-9_$-]+(?=[=}\s\/.])/,/^\[.*\]/,/^./,/^$/];
 lexer.conditions = {"mu":{"rules":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],"inclusive":false},"INITIAL":{"rules":[0,1,25],"inclusive":true}};return lexer;})()
 parser.lexer = lexer;
 return parser;
@@ -1087,6 +1087,8 @@ Handlebars.JavaScriptCompiler = function() {};
     initializeBuffer: function() {
       return this.quotedString("");
     },
+
+    namespace: "Handlebars",
     // END PUBLIC API
 
     compile: function(environment, options, context, asObject) {
@@ -1157,8 +1159,9 @@ Handlebars.JavaScriptCompiler = function() {};
       var out = [];
 
       if (!this.isChild) {
-        var copies = "helpers = helpers || Handlebars.helpers;";
-        if(this.environment.usePartial) { copies = copies + " partials = partials || Handlebars.partials;"; }
+        var namespace = this.namespace;
+        var copies = "helpers = helpers || " + namespace + ".helpers;";
+        if(this.environment.usePartial) { copies = copies + " partials = partials || " + namespace + ".partials;"; }
         out.push(copies);
       } else {
         out.push('');
@@ -1212,8 +1215,6 @@ Handlebars.JavaScriptCompiler = function() {};
       for(var i=0, l=this.environment.depths.list.length; i<l; i++) {
         params.push("depth" + this.environment.depths.list[i]);
       }
-
-      if(params.length === 4 && !this.environment.usePartial) { params.pop(); }
 
       if (asObject) {
         params.push(this.source.join("\n  "));
@@ -1274,7 +1275,7 @@ Handlebars.JavaScriptCompiler = function() {};
               + " || "
               + this.nameLookup('depth' + this.lastContext, name, 'context');
         }
-        
+
         toPush += ';';
         this.source.push(toPush);
       } else {
@@ -1479,7 +1480,7 @@ Handlebars.JavaScriptCompiler = function() {};
   };
 
   var reservedWords = ("break case catch continue default delete do else finally " +
-                       "for function if in instanceof new return switch this throw " + 
+                       "for function if in instanceof new return switch this throw " +
                        "try typeof var void while with null true false").split(" ");
 
   var compilerWords = JavaScriptCompiler.RESERVED_WORDS = {};
