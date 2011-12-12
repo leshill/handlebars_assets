@@ -10,11 +10,9 @@ module HandlebarsAssets
       end
       template = HandlebarsAssets::TiltHandlebars.new('/myapp/app/assets/templates/x11.jst.hbs') { "This is {{handlebars}}" }
       assert_equal <<END_EXPECTED, template.render(scope, {})
-          function(context) {
-            return HandlebarsTemplates["x11"](context);
-          };
-          this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
-          this.HandlebarsTemplates["x11"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+          (function() {
+            this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
+            this.HandlebarsTemplates["x11"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
   var buffer = "", stack1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
 
@@ -25,6 +23,10 @@ module HandlebarsAssets
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "handlebars", { hash: {} }); }
   buffer += escapeExpression(stack1);
   return buffer;});
+            return function(context) {
+              return HandlebarsTemplates["x11"](context);
+            };
+          }).call(this);
 END_EXPECTED
     end
   end
