@@ -1,7 +1,7 @@
 // lib/handlebars/base.js
 var Handlebars = {};
 
-Handlebars.VERSION = "1.0.beta.4";
+Handlebars.VERSION = "1.0.beta.5";
 
 Handlebars.helpers  = {};
 Handlebars.partials = {};
@@ -23,16 +23,16 @@ Handlebars.registerHelper('helperMissing', function(arg) {
   }
 });
 
+var toString = Object.prototype.toString, functionType = "[object Function]";
+
 Handlebars.registerHelper('blockHelperMissing', function(context, options) {
   var inverse = options.inverse || function() {}, fn = options.fn;
 
 
   var ret = "";
-  var type = Object.prototype.toString.call(context);
+  var type = toString.call(context);
 
-  if(type === "[object Function]") {
-    context = context();
-  }
+  if(type === functionType) { context = context.call(this); }
 
   if(context === true) {
     return fn(this);
@@ -67,6 +67,9 @@ Handlebars.registerHelper('each', function(context, options) {
 });
 
 Handlebars.registerHelper('if', function(context, options) {
+  var type = toString.call(context);
+  if(type === functionType) { context = context.call(this); }
+
   if(!context || Handlebars.Utils.isEmpty(context)) {
     return options.inverse(this);
   } else {
@@ -491,62 +494,68 @@ lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_STA
 
 var YYSTATE=YY_START
 switch($avoiding_name_collisions) {
-case 0: this.begin("mu"); if (yy_.yytext) return 14; 
+case 0:
+                                   if(yy_.yytext.slice(-1) !== "\\") this.begin("mu");
+                                   if(yy_.yytext.slice(-1) === "\\") yy_.yytext = yy_.yytext.substr(0,yy_.yyleng-1), this.begin("emu");
+                                   if(yy_.yytext) return 14;
+                                 
 break;
 case 1: return 14; 
 break;
-case 2: return 24; 
+case 2: this.popState(); return 14; 
 break;
-case 3: return 16; 
+case 3: return 24; 
 break;
-case 4: return 20; 
+case 4: return 16; 
 break;
-case 5: return 19; 
+case 5: return 20; 
 break;
 case 6: return 19; 
 break;
-case 7: return 23; 
+case 7: return 19; 
 break;
 case 8: return 23; 
 break;
-case 9: yy_.yytext = yy_.yytext.substr(3,yy_.yyleng-5); this.begin("INITIAL"); return 15; 
+case 9: return 23; 
 break;
-case 10: return 22; 
+case 10: yy_.yytext = yy_.yytext.substr(3,yy_.yyleng-5); this.popState(); return 15; 
 break;
-case 11: return 34; 
+case 11: return 22; 
 break;
-case 12: return 33; 
+case 12: return 34; 
 break;
 case 13: return 33; 
 break;
-case 14: return 36; 
+case 14: return 33; 
 break;
-case 15: /*ignore whitespace*/ 
+case 15: return 36; 
 break;
-case 16: this.begin("INITIAL"); return 18; 
+case 16: /*ignore whitespace*/ 
 break;
-case 17: this.begin("INITIAL"); return 18; 
+case 17: this.popState(); return 18; 
 break;
-case 18: yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2).replace(/\\"/g,'"'); return 28; 
+case 18: this.popState(); return 18; 
 break;
-case 19: return 30; 
+case 19: yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2).replace(/\\"/g,'"'); return 28; 
 break;
 case 20: return 30; 
 break;
-case 21: return 29; 
+case 21: return 30; 
 break;
-case 22: return 33; 
+case 22: return 29; 
 break;
-case 23: yy_.yytext = yy_.yytext.substr(1, yy_.yyleng-2); return 33; 
+case 23: return 33; 
 break;
-case 24: return 'INVALID'; 
+case 24: yy_.yytext = yy_.yytext.substr(1, yy_.yyleng-2); return 33; 
 break;
-case 25: return 5; 
+case 25: return 'INVALID'; 
+break;
+case 26: return 5; 
 break;
 }
 };
-lexer.rules = [/^[^\x00]*?(?=(\{\{))/,/^[^\x00]+/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{![\s\S]*?\}\}/,/^\{\{/,/^=/,/^\.(?=[} ])/,/^\.\./,/^[/.]/,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^true(?=[}\s])/,/^false(?=[}\s])/,/^[0-9]+(?=[}\s])/,/^[a-zA-Z0-9_$-]+(?=[=}\s\/.])/,/^\[.*\]/,/^./,/^$/];
-lexer.conditions = {"mu":{"rules":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],"inclusive":false},"INITIAL":{"rules":[0,1,25],"inclusive":true}};return lexer;})()
+lexer.rules = [/^[^\x00]*?(?=(\{\{))/,/^[^\x00]+/,/^[^\x00]{2,}?(?=(\{\{))/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{![\s\S]*?\}\}/,/^\{\{/,/^=/,/^\.(?=[} ])/,/^\.\./,/^[\/.]/,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^true(?=[}\s])/,/^false(?=[}\s])/,/^[0-9]+(?=[}\s])/,/^[a-zA-Z0-9_$-]+(?=[=}\s\/.])/,/^\[[^\]]*\]/,/^./,/^$/];
+lexer.conditions = {"mu":{"rules":[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],"inclusive":false},"emu":{"rules":[2],"inclusive":false},"INITIAL":{"rules":[0,1,26],"inclusive":true}};return lexer;})()
 parser.lexer = lexer;
 return parser;
 })();
@@ -696,6 +705,8 @@ Handlebars.Exception = function(message) {
   for (var p in tmp) {
     if (tmp.hasOwnProperty(p)) { this[p] = tmp[p]; }
   }
+
+  this.message = tmp.message;
 };
 Handlebars.Exception.prototype = new Error;
 
@@ -932,6 +943,7 @@ Handlebars.JavaScriptCompiler = function() {};
       this.declare('inverse', programGuid);
 
       this.opcode('invokeProgram', null, params.length, !!block.mustache.hash);
+      this.declare('inverse', null);
       this.opcode('append');
     },
 
@@ -972,7 +984,7 @@ Handlebars.JavaScriptCompiler = function() {};
 
       this.opcode('invokeMustache', params.length, mustache.id.original, !!mustache.hash);
 
-      if(mustache.escaped) {
+      if(mustache.escaped && !this.options.noEscape) {
         this.opcode('appendEscaped');
       } else {
         this.opcode('append');
@@ -1388,7 +1400,13 @@ Handlebars.JavaScriptCompiler = function() {};
     },
 
     invokePartial: function(context) {
-      this.pushStack("self.invokePartial(" + this.nameLookup('partials', context, 'partial') + ", '" + context + "', " + this.popStack() + ", helpers, partials);");
+      params = [this.nameLookup('partials', context, 'partial'), "'" + context + "'", this.popStack(), "helpers", "partials"];
+
+      if (this.options.data) {
+        params.push("data");
+      }
+
+      this.pushStack("self.invokePartial(" + params.join(", ") + ");");
     },
 
     assignToHash: function(key) {
@@ -1526,7 +1544,7 @@ Handlebars.compile = function(string, options) {
   };
 };
 ;
-// lib/handlebars/vm.js
+// lib/handlebars/runtime.js
 Handlebars.VM = {
   template: function(templateSpec) {
     // Just add water
@@ -1572,16 +1590,18 @@ Handlebars.VM = {
     };
   },
   noop: function() { return ""; },
-  invokePartial: function(partial, name, context, helpers, partials) {
+  invokePartial: function(partial, name, context, helpers, partials, data) {
+    options = { helpers: helpers, partials: partials, data: data };
+
     if(partial === undefined) {
       throw new Handlebars.Exception("The partial " + name + " could not be found");
     } else if(partial instanceof Function) {
-      return partial(context, {helpers: helpers, partials: partials});
+      return partial(context, options);
     } else if (!Handlebars.compile) {
-      throw new Handlebars.Exception("The partial " + name + " could not be compiled when running in vm mode");
+      throw new Handlebars.Exception("The partial " + name + " could not be compiled when running in runtime-only mode");
     } else {
       partials[name] = Handlebars.compile(partial);
-      return partials[name](context, {helpers: helpers, partials: partials});
+      return partials[name](context, options);
     }
   }
 };

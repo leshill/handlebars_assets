@@ -1,7 +1,7 @@
 // lib/handlebars/base.js
 var Handlebars = {};
 
-Handlebars.VERSION = "1.0.beta.4";
+Handlebars.VERSION = "1.0.beta.5";
 
 Handlebars.helpers  = {};
 Handlebars.partials = {};
@@ -23,16 +23,16 @@ Handlebars.registerHelper('helperMissing', function(arg) {
   }
 });
 
+var toString = Object.prototype.toString, functionType = "[object Function]";
+
 Handlebars.registerHelper('blockHelperMissing', function(context, options) {
   var inverse = options.inverse || function() {}, fn = options.fn;
 
 
   var ret = "";
-  var type = Object.prototype.toString.call(context);
+  var type = toString.call(context);
 
-  if(type === "[object Function]") {
-    context = context();
-  }
+  if(type === functionType) { context = context.call(this); }
 
   if(context === true) {
     return fn(this);
@@ -67,6 +67,9 @@ Handlebars.registerHelper('each', function(context, options) {
 });
 
 Handlebars.registerHelper('if', function(context, options) {
+  var type = toString.call(context);
+  if(type === functionType) { context = context.call(this); }
+
   if(!context || Handlebars.Utils.isEmpty(context)) {
     return options.inverse(this);
   } else {
@@ -97,6 +100,8 @@ Handlebars.Exception = function(message) {
   for (var p in tmp) {
     if (tmp.hasOwnProperty(p)) { this[p] = tmp[p]; }
   }
+
+  this.message = tmp.message;
 };
 Handlebars.Exception.prototype = new Error;
 
@@ -152,7 +157,7 @@ Handlebars.SafeString.prototype.toString = function() {
     }
   };
 })();;
-// lib/handlebars/vm.js
+// lib/handlebars/runtime.js
 Handlebars.VM = {
   template: function(templateSpec) {
     // Just add water
@@ -198,16 +203,18 @@ Handlebars.VM = {
     };
   },
   noop: function() { return ""; },
-  invokePartial: function(partial, name, context, helpers, partials) {
+  invokePartial: function(partial, name, context, helpers, partials, data) {
+    options = { helpers: helpers, partials: partials, data: data };
+
     if(partial === undefined) {
       throw new Handlebars.Exception("The partial " + name + " could not be found");
     } else if(partial instanceof Function) {
-      return partial(context, {helpers: helpers, partials: partials});
+      return partial(context, options);
     } else if (!Handlebars.compile) {
-      throw new Handlebars.Exception("The partial " + name + " could not be compiled when running in vm mode");
+      throw new Handlebars.Exception("The partial " + name + " could not be compiled when running in runtime-only mode");
     } else {
       partials[name] = Handlebars.compile(partial);
-      return partials[name](context, {helpers: helpers, partials: partials});
+      return partials[name](context, options);
     }
   }
 };
