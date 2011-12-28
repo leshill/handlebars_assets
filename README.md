@@ -1,6 +1,8 @@
-# Use handlebars.js templates with the asset pipeline and sprockets
+# BREAKING CHANGE
 
-**ALPHA**
+`handlebars.vm.js` was renamed to `handlebars.runtime.js`, please update your Javascript manifest.
+
+# Use handlebars.js templates with the asset pipeline and sprockets
 
 Are your `handlebars.js` templates littering your Rails views with `script` tags? Wondering why the nifty Rails 3.1 asset pipeline streamlines all your Javascript except for your Handlebars templates? Wouldn't it be nice to have your Handlebars templates compiled, compressed, and cached like your other Javascript?
 
@@ -10,7 +12,7 @@ Using `sprockets` with Sinatra or another framework? **handlebars_assets** works
 
 ## handlebars.js
 
-`handlebars_assets` is packaged with `v1.0.beta.4` of `handlebars.js`.
+`handlebars_assets` is packaged with `v1.0.beta.5` of `handlebars.js`.
 
 ## Installation with Rails 3.1+
 
@@ -29,9 +31,9 @@ Load `handlebars_assets` in your `Gemfile`
 
 # Compiling your Javascript templates in the Rails asset pipeline
 
-Require `handlebars.vm.js` in your Javascript manifest (i.e. `application.js`)
+Require `handlebars.runtime.js` in your Javascript manifest (i.e. `application.js`)
 
-    //= require handlebars.vm
+    //= require handlebars.runtime
 
 If you need to compile your Javascript templates in the browser as well, you should instead require `handlebars.js` (which is significantly larger)
 
