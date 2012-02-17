@@ -28,6 +28,15 @@ Load `handlebars_assets` in your `Gemfile`
 
     gem 'handlebars_assets'
 
+Add the `HandlebarsAssets.path` to your `Sprockets::Environment` instance. This
+lets Sprockets know where the Handlebars JavaScript files are and is required
+for the next steps to work.
+
+    env = Sprockets::Environment.new
+
+    require 'handlebars_assets'
+    env.append_path HandlebarsAssets.path
+
 
 # Compiling your Javascript templates in the Rails asset pipeline
 
