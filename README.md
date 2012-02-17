@@ -106,8 +106,6 @@ If you begin the name of the template with an underscore, it will be recognized 
       todos/
         _form.hbs
 
-## TODO document Sinatra setup
-
 # Thanks
 
 This gem is standing on the shoulders of giants.
