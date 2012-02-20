@@ -130,7 +130,8 @@ Once you've made your great commits
 
 # Contributors
 
-* Matt Burke       (@spraints)   : execjs support
-*                  (@kendagriff) : 1.8.7 compatibility
-* Thorben Schröder (@walski)     : 3.1 asset group for precompile
-* Erwan Barrier    (@erwanb)     : Support for plain sprockets
+* Matt Burke         (@spraints)    : execjs support
+*                    (@kendagriff)  : 1.8.7 compatibility
+* Thorben Schröder   (@walski)      : 3.1 asset group for precompile
+* Erwan Barrier      (@erwanb)      : Support for plain sprockets
+* Brendan Loudermilk (@bloudermilk) : HandlebarsAssets.path
