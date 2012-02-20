@@ -20,11 +20,11 @@ module HandlebarsAssets
       end
 
       def path
-        @path ||= assets_path.join('javascripts', 'handlebars.js')
+        @path ||= assets_path.join('handlebars.js')
       end
 
       def assets_path
-        @assets_path ||= Pathname(__FILE__).dirname.join('..','..','vendor','assets')
+        @assets_path ||= Pathname(HandlebarsAssets.path)
       end
     end
   end
