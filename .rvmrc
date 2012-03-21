@@ -1,1 +1,1 @@
-rvm use @handlebars_assets
+rvm use @handlebars_assets --create
