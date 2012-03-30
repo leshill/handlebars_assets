@@ -24,6 +24,8 @@ Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
 
 ## Installation without Rails 3.1+
 
+`handlebars_assets` can work with earlier versions of Rails or other frameworks like Sinatra.
+
 Load `handlebars_assets` in your `Gemfile`
 
     gem 'handlebars_assets'
@@ -135,3 +137,4 @@ Once you've made your great commits
 * Thorben Schröder   (@walski)      : 3.1 asset group for precompile
 * Erwan Barrier      (@erwanb)      : Support for plain sprockets
 * Brendan Loudermilk (@bloudermilk) : HandlebarsAssets.path
+* Dan Evans          (@danevans)    : Rails 2 support
