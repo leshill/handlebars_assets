@@ -12,7 +12,7 @@ Using `sprockets` with Sinatra or another framework? **handlebars_assets** works
 
 ## handlebars.js
 
-`handlebars_assets` is packaged with `v1.0.beta.5` of `handlebars.js`.
+`handlebars_assets` is packaged with `v1.0.beta.6` of `handlebars.js`.
 
 ## Installation with Rails 3.1+
 
@@ -138,3 +138,4 @@ Once you've made your great commits
 * Erwan Barrier      (@erwanb)      : Support for plain sprockets
 * Brendan Loudermilk (@bloudermilk) : HandlebarsAssets.path
 * Dan Evans          (@danevans)    : Rails 2 support
+* Ben Woosley        (@empact)      : Update to handlebars.js 1.0.0.beta.6
