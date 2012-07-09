@@ -18,7 +18,7 @@ module HandlebarsAssets
           }).call(this);
         PARTIAL
       else
-        template_name = scope.logical_path.inspect
+        template_name = scope.logical_path.gsub('templates/', '').inspect
         <<-TEMPLATE
           (function() {
             this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
