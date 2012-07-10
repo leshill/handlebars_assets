@@ -8,17 +8,18 @@ module HandlebarsAssets
 
     def evaluate(scope, locals, &block)
       name = basename(scope.logical_path)
+      relative_path = scope.logical_path.gsub(/^templates\/(.*)$/i, "\\1")
       compiled_hbs = Handlebars.precompile(data)
 
       if name.start_with?('_')
-        partial_name = scope.logical_path.gsub(/^templates\/(.*)$/i, "\\1").gsub(/\//, '_').gsub(/__/, '_').inspect
+        partial_name = relative_path.gsub(/\//, '_').gsub(/__/, '_').dump
         <<-PARTIAL
           (function() {
             Handlebars.registerPartial(#{partial_name}, Handlebars.template(#{compiled_hbs}));
           }).call(this);
         PARTIAL
       else
-        template_name = scope.logical_path.gsub(/^templates\/(.*)$/i, "\\1").inspect
+        template_name = relative_path.dump
         <<-TEMPLATE
           (function() {
             this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
