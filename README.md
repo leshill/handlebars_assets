@@ -1,7 +1,3 @@
-# BREAKING CHANGE
-
-`handlebars.vm.js` was renamed to `handlebars.runtime.js`, please update your Javascript manifest.
-
 # Use handlebars.js templates with the asset pipeline and sprockets
 
 Are your `handlebars.js` templates littering your Rails views with `script` tags? Wondering why the nifty Rails 3.1 asset pipeline streamlines all your Javascript except for your Handlebars templates? Wouldn't it be nice to have your Handlebars templates compiled, compressed, and cached like your other Javascript?
@@ -58,9 +54,9 @@ If you need to compile your Javascript templates in the browser as well, you sho
 
 ## Templates directory
 
-You should locate your templates with your other assets, for example `app/assets/templates`. In your Javascript manifest file, use `require_tree` to pull in the templates
+You should locate your templates with your other assets, for example `app/assets/javascripts/templates`. In your Javascript manifest file, use `require_tree` to pull in the templates
 
-    //= require_tree ../templates
+    //= require_tree ./templates
 
 ## The template file
 
@@ -74,7 +70,7 @@ For example, if you have new, edit, and show templates for a Contact model
         edit.hbs
         show.hbs
 
-Your file extensions tell the asset pipeline how to process the file. Use `.hbs` to compile the template with Handlebars. Combine it with `.jst` to add the compiled template to the `JST` global variable.
+Your file extensions tell the asset pipeline how to process the file. Use `.hbs` to compile the template with Handlebars.
 
 If your file is `templates/contacts/new.hbs`, the asset pipeline will generate Javascript code
 
@@ -84,15 +80,6 @@ If your file is `templates/contacts/new.hbs`, the asset pipeline will generate J
 You can then invoke the resulting template in your application's Javascript
 
     HandlebarsTemplates['contacts/new'](context);
-
-## JST
-
-`sprockets` ships with a simple JavaScript template wrapper called `JST` for
-use with the `ejs` and other gems.
-
-`handlebars_assets` is compatible with `JST`. If you name your template files
-`name.jst.hbs`, you will have access to your templates through the `JST` global
-just like your `ejs` templates.
 
 ## Partials
 
@@ -116,19 +103,12 @@ Thank you Yehuda Katz (@wycats) for [handlebars.js](https://github.com/wycats/ha
 
 Thank you Charles Lowell (@cowboyd) for [therubyracer](https://github.com/cowboyd/therubyracer) and [handlebars.rb](https://github.com/cowboyd/handlebars.rb).
 
-# Contributing
-
-Once you've made your great commits
-
-1. Fork
-1. Create a topic branch - git checkout -b my_branch
-1. Push to your branch - git push origin my_branch
-1. Create a Pull Request from your branch
-1. That's it!
-
 # Author
 
-* Les Hill (@leshill)
+Hi, I'm Les Hill and I make things go.
+
+Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.com/leshill).
+
 
 # Contributors
 
@@ -139,3 +119,14 @@ Once you've made your great commits
 * Brendan Loudermilk (@bloudermilk) : HandlebarsAssets.path
 * Dan Evans          (@danevans)    : Rails 2 support
 * Ben Woosley        (@empact)      : Update to handlebars.js 1.0.0.beta.6
+*                    (@cw-moshe)    : Remove 'templates/' from names
+
+# Contributing
+
+Once you've made your great commits
+
+1. Fork
+1. Create a topic branch - git checkout -b my_branch
+1. Push to your branch - git push origin my_branch
+1. Create a Pull Request from your branch
+1. That's it!
