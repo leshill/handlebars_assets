@@ -87,13 +87,16 @@ If you begin the name of the template with an underscore, it will be recognized 
 
     Invoke a {{> partial }}
 
-**Important!** Handlebars does not understand nested partials and neither does this engine. No matter how nested, the partial is named from the asset's basename. The following will lead to much frustration (so don't do it :)
+**Important!** Handlebars does not understand nested partials. To support them, partials are named based on their path using `_` instead `/` (skid => slash). So given:
 
     templates/
+      _form.hbs
       contacts/
         _form.hbs
       todos/
         _form.hbs
+
+You will get three partials named `_form`, `contacts_form`, and `todos_form` (TODO: always have leading _? _contacts\_form?)
 
 # Thanks
 
