@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'handlebars_assets/config'
 
 module HandlebarsAssets
   class TiltHandlebarsTest < Test::Unit::TestCase
@@ -54,6 +55,20 @@ END_EXPECTED
       template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "This is {{handlebars}}" }
 
       assert_equal hbs_compiled('test_template_misnaming'), template.render(scope, {})
+    end
+
+    def test_path_prefix
+      root = '/myapp/app/assets/javascripts'
+      file = 'app/templates/test_path_prefix.hbs'
+      scope = make_scope root, file
+
+      HandlebarsAssets::Config.path_prefix = 'app/templates'
+
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "This is {{handlebars}}" }
+
+      assert_equal hbs_compiled('test_path_prefix'), template.render(scope, {})
+
+      HandlebarsAssets::Config.path_prefix = nil
     end
   end
 end

@@ -8,7 +8,7 @@ module HandlebarsAssets
 
     def evaluate(scope, locals, &block)
       name = basename(scope.logical_path)
-      relative_path = scope.logical_path.gsub(/^templates\/(.*)$/i, "\\1")
+      relative_path = scope.logical_path.gsub(/^#{HandlebarsAssets::Config.path_prefix}\/(.*)$/i, "\\1")
       compiled_hbs = Handlebars.precompile(data)
 
       if name.start_with?('_')
