@@ -96,7 +96,7 @@ If you begin the name of the template with an underscore, it will be recognized 
       todos/
         _form.hbs
 
-You will get three partials named `_form`, `contacts_form`, and `todos_form` (TODO: always have leading _? _contacts\_form?)
+You will get three partials named `_form`, `_contacts_form`, and `_todos_form`; note that the partials begin with `_`.
 
 # Thanks
 
