@@ -35,6 +35,25 @@ module HandlebarsAssets
 END_EXPECTED
     end
 
+    def hbs_compiled_partial(partial_name)
+      <<END_EXPECTED
+          (function() {
+            Handlebars.registerPartial(\"#{partial_name}\", Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = \"\", stack1, foundHelper, self=this, functionType=\"function\", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+
+  buffer += \"This is \";
+  foundHelper = helpers.handlebars;
+  stack1 = foundHelper || depth0.handlebars;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, \"handlebars\", { hash: {} }); }
+  buffer += escapeExpression(stack1);
+  return buffer;}));
+          }).call(this);
+END_EXPECTED
+    end
+
     def test_render
       root = '/myapp/app/assets/templates'
       file = 'test_render.hbs'
@@ -67,6 +86,26 @@ END_EXPECTED
       template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "This is {{handlebars}}" }
 
       assert_equal hbs_compiled('test_path_prefix'), template.render(scope, {})
+
+      HandlebarsAssets::Config.path_prefix = nil
+    end
+
+    def test_underscore_partials
+      root = '/myapp/app/assets/javascripts'
+      file1 = 'app/templates/_test_underscore.hbs'
+      scope1 = make_scope root, file1
+      file2 = 'app/templates/some/thing/_test_underscore.hbs'
+      scope2 = make_scope root, file2
+
+      HandlebarsAssets::Config.path_prefix = 'app/templates'
+
+      template1 = HandlebarsAssets::TiltHandlebars.new(scope1.pathname.to_s) { "This is {{handlebars}}" }
+
+      assert_equal hbs_compiled_partial('_test_underscore'), template1.render(scope1, {})
+
+      template2 = HandlebarsAssets::TiltHandlebars.new(scope2.pathname.to_s) { "This is {{handlebars}}" }
+
+      assert_equal hbs_compiled_partial('_some_thing_test_underscore'), template2.render(scope2, {})
 
       HandlebarsAssets::Config.path_prefix = nil
     end
