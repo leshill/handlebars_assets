@@ -7,22 +7,22 @@ module HandlebarsAssets
     end
 
     def evaluate(scope, locals, &block)
-      self.template_path = scope.logical_path
+      template_path = TemplatePath.new(scope)
 
       compiled_hbs = Handlebars.precompile(data)
 
-      if is_partial?
+      if template_path.is_partial?
         <<-PARTIAL
           (function() {
-            Handlebars.registerPartial(#{partial_name}, Handlebars.template(#{compiled_hbs}));
+            Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
           }).call(this);
         PARTIAL
       else
         <<-TEMPLATE
           (function() {
             this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
-            this.HandlebarsTemplates[#{template_name}] = Handlebars.template(#{compiled_hbs});
-            return HandlebarsTemplates[#{template_name}];
+            this.HandlebarsTemplates[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
+            return HandlebarsTemplates[#{template_path.name}];
           }).call(this);
         TEMPLATE
       end
@@ -30,28 +30,41 @@ module HandlebarsAssets
 
     protected
 
-    attr_accessor :template_path
-
-    def forced_underscore_name
-      '_' + relative_path
-    end
-
-    def is_partial?
-      template_path.gsub(%r{.*/}, '').start_with?('_')
-    end
-
     def prepare; end
 
-    def partial_name
-      forced_underscore_name.gsub(/\//, '_').gsub(/__/, '_').dump
-    end
 
-    def relative_path
-      template_path.gsub(/^#{HandlebarsAssets::Config.path_prefix}\/(.*)$/i, "\\1")
-    end
+    class TemplatePath
+      def initialize(scope)
+        self.template_path = scope.logical_path
+      end
 
-    def template_name
-      relative_path.dump
+      def is_partial?
+        template_path.gsub(%r{.*/}, '').start_with?('_')
+      end
+
+      def name
+        is_partial? ? partial_name : template_name
+      end
+
+      private
+
+      attr_accessor :template_path
+
+      def forced_underscore_name
+        '_' + relative_path
+      end
+
+      def relative_path
+        template_path.gsub(/^#{HandlebarsAssets::Config.path_prefix}\/(.*)$/i, "\\1")
+      end
+
+      def partial_name
+        forced_underscore_name.gsub(/\//, '_').gsub(/__/, '_').dump
+      end
+
+      def template_name
+        relative_path.dump
+      end
     end
   end
 end
