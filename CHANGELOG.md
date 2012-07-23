@@ -1,4 +1,8 @@
-## 0.6.0 (2012-07-22)
+## 0.6.1 (2012-07-23)
+
+* #26 - Missing require
+
+## 0.6.0 (yanked)
 
 * #25 - Normalize partial names to begin with an underscore
 
