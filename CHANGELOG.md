@@ -1,3 +1,8 @@
+## 0.6.2 (2012-07-27)
+
+* Added support for knownHelpers and knownHelperOnly compiler options
+* Fixed problem with Config
+
 ## 0.6.1 (2012-07-23)
 
 * #26 - Missing require
