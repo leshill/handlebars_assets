@@ -54,6 +54,10 @@ END_EXPECTED
 END_EXPECTED
     end
 
+    def teardown
+      HandlebarsAssets::Config.path_prefix = nil
+    end
+
     def test_render
       root = '/myapp/app/assets/templates'
       file = 'test_render.hbs'
@@ -86,8 +90,6 @@ END_EXPECTED
       template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "This is {{handlebars}}" }
 
       assert_equal hbs_compiled('test_path_prefix'), template.render(scope, {})
-
-      HandlebarsAssets::Config.path_prefix = nil
     end
 
     def test_underscore_partials
@@ -107,7 +109,6 @@ END_EXPECTED
 
       assert_equal hbs_compiled_partial('_some_thing_test_underscore'), template2.render(scope2, {})
 
-      HandlebarsAssets::Config.path_prefix = nil
     end
   end
 end
