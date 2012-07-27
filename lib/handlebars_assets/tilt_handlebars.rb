@@ -10,7 +10,7 @@ module HandlebarsAssets
     def evaluate(scope, locals, &block)
       template_path = TemplatePath.new(scope)
 
-      compiled_hbs = Handlebars.precompile(data)
+      compiled_hbs = Handlebars.precompile(data, HandlebarsAssets::Config.options)
 
       if template_path.is_partial?
         <<-PARTIAL

@@ -54,7 +54,83 @@ END_EXPECTED
 END_EXPECTED
     end
 
+    def hbs_compiled_without_helper_opt(template_name, helper_name)
+      <<END_EXPECTED
+          (function() {
+            this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
+            this.HandlebarsTemplates[\"#{template_name}\"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var stack1, stack2, foundHelper, tmp1, self=this, functionType=\"function\", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+function program1(depth0,data) {
+  
+  var buffer = \"\", stack1;
+  buffer += \"By \";
+  foundHelper = helpers.first_name;
+  stack1 = foundHelper || depth0.first_name;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, \"first_name\", { hash: {} }); }
+  buffer += escapeExpression(stack1) + \" \";
+  foundHelper = helpers.last_name;
+  stack1 = foundHelper || depth0.last_name;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, \"last_name\", { hash: {} }); }
+  buffer += escapeExpression(stack1);
+  return buffer;}
+
+  foundHelper = helpers.author;
+  stack1 = foundHelper || depth0.author;
+  stack2 = helpers['#{helper_name}'];
+  tmp1 = self.program(1, program1, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { return stack1; }
+  else { return ''; }});
+            return HandlebarsTemplates[\"#{template_name}\"];
+          }).call(this);
+END_EXPECTED
+    end
+
+    def hbs_compiled_with_helper_opt(template_name, helper_name)
+      <<END_EXPECTED
+          (function() {
+            this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
+            this.HandlebarsTemplates[\"#{template_name}\"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var stack1, stack2, foundHelper, tmp1, self=this, functionType=\"function\", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+function program1(depth0,data) {
+  
+  var buffer = \"\", stack1;
+  buffer += \"By \";
+  stack1 = depth0.first_name;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, \"first_name\", { hash: {} }); }
+  buffer += escapeExpression(stack1) + \" \";
+  stack1 = depth0.last_name;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, \"last_name\", { hash: {} }); }
+  buffer += escapeExpression(stack1);
+  return buffer;}
+
+  stack1 = depth0.author;
+  stack2 = helpers['#{helper_name}'];
+  tmp1 = self.program(1, program1, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { return stack1; }
+  else { return ''; }});
+            return HandlebarsTemplates[\"#{template_name}\"];
+          }).call(this);
+END_EXPECTED
+    end
+
     def teardown
+      HandlebarsAssets::Config.known_helpers_only = false
       HandlebarsAssets::Config.path_prefix = nil
     end
 
@@ -108,7 +184,28 @@ END_EXPECTED
       template2 = HandlebarsAssets::TiltHandlebars.new(scope2.pathname.to_s) { "This is {{handlebars}}" }
 
       assert_equal hbs_compiled_partial('_some_thing_test_underscore'), template2.render(scope2, {})
+    end
 
+    def test_without_known_helpers_opt
+      root = '/myapp/app/assets/templates'
+      file = 'test_without_known.hbs'
+      scope = make_scope root, file
+
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "{{#with author}}By {{first_name}} {{last_name}}{{/with}}" }
+
+      assert_equal hbs_compiled_without_helper_opt('test_without_known', 'with'), template.render(scope, {})
+    end
+
+    def test_known_helpers_opt
+      root = '/myapp/app/assets/templates'
+      file = 'test_known.hbs'
+      scope = make_scope root, file
+
+      HandlebarsAssets::Config.known_helpers_only = true
+
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "{{#with author}}By {{first_name}} {{last_name}}{{/with}}" }
+
+      assert_equal hbs_compiled_with_helper_opt('test_known', 'with'), template.render(scope, {})
     end
   end
 end
