@@ -7,6 +7,7 @@ module HandlebarsAssets
     PATH
   end
 
+  autoload(:Config, 'handlebars_assets/config')
   autoload(:Handlebars, 'handlebars_assets/handlebars')
   autoload(:TiltHandlebars, 'handlebars_assets/tilt_handlebars')
 

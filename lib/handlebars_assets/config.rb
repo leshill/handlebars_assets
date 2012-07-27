@@ -2,21 +2,8 @@ module HandlebarsAssets
   # Change config options in an initializer:
   #
   # HandlebarsAssets::Config.path_prefix = 'app/templates'
-  #
-  # Or in a block:
-  #
-  # HandlebarsAssets::Config.configure do |config|
-  #   known_helpers = [:view, 'timestamp']
-  #   known_helpers_only = true
-  #   path_prefix = 'app/templates'
-  # end
-
   module Config
     extend self
-
-    def configure
-      yield self
-    end
 
     attr_writer :known_helpers, :known_helpers_only, :path_prefix
 

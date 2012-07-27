@@ -1,4 +1,3 @@
-require 'handlebars_assets/config'
 require 'tilt'
 
 module HandlebarsAssets
