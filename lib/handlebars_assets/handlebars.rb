@@ -20,11 +20,11 @@ module HandlebarsAssets
       end
 
       def path
-        @path ||= assets_path.join('handlebars.js')
+        @path ||= assets_path.join(HandlebarsAssets::Config.compiler)
       end
 
       def assets_path
-        @assets_path ||= Pathname(HandlebarsAssets.path)
+        @assets_path ||= Pathname(HandlebarsAssets::Config.compiler_path)
       end
     end
   end

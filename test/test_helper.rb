@@ -23,11 +23,24 @@ module HandlebarsAssets
     extend self
 
     def reset!
+      @compiler = nil
+      @compiler_path = nil
       @known_helpers = nil
       @known_helpers_only = nil
       @options = nil
       @path_prefix = nil
       @template_namespace = nil
+    end
+
+  end
+
+  class Handlebars
+
+    def self.reset!
+      @context = nil
+      @source = nil
+      @path = nil
+      @assets_path = nil
     end
 
   end

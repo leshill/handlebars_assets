@@ -5,7 +5,15 @@ module HandlebarsAssets
   module Config
     extend self
 
-    attr_writer :known_helpers, :known_helpers_only, :path_prefix, :template_namespace
+    attr_writer :compiler, :compiler_path, :known_helpers, :known_helpers_only, :path_prefix, :template_namespace
+
+    def compiler
+      @compiler || 'handlebars.js'
+    end
+
+    def compiler_path
+      @compiler_path || HandlebarsAssets.path
+    end
 
     def known_helpers
       @known_helpers || []
