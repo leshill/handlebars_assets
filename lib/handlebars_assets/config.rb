@@ -16,14 +16,11 @@ module HandlebarsAssets
     end
 
     def options
-      options = {}
-      options[:knownHelpersOnly] = true if known_helpers_only
-      options[:knownHelpers] = known_helpers_hash if known_helpers_hash.any?
-      options
+      @options ||= generate_options
     end
 
     def path_prefix
-      @path_prefix ||= 'templates'
+      @path_prefix || 'templates'
     end
 
     def template_namespace
@@ -38,8 +35,12 @@ module HandlebarsAssets
       end
     end
 
-    def known_helpers_hash
-      @known_helpers_hash ||= generate_known_helpers_hash
+    def generate_options
+      options = {}
+      options[:knownHelpersOnly] = true if known_helpers_only
+      options[:knownHelpers] = generate_known_helpers_hash if known_helpers.any?
+      options
     end
+
   end
 end

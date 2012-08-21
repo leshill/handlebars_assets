@@ -229,10 +229,7 @@ END_EXPECTED
     end
 
     def teardown
-      HandlebarsAssets::Config.known_helpers = []
-      HandlebarsAssets::Config.known_helpers_only = false
-      HandlebarsAssets::Config.path_prefix = nil
-      HandlebarsAssets::Config.template_namespace = nil
+      HandlebarsAssets::Config.reset!
     end
 
     def test_render
