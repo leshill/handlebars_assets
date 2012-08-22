@@ -1,18 +1,8 @@
 require 'test_helper'
-require 'handlebars_assets/config'
 
 module HandlebarsAssets
   class TiltHandlebarsTest < Test::Unit::TestCase
-    # Try to act like sprockets.
-    def make_scope(root, file)
-      Class.new do
-        define_method(:logical_path) { pathname.to_s.gsub(root + '/', '').gsub(/\..*/, '') }
-
-        define_method(:pathname) { Pathname.new(root) + file }
-
-        define_method(:root_path) { root }
-      end.new
-    end
+    include SprocketsScope
 
     def hbs_compiled(template_name)
       <<END_EXPECTED
