@@ -81,10 +81,10 @@ You can then invoke the resulting template in your application's Javascript
 
     HandlebarsTemplates['contacts/new'](context);
 
-## Configuring the template namespace
+## The template namespace
 
 By default, the global Javascript object that holds the compiled templates is `HandlebarsTemplates`, but it can
-be easily renamed. Another common template namespace `JST`.  Just change the `template_namespace` config option
+be easily renamed. Another common template namespace is `JST`.  Just change the `template_namespace` configuration option
 when you initialize your application.
 
     HandlebarsAssets::Config.template_namespace = 'JST'
