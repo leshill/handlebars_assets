@@ -131,6 +131,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Dan Evans          (@danevans)    : Rails 2 support
 * Ben Woosley        (@empact)      : Update to handlebars.js 1.0.0.beta.6
 *                    (@cw-moshe)    : Remove 'templates/' from names
+* Spike Brehm        (@spikebrehm)  : Config.template\_namespace option
 
 # Contributing
 
