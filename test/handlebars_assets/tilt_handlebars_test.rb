@@ -352,16 +352,5 @@ END_EXPECTED
       assert_equal hbs_compiled_template_namespace('test_template_namespace'), template.render(scope, {})
     end
 
-    def test_custom_compile
-      root = '/myapp/app/assets/templates'
-      file = 'test_render.hbs'
-      scope = make_scope root, file
-
-      HandlebarsAssets::Config.compiler_path = File.expand_path '../../edge', __FILE__
-
-      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "This is {{handlebars}}" }
-
-      assert_equal hbs_edge_compiled('test_render'), template.render(scope, {})
-    end
   end
 end
