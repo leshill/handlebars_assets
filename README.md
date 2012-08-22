@@ -106,6 +106,13 @@ If you begin the name of the template with an underscore, it will be recognized 
 
 You will get three partials named `_form`, `_contacts_form`, and `_todos_form`; note that the partials begin with `_`.
 
+## Using another version of `handlebars.js`
+
+Occasionally you might need to use a version of `handlebars.js` other than the included version. You can set the `compiler_path` and `compiler` options to use a custom version of `handlebars.js`.
+
+    HandlebarsAssets::Config.compiler = 'my_handlebars.js' # Change the name of the compiler file
+    HandlebarsAssets::Config.compiler_path = Rails.root.join('app/assets/javascripts') # Change the location of the compiler file
+
 # Thanks
 
 This gem is standing on the shoulders of giants.
