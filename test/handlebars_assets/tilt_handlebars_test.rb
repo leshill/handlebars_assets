@@ -207,10 +207,32 @@ function program1(depth0,data) {
 END_EXPECTED
     end
 
+    def hbs_compiled_template_namespace(template_name)
+      <<END_EXPECTED
+          (function() {
+            this.JST || (this.JST = {});
+            this.JST["#{template_name}"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, foundHelper, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+
+  buffer += "This is ";
+  foundHelper = helpers.handlebars;
+  stack1 = foundHelper || depth0.handlebars;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "handlebars", { hash: {} }); }
+  buffer += escapeExpression(stack1);
+  return buffer;});
+            return JST["#{template_name}"];
+          }).call(this);
+END_EXPECTED
+    end
+
     def teardown
       HandlebarsAssets::Config.known_helpers = []
       HandlebarsAssets::Config.known_helpers_only = false
       HandlebarsAssets::Config.path_prefix = nil
+      HandlebarsAssets::Config.template_namespace = nil
     end
 
     def test_render
@@ -308,6 +330,18 @@ END_EXPECTED
       template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "{{#custom author}}By {{first_name}} {{last_name}}{{/custom}}" }
 
       assert_equal hbs_custom_compiled_with_helper_opt('test_custom_known_helper', 'custom'), template.render(scope, {})
+    end
+    
+    def test_template_namespace
+      root = '/myapp/app/assets/javascripts'
+      file = 'test_template_namespace.hbs'
+      scope = make_scope root, file
+
+      HandlebarsAssets::Config.template_namespace = 'JST'
+
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { "This is {{handlebars}}" }
+
+      assert_equal hbs_compiled_template_namespace('test_template_namespace'), template.render(scope, {})
     end
   end
 end

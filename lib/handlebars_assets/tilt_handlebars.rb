@@ -11,6 +11,8 @@ module HandlebarsAssets
 
       compiled_hbs = Handlebars.precompile(data, HandlebarsAssets::Config.options)
 
+      template_namespace = HandlebarsAssets::Config.template_namespace
+
       if template_path.is_partial?
         <<-PARTIAL
           (function() {
@@ -20,9 +22,9 @@ module HandlebarsAssets
       else
         <<-TEMPLATE
           (function() {
-            this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
-            this.HandlebarsTemplates[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
-            return HandlebarsTemplates[#{template_path.name}];
+            this.#{template_namespace} || (this.#{template_namespace} = {});
+            this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
+            return #{template_namespace}[#{template_path.name}];
           }).call(this);
         TEMPLATE
       end

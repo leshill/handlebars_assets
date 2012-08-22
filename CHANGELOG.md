@@ -1,3 +1,7 @@
+## 0.6.3 (2012-08-22)
+
+* Added ability to change client-side template namespace from `HandlebarsTemplates` using `template_namespace` config option
+
 ## 0.6.2 (2012-07-27)
 
 * Added support for knownHelpers and knownHelperOnly compiler options
