@@ -1,6 +1,8 @@
 ## 0.6.3 (2012-08-22)
 
-* Added ability to change client-side template namespace from `HandlebarsTemplates` using `template_namespace` config option
+* Added ability to change client-side template namespace from `HandlebarsTemplates` using `template_namespace` config option - @spikebrehm
+* Added `handlebars.js` compiler options
+* Refactored tests; Config.reset! moved to tests
 
 ## 0.6.2 (2012-07-27)
 
