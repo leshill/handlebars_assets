@@ -34,7 +34,6 @@ module HandlebarsAssets
 
     def prepare; end
 
-
     class TemplatePath
       def initialize(scope)
         self.template_path = scope.logical_path

@@ -331,7 +331,7 @@ END_EXPECTED
 
       assert_equal hbs_custom_compiled_with_helper_opt('test_custom_known_helper', 'custom'), template.render(scope, {})
     end
-    
+
     def test_template_namespace
       root = '/myapp/app/assets/javascripts'
       file = 'test_template_namespace.hbs'
