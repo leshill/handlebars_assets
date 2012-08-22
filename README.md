@@ -81,6 +81,14 @@ You can then invoke the resulting template in your application's Javascript
 
     HandlebarsTemplates['contacts/new'](context);
 
+## Configuring the template namespace
+
+By default, the global Javascript object that holds the compiled templates is `HandlebarsTemplates`, but it can
+be easily renamed. Another common template namespace `JST`.  Just change the `template_namespace` config option
+when you initialize your application.
+
+    HandlebarsAssets::Config.template_namespace = 'JST'
+
 ## Partials
 
 If you begin the name of the template with an underscore, it will be recognized as a partial. You can invoke partials inside a template using the Handlebars partial syntax:

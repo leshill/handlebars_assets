@@ -5,7 +5,7 @@ module HandlebarsAssets
   module Config
     extend self
 
-    attr_writer :known_helpers, :known_helpers_only, :path_prefix
+    attr_writer :known_helpers, :known_helpers_only, :path_prefix, :template_namespace
 
     def known_helpers
       @known_helpers || []
@@ -24,6 +24,10 @@ module HandlebarsAssets
 
     def path_prefix
       @path_prefix ||= 'templates'
+    end
+
+    def template_namespace
+      @template_namespace || 'HandlebarsTemplates'
     end
 
     private
