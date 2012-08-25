@@ -95,7 +95,7 @@ If you begin the name of the template with an underscore, it will be recognized 
 
     Invoke a {{> partial }}
 
-**Important!** Handlebars does not understand nested partials. To support them, partials are named based on their path using `_` instead `/` (skid => slash). So given:
+**Important!** Handlebars does not understand nested partials. To support them, partials are named based on their path using `_` instead of `/` (skid => slash). So given:
 
     templates/
       _form.hbs
