@@ -20,7 +20,7 @@ module HandlebarsAssets
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "handlebars", { hash: {} }); }
   buffer += escapeExpression(stack1);
   return buffer;});
-            return HandlebarsTemplates["#{template_name}"];
+            return this.HandlebarsTemplates["#{template_name}"];
           }).call(this);
 END_EXPECTED
     end
@@ -78,7 +78,7 @@ function program1(depth0,data) {
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { return stack1; }
   else { return ''; }});
-            return HandlebarsTemplates[\"#{template_name}\"];
+            return this.HandlebarsTemplates[\"#{template_name}\"];
           }).call(this);
 END_EXPECTED
     end
@@ -114,7 +114,7 @@ function program1(depth0,data) {
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { return stack1; }
   else { return ''; }});
-            return HandlebarsTemplates[\"#{template_name}\"];
+            return this.HandlebarsTemplates[\"#{template_name}\"];
           }).call(this);
 END_EXPECTED
     end
@@ -155,7 +155,7 @@ function program1(depth0,data) {
   else { stack1 = blockHelperMissing.call(depth0, stack2, stack1, tmp1); }
   if(stack1 || stack1 === 0) { return stack1; }
   else { return ''; }});
-            return HandlebarsTemplates[\"#{template_name}\"];
+            return this.HandlebarsTemplates[\"#{template_name}\"];
           }).call(this);
 END_EXPECTED
     end
@@ -192,7 +192,7 @@ function program1(depth0,data) {
   else { stack1 = blockHelperMissing.call(depth0, stack2, stack1, tmp1); }
   if(stack1 || stack1 === 0) { return stack1; }
   else { return ''; }});
-            return HandlebarsTemplates[\"#{template_name}\"];
+            return this.HandlebarsTemplates[\"#{template_name}\"];
           }).call(this);
 END_EXPECTED
     end
@@ -213,7 +213,7 @@ END_EXPECTED
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "handlebars", { hash: {} }); }
   buffer += escapeExpression(stack1);
   return buffer;});
-            return JST["#{template_name}"];
+            return this.JST["#{template_name}"];
           }).call(this);
 END_EXPECTED
     end
@@ -233,7 +233,7 @@ END_EXPECTED
   else { stack1 = depth0.handlebars; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1);
   return buffer;});
-            return HandlebarsTemplates[\"#{template_name}\"];
+            return this.HandlebarsTemplates[\"#{template_name}\"];
           }).call(this);
 END_EXPECTED
     end

@@ -19,7 +19,7 @@ module HandlebarsAssets
   else { stack1 = depth0.handlebars; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1);
   return buffer;});
-            return HandlebarsTemplates[\"#{template_name}\"];
+            return this.HandlebarsTemplates[\"#{template_name}\"];
           }).call(this);
 END_EXPECTED
     end
