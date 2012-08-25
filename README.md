@@ -139,10 +139,13 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Ben Woosley        (@empact)      : Update to handlebars.js 1.0.0.beta.6
 *                    (@cw-moshe)    : Remove 'templates/' from names
 * Spike Brehm        (@spikebrehm)  : Config.template\_namespace option
+* Ken Mayer          (@kmayer)      : Quick fix for template\_namespace option
 
 # Contributing
 
-Once you've made your great commits
+Pull requests are welcome! Please do not update the version number.
+
+In a nutshell:
 
 1. Fork
 1. Create a topic branch - git checkout -b my_branch
