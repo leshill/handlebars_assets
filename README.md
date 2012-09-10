@@ -140,6 +140,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 *                    (@cw-moshe)    : Remove 'templates/' from names
 * Spike Brehm        (@spikebrehm)  : Config.template\_namespace option
 * Ken Mayer          (@kmayer)      : Quick fix for template\_namespace option
+* Brad Murray        (@wyaeld)      : Generic options support
 
 # Contributing
 
