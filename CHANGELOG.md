@@ -1,3 +1,7 @@
+## 0.6.5 (2012-09-09)
+
+* Generic options support, `HandlebarsAssets::Config.options = { data: true }` - @wyaeld
+
 ## 0.6.4 (2012-08-25)
 
 * Fix bug with the `template\_namespace` config option - @kmayer
