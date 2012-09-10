@@ -44,7 +44,7 @@ module HandlebarsAssets
     end
 
     def generate_options
-      options = {}
+      options = @options || {}
       options[:knownHelpersOnly] = true if known_helpers_only
       options[:knownHelpers] = generate_known_helpers_hash if known_helpers.any?
       options
