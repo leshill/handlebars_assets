@@ -1,3 +1,6 @@
+## 0.6.6 (2012-09-21)
+
+* handlebars.js v1.0.rc.1
 ## 0.6.5 (2012-09-09)
 
 * Generic options support, `HandlebarsAssets::Config.options = { data: true }` - @wyaeld

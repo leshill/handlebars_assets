@@ -8,7 +8,7 @@ Using `sprockets` with Sinatra or another framework? **handlebars_assets** works
 
 ## handlebars.js
 
-`handlebars_assets` is packaged with `v1.0.beta.6` of `handlebars.js`.
+`handlebars_assets` is packaged with `v1.0.rc.1` of `handlebars.js`.
 
 ## Installation with Rails 3.1+
 
