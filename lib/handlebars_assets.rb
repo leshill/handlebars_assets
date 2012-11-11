@@ -16,5 +16,6 @@ module HandlebarsAssets
   else
     require 'sprockets'
     Sprockets.register_engine '.hbs', TiltHandlebars
+    Sprockets.register_engine '.handlebars', TiltHandlebars
   end
 end
