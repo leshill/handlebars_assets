@@ -130,17 +130,18 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 
 # Contributors
 
-* Matt Burke         (@spraints)    : execjs support
-*                    (@kendagriff)  : 1.8.7 compatibility
-* Thorben Schröder   (@walski)      : 3.1 asset group for precompile
-* Erwan Barrier      (@erwanb)      : Support for plain sprockets
-* Brendan Loudermilk (@bloudermilk) : HandlebarsAssets.path
-* Dan Evans          (@danevans)    : Rails 2 support
-* Ben Woosley        (@empact)      : Update to handlebars.js 1.0.0.beta.6
-*                    (@cw-moshe)    : Remove 'templates/' from names
-* Spike Brehm        (@spikebrehm)  : Config.template\_namespace option
-* Ken Mayer          (@kmayer)      : Quick fix for template\_namespace option
-* Brad Murray        (@wyaeld)      : Generic options support
+* Matt Burke         (@spraints)      : execjs support
+*                    (@kendagriff)    : 1.8.7 compatibility
+* Thorben Schröder   (@walski)        : 3.1 asset group for precompile
+* Erwan Barrier      (@erwanb)        : Support for plain sprockets
+* Brendan Loudermilk (@bloudermilk)   : HandlebarsAssets.path
+* Dan Evans          (@danevans)      : Rails 2 support
+* Ben Woosley        (@empact)        : Update to handlebars.js 1.0.0.beta.6
+*                    (@cw-moshe)      : Remove 'templates/' from names
+* Spike Brehm        (@spikebrehm)    : Config.template\_namespace option
+* Ken Mayer          (@kmayer)        : Quick fix for template\_namespace option
+* Brad Murray        (@wyaeld)        : Generic options support
+* Blake Williams     (@BlakeWilliams) : .handlebars extension
 
 # Contributing
 

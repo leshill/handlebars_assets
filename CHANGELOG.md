@@ -1,3 +1,7 @@
+## 0.6.7 (2012-11-11)
+
+* Support `.handlebars` extension - @BlakeWilliams
+
 ## 0.6.6 (2012-09-21)
 
 * handlebars.js v1.0.rc.1
