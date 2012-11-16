@@ -1,6 +1,6 @@
 # Use handlebars.js templates with the asset pipeline and sprockets
 
-Are your `handlebars.js` templates littering your Rails views with `script` tags? Wondering why the nifty Rails 3.1 asset pipeline streamlines all your Javascript except for your Handlebars templates? Wouldn't it be nice to have your Handlebars templates compiled, compressed, and cached like your other Javascript?
+Are your `handlebars.js` templates littering your Rails views with `script` tags? Wondering why the nifty Rails 3.1 asset pipeline streamlines all your JavaScript except for your Handlebars templates? Wouldn't it be nice to have your Handlebars templates compiled, compressed, and cached like your other JavaScript?
 
 Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handlebars templates their own files (including partials) and have them compiled, compressed, and cached as part of the Rails 3.1 asset pipeline!
 
@@ -36,13 +36,13 @@ for the next steps to work.
     env.append_path HandlebarsAssets.path
 
 
-# Compiling your Javascript templates in the Rails asset pipeline
+# Compiling your JavaScript templates in the Rails asset pipeline
 
-Require `handlebars.runtime.js` in your Javascript manifest (i.e. `application.js`)
+Require `handlebars.runtime.js` in your JavaScript manifest (i.e. `application.js`)
 
     //= require handlebars.runtime
 
-If you need to compile your Javascript templates in the browser as well, you should instead require `handlebars.js` (which is significantly larger)
+If you need to compile your JavaScript templates in the browser as well, you should instead require `handlebars.js` (which is significantly larger)
 
     //= require handlebars
 
@@ -54,7 +54,7 @@ If you need to compile your Javascript templates in the browser as well, you sho
 
 ## Templates directory
 
-You should locate your templates with your other assets, for example `app/assets/javascripts/templates`. In your Javascript manifest file, use `require_tree` to pull in the templates
+You should locate your templates with your other assets, for example `app/assets/javascripts/templates`. In your JavaScript manifest file, use `require_tree` to pull in the templates
 
     //= require_tree ./templates
 
@@ -72,18 +72,18 @@ For example, if you have new, edit, and show templates for a Contact model
 
 Your file extensions tell the asset pipeline how to process the file. Use `.hbs` to compile the template with Handlebars.
 
-If your file is `templates/contacts/new.hbs`, the asset pipeline will generate Javascript code
+If your file is `templates/contacts/new.hbs`, the asset pipeline will generate JavaScript code
 
-1. Compile the Handlebars template to Javascript code
+1. Compile the Handlebars template to JavaScript code
 1. Add the template code to the `HandlebarsTemplates` global under the name `contacts/new`
 
-You can then invoke the resulting template in your application's Javascript
+You can then invoke the resulting template in your application's JavaScript
 
     HandlebarsTemplates['contacts/new'](context);
 
 ## The template namespace
 
-By default, the global Javascript object that holds the compiled templates is `HandlebarsTemplates`, but it can
+By default, the global JavaScript object that holds the compiled templates is `HandlebarsTemplates`, but it can
 be easily renamed. Another common template namespace is `JST`.  Just change the `template_namespace` configuration option
 when you initialize your application.
 
