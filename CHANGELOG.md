@@ -1,3 +1,7 @@
+## 0.7.0 (2012-11-16)
+
+* Support `.hamlbars` extension and Haml
+
 ## 0.6.7 (2012-11-11)
 
 * Support `.handlebars` extension - @BlakeWilliams
