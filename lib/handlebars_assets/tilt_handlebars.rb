@@ -2,6 +2,7 @@ require 'tilt'
 
 module HandlebarsAssets
   class TiltHandlebars < Tilt::Template
+
     def self.default_mime_type
       'application/javascript'
     end
@@ -9,7 +10,13 @@ module HandlebarsAssets
     def evaluate(scope, locals, &block)
       template_path = TemplatePath.new(scope)
 
-      compiled_hbs = Handlebars.precompile(data, HandlebarsAssets::Config.options)
+      source = if template_path.is_haml?
+                Haml::Engine.new(data, HandlebarsAssets::Config.haml_options).render
+               else
+                 data
+               end
+
+      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
 
       template_namespace = HandlebarsAssets::Config.template_namespace
 
@@ -30,13 +37,24 @@ module HandlebarsAssets
       end
     end
 
+    def initialize_engine
+      require_template_library 'haml'
+    rescue LoadError
+      # haml not available
+    end
+
     protected
 
     def prepare; end
 
     class TemplatePath
       def initialize(scope)
+        self.full_path = scope.pathname
         self.template_path = scope.logical_path
+      end
+
+      def is_haml?
+        full_path.to_s.end_with?('.hamlbars')
       end
 
       def is_partial?
@@ -49,7 +67,7 @@ module HandlebarsAssets
 
       private
 
-      attr_accessor :template_path
+      attr_accessor :full_path, :template_path
 
       def forced_underscore_name
         '_' + relative_path

@@ -25,6 +25,7 @@ module HandlebarsAssets
     def reset!
       @compiler = nil
       @compiler_path = nil
+      @haml_options = nil
       @known_helpers = nil
       @known_helpers_only = nil
       @options = nil

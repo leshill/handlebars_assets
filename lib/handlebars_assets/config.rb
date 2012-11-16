@@ -5,7 +5,7 @@ module HandlebarsAssets
   module Config
     extend self
 
-    attr_writer :compiler, :compiler_path, :known_helpers, :known_helpers_only, :options, :path_prefix, :template_namespace
+    attr_writer :compiler, :compiler_path, :haml_options, :known_helpers, :known_helpers_only, :options, :path_prefix, :template_namespace
 
     def compiler
       @compiler || 'handlebars.js'
@@ -13,6 +13,14 @@ module HandlebarsAssets
 
     def compiler_path
       @compiler_path || HandlebarsAssets.path
+    end
+
+    def haml_available?
+      defined? ::Haml::Engine
+    end
+
+    def haml_options
+      @haml_options || {}
     end
 
     def known_helpers
