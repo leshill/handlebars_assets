@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "tilt"
   s.add_runtime_dependency "sprockets", ">= 2.0.3"
   s.add_development_dependency "rake"
+  s.add_development_dependency "haml"
 end
