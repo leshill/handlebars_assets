@@ -89,6 +89,22 @@ when you initialize your application.
 
     HandlebarsAssets::Config.template_namespace = 'JST'
 
+## `.hamlbars`
+
+If you name your templates with the extension `.hamlbars`, you can use Haml syntax for your markup! Use `HandlebarsAssets::Config.haml_options` to pass custom options to the Haml rendering engine.
+
+For example, if you have a file `widget.hamlbars` that looks like this:
+
+    %h1 {{title}}
+    %p {{body}}
+
+Haml will first convert it to:
+
+    <h1> {{title}} </h1>
+    <p> {{body}} </p>
+
+And the Handlebars will turn it into a JavaScript template.
+
 ## Partials
 
 If you begin the name of the template with an underscore, it will be recognized as a partial. You can invoke partials inside a template using the Handlebars partial syntax:
