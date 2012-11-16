@@ -98,12 +98,10 @@ For example, if you have a file `widget.hamlbars` that looks like this:
     %h1 {{title}}
     %p {{body}}
 
-Haml will first convert it to:
+The Haml will be pre-processed so that the Handlebars template is basically this:
 
     <h1> {{title}} </h1>
     <p> {{body}} </p>
-
-And the Handlebars will turn it into a JavaScript template.
 
 ## Partials
 
