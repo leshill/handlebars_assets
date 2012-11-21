@@ -48,9 +48,21 @@ If you need to compile your JavaScript templates in the browser as well, you sho
 
 ## Precompiling
 
-`handlebars_assets` also works when you are precompiling your assets. If you are deploying to Heroku, be sure to read the [Rails guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) and in your `config/application.rb` set:
+`handlebars_assets` also works when you are precompiling your assets.
+
+### Heroku
+
+If you are deploying to Heroku, be sure to read the [Rails guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) and in your `config/application.rb` set:
 
     config.assets.initialize_on_precompile = false
+
+This avoids running your initializers when compiling assets (see the [guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) for why you would want that).
+
+However, that does mean that you cannot set your configuration in an initializer. This [issue](https://github.com/leshill/handlebars_assets/issues/34) has a workaround, or you can set:
+
+    config.assets.initialize_on_precompile = true
+
+This will run all your initializers before precompiling assets.
 
 ## Templates directory
 
