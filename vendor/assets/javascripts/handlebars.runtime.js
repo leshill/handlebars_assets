@@ -64,20 +64,33 @@ Handlebars.createFrame = Object.create || function(object) {
 
 Handlebars.registerHelper('each', function(context, options) {
   var fn = options.fn, inverse = options.inverse;
-  var ret = "", data;
+  var i = 0, ret = "", data;
 
   if (options.data) {
     data = Handlebars.createFrame(options.data);
   }
 
-  if(context && context.length > 0) {
-    for(var i=0, j=context.length; i<j; i++) {
-      if (data) { data.index = i; }
-      ret = ret + fn(context[i], { data: data });
+  if(context && typeof context === 'object') {
+    if(context instanceof Array){
+      for(var j = context.length; i<j; i++) {
+        if (data) { data.index = i; }
+        ret = ret + fn(context[i], { data: data });
+      }
+    } else {
+      for(var key in context) {
+        if(context.hasOwnProperty(key)) {
+          if(data) { data.key = key; }
+          ret = ret + fn(context[key], {data: data});
+          i++;
+        }
+      }
     }
-  } else {
+  }
+
+  if(i === 0){
     ret = inverse(this);
   }
+
   return ret;
 });
 
@@ -111,14 +124,16 @@ Handlebars.registerHelper('log', function(context) {
 }(this.Handlebars));
 ;
 // lib/handlebars/utils.js
+
+var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
+
 Handlebars.Exception = function(message) {
   var tmp = Error.prototype.constructor.apply(this, arguments);
 
-  for (var p in tmp) {
-    if (tmp.hasOwnProperty(p)) { this[p] = tmp[p]; }
+  // Unfortunately errors are not enumerable in Chrome (at least), so `for prop in tmp` doesn't work.
+  for (var idx = 0; idx < errorProps.length; idx++) {
+    this[errorProps[idx]] = tmp[errorProps[idx]];
   }
-
-  this.message = tmp.message;
 };
 Handlebars.Exception.prototype = new Error();
 

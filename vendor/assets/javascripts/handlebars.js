@@ -64,20 +64,33 @@ Handlebars.createFrame = Object.create || function(object) {
 
 Handlebars.registerHelper('each', function(context, options) {
   var fn = options.fn, inverse = options.inverse;
-  var ret = "", data;
+  var i = 0, ret = "", data;
 
   if (options.data) {
     data = Handlebars.createFrame(options.data);
   }
 
-  if(context && context.length > 0) {
-    for(var i=0, j=context.length; i<j; i++) {
-      if (data) { data.index = i; }
-      ret = ret + fn(context[i], { data: data });
+  if(context && typeof context === 'object') {
+    if(context instanceof Array){
+      for(var j = context.length; i<j; i++) {
+        if (data) { data.index = i; }
+        ret = ret + fn(context[i], { data: data });
+      }
+    } else {
+      for(var key in context) {
+        if(context.hasOwnProperty(key)) {
+          if(data) { data.key = key; }
+          ret = ret + fn(context[key], {data: data});
+          i++;
+        }
+      }
     }
-  } else {
+  }
+
+  if(i === 0){
     ret = inverse(this);
   }
+
   return ret;
 });
 
@@ -506,62 +519,66 @@ case 2:
                                    return 14;
                                  
 break;
-case 3: return 24; 
+case 3: yy_.yytext = yy_.yytext.substr(0, yy_.yyleng-4); this.popState(); return 15; 
 break;
-case 4: return 16; 
+case 4: return 24; 
 break;
-case 5: return 20; 
+case 5: return 16; 
 break;
-case 6: return 19; 
+case 6: return 20; 
 break;
 case 7: return 19; 
 break;
-case 8: return 23; 
+case 8: return 19; 
 break;
 case 9: return 23; 
 break;
-case 10: yy_.yytext = yy_.yytext.substr(3,yy_.yyleng-5); this.popState(); return 15; 
+case 10: return 23; 
 break;
-case 11: return 22; 
+case 11: this.popState(); this.begin('com'); 
 break;
-case 12: return 35; 
+case 12: yy_.yytext = yy_.yytext.substr(3,yy_.yyleng-5); this.popState(); return 15; 
 break;
-case 13: return 34; 
+case 13: return 22; 
 break;
-case 14: return 34; 
+case 14: return 35; 
 break;
-case 15: return 37; 
+case 15: return 34; 
 break;
-case 16: /*ignore whitespace*/ 
+case 16: return 34; 
 break;
-case 17: this.popState(); return 18; 
+case 17: return 37; 
 break;
-case 18: this.popState(); return 18; 
+case 18: /*ignore whitespace*/ 
 break;
-case 19: yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2).replace(/\\"/g,'"'); return 29; 
+case 19: this.popState(); return 18; 
 break;
-case 20: yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2).replace(/\\"/g,'"'); return 29; 
+case 20: this.popState(); return 18; 
 break;
-case 21: yy_.yytext = yy_.yytext.substr(1); return 27; 
+case 21: yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2).replace(/\\"/g,'"'); return 29; 
 break;
-case 22: return 31; 
+case 22: yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2).replace(/\\'/g,"'"); return 29; 
 break;
-case 23: return 31; 
+case 23: yy_.yytext = yy_.yytext.substr(1); return 27; 
 break;
-case 24: return 30; 
+case 24: return 31; 
 break;
-case 25: return 34; 
+case 25: return 31; 
 break;
-case 26: yy_.yytext = yy_.yytext.substr(1, yy_.yyleng-2); return 34; 
+case 26: return 30; 
 break;
-case 27: return 'INVALID'; 
+case 27: return 34; 
 break;
-case 28: return 5; 
+case 28: yy_.yytext = yy_.yytext.substr(1, yy_.yyleng-2); return 34; 
+break;
+case 29: return 'INVALID'; 
+break;
+case 30: return 5; 
 break;
 }
 };
-lexer.rules = [/^(?:[^\x00]*?(?=(\{\{)))/,/^(?:[^\x00]+)/,/^(?:[^\x00]{2,}?(?=(\{\{|$)))/,/^(?:\{\{>)/,/^(?:\{\{#)/,/^(?:\{\{\/)/,/^(?:\{\{\^)/,/^(?:\{\{\s*else\b)/,/^(?:\{\{\{)/,/^(?:\{\{&)/,/^(?:\{\{![\s\S]*?\}\})/,/^(?:\{\{)/,/^(?:=)/,/^(?:\.(?=[} ]))/,/^(?:\.\.)/,/^(?:[\/.])/,/^(?:\s+)/,/^(?:\}\}\})/,/^(?:\}\})/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:@[a-zA-Z]+)/,/^(?:true(?=[}\s]))/,/^(?:false(?=[}\s]))/,/^(?:[0-9]+(?=[}\s]))/,/^(?:[a-zA-Z0-9_$-]+(?=[=}\s\/.]))/,/^(?:\[[^\]]*\])/,/^(?:.)/,/^(?:$)/];
-lexer.conditions = {"mu":{"rules":[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],"inclusive":false},"emu":{"rules":[2],"inclusive":false},"INITIAL":{"rules":[0,1,28],"inclusive":true}};
+lexer.rules = [/^(?:[^\x00]*?(?=(\{\{)))/,/^(?:[^\x00]+)/,/^(?:[^\x00]{2,}?(?=(\{\{|$)))/,/^(?:[\s\S]*?--\}\})/,/^(?:\{\{>)/,/^(?:\{\{#)/,/^(?:\{\{\/)/,/^(?:\{\{\^)/,/^(?:\{\{\s*else\b)/,/^(?:\{\{\{)/,/^(?:\{\{&)/,/^(?:\{\{!--)/,/^(?:\{\{![\s\S]*?\}\})/,/^(?:\{\{)/,/^(?:=)/,/^(?:\.(?=[} ]))/,/^(?:\.\.)/,/^(?:[\/.])/,/^(?:\s+)/,/^(?:\}\}\})/,/^(?:\}\})/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:@[a-zA-Z]+)/,/^(?:true(?=[}\s]))/,/^(?:false(?=[}\s]))/,/^(?:[0-9]+(?=[}\s]))/,/^(?:[a-zA-Z0-9_$-]+(?=[=}\s\/.]))/,/^(?:\[[^\]]*\])/,/^(?:.)/,/^(?:$)/];
+lexer.conditions = {"mu":{"rules":[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],"inclusive":false},"emu":{"rules":[2],"inclusive":false},"com":{"rules":[3],"inclusive":false},"INITIAL":{"rules":[0,1,30],"inclusive":true}};
 return lexer;})()
 parser.lexer = lexer;
 function Parser () { this.yy = {}; }Parser.prototype = parser;parser.Parser = Parser;
@@ -728,14 +745,16 @@ Handlebars.log = function(level, str) { Handlebars.logger.log(level, str); };
 
 })();;
 // lib/handlebars/utils.js
+
+var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
+
 Handlebars.Exception = function(message) {
   var tmp = Error.prototype.constructor.apply(this, arguments);
 
-  for (var p in tmp) {
-    if (tmp.hasOwnProperty(p)) { this[p] = tmp[p]; }
+  // Unfortunately errors are not enumerable in Chrome (at least), so `for prop in tmp` doesn't work.
+  for (var idx = 0; idx < errorProps.length; idx++) {
+    this[errorProps[idx]] = tmp[errorProps[idx]];
   }
-
-  this.message = tmp.message;
 };
 Handlebars.Exception.prototype = new Error();
 
@@ -1434,7 +1453,7 @@ Handlebars.JavaScriptCompiler = function() {};
       this.context.aliases.functionType = '"function"';
 
       this.replaceStack(function(current) {
-        return "typeof " + current + " === functionType ? " + current + "() : " + current;
+        return "typeof " + current + " === functionType ? " + current + ".apply(depth0) : " + current;
       });
     },
 
@@ -1579,7 +1598,7 @@ Handlebars.JavaScriptCompiler = function() {};
       var nextStack = this.nextStack();
 
       this.source.push('if (foundHelper) { ' + nextStack + ' = foundHelper.call(' + helper.callParams + '); }');
-      this.source.push('else { ' + nextStack + ' = ' + nonHelper + '; ' + nextStack + ' = typeof ' + nextStack + ' === functionType ? ' + nextStack + '() : ' + nextStack + '; }');
+      this.source.push('else { ' + nextStack + ' = ' + nonHelper + '; ' + nextStack + ' = typeof ' + nextStack + ' === functionType ? ' + nextStack + '.apply(depth0) : ' + nextStack + '; }');
     },
 
     // [invokePartial]
