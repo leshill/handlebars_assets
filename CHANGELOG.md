@@ -1,3 +1,7 @@
+## On master
+
+* Note use of `rake assets:precompile` in README
+
 ## 0.7.1 (2012-12-4)
 
 * Use edge version of `handlebars.js` ([this commit](https://github.com/wycats/handlebars.js/commit/bd0490145438e8f9df05abd2f4c25687bac81326)) to fix regression with context functions

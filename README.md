@@ -52,6 +52,10 @@ If you need to compile your JavaScript templates in the browser as well, you sho
 
 `handlebars_assets` also works when you are precompiling your assets.
 
+### `rake assets:precompile`
+
+If you are using `rake assets:precompile`, you have to re-run the `rake` command to rebuild any changed templates. See the [Rails guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) for more details.
+
 ### Heroku
 
 If you are deploying to Heroku, be sure to read the [Rails guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) and in your `config/application.rb` set:
