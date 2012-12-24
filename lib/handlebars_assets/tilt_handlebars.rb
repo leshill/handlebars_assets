@@ -1,5 +1,15 @@
 require 'tilt'
 
+# http://bit.ly/aze9FV
+class String
+  # Strip leading whitespace from each line that is the same as the
+  # amount of whitespace on the first line of the string.
+  # Leaves _additional_ indentation on later lines intact.
+  def unindent
+    gsub /^#{self[/\A\s*/]}/, ''
+  end
+end
+
 module HandlebarsAssets
   class TiltHandlebars < Tilt::Template
 
@@ -21,13 +31,13 @@ module HandlebarsAssets
       template_namespace = HandlebarsAssets::Config.template_namespace
 
       if template_path.is_partial?
-        <<-PARTIAL
+        <<-PARTIAL.unindent
           (function() {
             Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
           }).call(this);
         PARTIAL
       else
-        <<-TEMPLATE
+        <<-TEMPLATE.unindent
           (function() {
             this.#{template_namespace} || (this.#{template_namespace} = {});
             this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
