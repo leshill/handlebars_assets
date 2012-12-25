@@ -2,36 +2,8 @@ require 'test_helper'
 
 module HandlebarsAssets
   class TiltHandlebarsTest < Test::Unit::TestCase
+    include CompilerSupport
     include SprocketsScope
-    include Unindent
-
-    def expected_compiled(source)
-      compiler_src = Pathname(HandlebarsAssets::Config.compiler_path).join(HandlebarsAssets::Config.compiler).read
-      ExecJS.compile(compiler_src).call('Handlebars.precompile', source, HandlebarsAssets::Config.options)
-    end
-
-    def hbs_compiled(template_name, source)
-      compiled_hbs = expected_compiled(source)
-      template_namespace = HandlebarsAssets::Config.template_namespace
-
-      unindent <<END_EXPECTED
-          (function() {
-            this.#{template_namespace} || (this.#{template_namespace} = {});
-            this.#{template_namespace}[#{template_name.dump}] = Handlebars.template(#{compiled_hbs});
-            return this.#{template_namespace}[#{template_name.dump}];
-          }).call(this);
-END_EXPECTED
-    end
-
-    def hbs_compiled_partial(partial_name, source)
-      compiled_hbs = expected_compiled(source)
-
-      unindent <<END_EXPECTED
-          (function() {
-            Handlebars.registerPartial(#{partial_name.dump}, Handlebars.template(#{compiled_hbs}));
-          }).call(this);
-END_EXPECTED
-    end
 
     def teardown
       HandlebarsAssets::Config.reset!
