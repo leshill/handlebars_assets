@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module HandlebarsAssets
-  class TiltHandlebarsTest < Test::Unit::TestCase
+  class TiltEdgeTest < Test::Unit::TestCase
     include SprocketsScope
 
     def hbs_edge_compiled(template_name)

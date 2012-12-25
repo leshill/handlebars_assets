@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module HandlebarsAssets
-  class TiltHandlebarsTest < Test::Unit::TestCase
+  class HamlbarsTest < Test::Unit::TestCase
     include SprocketsScope
 
     def expected_haml_compiled(source)
