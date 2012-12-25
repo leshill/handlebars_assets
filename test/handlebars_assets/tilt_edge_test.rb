@@ -3,9 +3,10 @@ require 'test_helper'
 module HandlebarsAssets
   class TiltEdgeTest < Test::Unit::TestCase
     include SprocketsScope
+    include Unindent
 
     def hbs_edge_compiled(template_name)
-      <<END_EXPECTED
+      unindent <<END_EXPECTED
           (function() {
             this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
             this.HandlebarsTemplates[\"#{template_name}\"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
