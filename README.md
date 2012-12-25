@@ -174,6 +174,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Ken Mayer          (@kmayer)        : Quick fix for template\_namespace option
 * Brad Murray        (@wyaeld)        : Generic options support
 * Blake Williams     (@BlakeWilliams) : .handlebars extension
+* Tristan Koch       (@trkoch)        : Strip leading whitespace from compiled templates
 
 # Contributing
 

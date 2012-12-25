@@ -1,6 +1,9 @@
 ## On master
 
+## 0.7.2 (2012-12-25)
+
 * Note use of `rake assets:precompile` in README
+* Strip leading whitespace from compiled templates - @trkoch
 
 ## 0.7.1 (2012-12-4)
 
