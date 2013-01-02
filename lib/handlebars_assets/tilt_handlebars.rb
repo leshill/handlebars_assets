@@ -28,24 +28,28 @@ module HandlebarsAssets
                  data
                end
 
-      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
-
-      template_namespace = HandlebarsAssets::Config.template_namespace
-
-      if template_path.is_partial?
-        unindent <<-PARTIAL
-          (function() {
-            Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
-          }).call(this);
-        PARTIAL
+      if HandlebarsAssets::Config.ember?
+        "window.Ember.TEMPLATES[#{template_path.name}] = Ember.Handlebars.compile(#{source.to_json});"
       else
-        unindent <<-TEMPLATE
-          (function() {
-            this.#{template_namespace} || (this.#{template_namespace} = {});
-            this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
-            return this.#{template_namespace}[#{template_path.name}];
-          }).call(this);
-        TEMPLATE
+        compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
+
+        template_namespace = HandlebarsAssets::Config.template_namespace
+
+        if template_path.is_partial?
+          unindent <<-PARTIAL
+            (function() {
+              Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
+            }).call(this);
+          PARTIAL
+        else
+          unindent <<-TEMPLATE
+            (function() {
+              this.#{template_namespace} || (this.#{template_namespace} = {});
+              this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
+              return this.#{template_namespace}[#{template_path.name}];
+            }).call(this);
+          TEMPLATE
+        end
       end
     end
 

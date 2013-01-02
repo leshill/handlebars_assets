@@ -1,5 +1,9 @@
 ## On master
 
+## 0.8.0
+
+* Support Ember.js templates
+
 ## 0.7.2 (2012-12-25)
 
 * Note use of `rake assets:precompile` in README

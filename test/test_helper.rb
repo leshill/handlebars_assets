@@ -63,6 +63,7 @@ module HandlebarsAssets
       @options = nil
       @path_prefix = nil
       @template_namespace = nil
+      @ember = nil
     end
 
   end

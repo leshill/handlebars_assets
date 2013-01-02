@@ -127,5 +127,18 @@ module HandlebarsAssets
 
       assert_equal hbs_compiled('test_template_namespace', source), template.render(scope, {})
     end
+
+    def test_ember_render
+      root = '/myapp/app/assets/templates'
+      file = 'test_render.hbs'
+      scope = make_scope root, file
+      source = "This is {{handlebars}}"
+
+      HandlebarsAssets::Config.ember = true
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+
+      expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+      assert_equal expected_compiled, template.render(scope, {})
+    end
   end
 end
