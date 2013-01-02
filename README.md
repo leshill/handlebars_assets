@@ -107,6 +107,13 @@ when you initialize your application.
 
     HandlebarsAssets::Config.template_namespace = 'JST'
 
+## Ember
+
+To compile your templates for use with [Ember.js](http://emberjs.com)
+simply turn on the config option
+
+    HandlebarsAssets::Config.ember = true
+
 ## `.hamlbars`
 
 If you name your templates with the extension `.hamlbars`, you can use Haml syntax for your markup! Use `HandlebarsAssets::Config.haml_options` to pass custom options to the Haml rendering engine.
