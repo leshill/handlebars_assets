@@ -182,6 +182,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Brad Murray        (@wyaeld)        : Generic options support
 * Blake Williams     (@BlakeWilliams) : .handlebars extension
 * Tristan Koch       (@trkoch)        : Strip leading whitespace from compiled templates
+* Brian Cardarella   (@bcardarella)   : Ember support
 
 # Contributing
 
