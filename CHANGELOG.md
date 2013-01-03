@@ -1,5 +1,9 @@
 ## On master
 
+## 0.8.1
+
+* Require haml directly
+
 ## 0.8.0
 
 * Support Ember.js templates
