@@ -54,7 +54,7 @@ module HandlebarsAssets
     end
 
     def initialize_engine
-      require_template_library 'haml'
+      require 'haml'
     rescue LoadError
       # haml not available
     end
