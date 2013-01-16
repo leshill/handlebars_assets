@@ -1,5 +1,10 @@
 ## On master
 
+## 0.8.2
+
+* Update to [this commit](https://github.com/wycats/handlebars.js/commit/5e5f0dce9c352f490f1f1e58fd7d0f76dd006cac) of `handlebars.js`
+* Fix to allow Ember.js template support when not using Rails
+
 ## 0.8.1
 
 * Require haml directly
