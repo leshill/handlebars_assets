@@ -62,6 +62,24 @@ Handlebars.createFrame = Object.create || function(object) {
   return obj;
 };
 
+Handlebars.logger = {
+  DEBUG: 0, INFO: 1, WARN: 2, ERROR: 3, level: 3,
+
+  methodMap: {0: 'debug', 1: 'info', 2: 'warn', 3: 'error'},
+
+  // can be overridden in the host environment
+  log: function(level, obj) {
+    if (Handlebars.logger.level <= level) {
+      var method = Handlebars.logger.methodMap[level];
+      if (typeof console !== 'undefined' && console[method]) {
+        console[method].call(console, obj);
+      }
+    }
+  }
+};
+
+Handlebars.log = function(level, obj) { Handlebars.logger.log(level, obj); };
+
 Handlebars.registerHelper('each', function(context, options) {
   var fn = options.fn, inverse = options.inverse;
   var i = 0, ret = "", data;
@@ -117,8 +135,9 @@ Handlebars.registerHelper('with', function(context, options) {
   return options.fn(context);
 });
 
-Handlebars.registerHelper('log', function(context) {
-  Handlebars.log(context);
+Handlebars.registerHelper('log', function(context, options) {
+  var level = options.data && options.data.level != null ? parseInt(options.data.level, 10) : 1;
+  Handlebars.log(level, context);
 });
 
 }(this.Handlebars));
@@ -176,11 +195,7 @@ Handlebars.SafeString.prototype.toString = function() {
     },
 
     isEmpty: function(value) {
-      if (typeof value === "undefined") {
-        return true;
-      } else if (value === null) {
-        return true;
-      } else if (value === false) {
+      if (!value && value !== 0) {
         return true;
       } else if(Object.prototype.toString.call(value) === "[object Array]" && value.length === 0) {
         return true;
