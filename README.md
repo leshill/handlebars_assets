@@ -10,11 +10,11 @@ Using `sprockets` with Sinatra or another framework? **handlebars_assets** works
 
 My pull request to allow `/` in partials was pulled into Handlebars. The hack that converted partial names to underscored paths (`shared/_time` -> `_shared_time`) is no longer necessary and has been removed. You should change all the partial references in your app when going to v0.9.x.
 
-## handlebars.js
+## Edge version of handlebars.js
 
-**Please read**
+*Please read*
 
-`handlebars_assets` is packaged with an edge build of `handlebars.js` (this [commit](https://github.com/wycats/handlebars.js/commit/a3376e24b1a25f72cf86d1d999bd2ea93fa4dc39). See the section on using another version if that does not work for you.
+`handlebars_assets` is packaged with an edge build of `handlebars.js` (this [commit](https://github.com/wycats/handlebars.js/commit/a3376e24b1a25f72cf86d1d999bd2ea93fa4dc39)). See the section on using another version if that does not work for you.
 
 ## Installation with Rails 3.1+
 
