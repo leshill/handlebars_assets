@@ -94,7 +94,11 @@ module HandlebarsAssets
       end
 
       def partial_name
-        forced_underscore_name.gsub(/\//, '_').gsub(/__/, '_').dump
+        if HandlebarsAssets::Config.ember?
+          relative_path.dump
+        else
+          forced_underscore_name.gsub(/\//, '_').gsub(/__/, '_').dump
+        end
       end
 
       def template_name
