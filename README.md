@@ -6,11 +6,15 @@ Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handle
 
 Using `sprockets` with Sinatra or another framework? **handlebars_assets** works outside of Rails too (as of v0.2.0)
 
+# BREAKING CHANGE IN v0.9.0
+
+My pull request to allow `/` in partials was pulled into Handlebars. The hack that converted partial names to underscored paths (`shared/_time` -> `_shared_time`) is no longer necessary and has been removed. You should change all the partial references in your app when going to v0.9.x.
+
 ## handlebars.js
 
 **Please read**
 
-Because of a serious regression introduced in RC1, `handlebars_assets` is packaged with an edge build of `handlebars.js` (this [commit](https://github.com/wycats/handlebars.js/commit/5e5f0dce9c352f490f1f1e58fd7d0f76dd006cac). See the section on using another version if that does not work for you.
+`handlebars_assets` is packaged with an edge build of `handlebars.js` (this [commit](https://github.com/wycats/handlebars.js/commit/a3376e24b1a25f72cf86d1d999bd2ea93fa4dc39). See the section on using another version if that does not work for you.
 
 ## Installation with Rails 3.1+
 
@@ -132,18 +136,7 @@ The Haml will be pre-processed so that the Handlebars template is basically this
 
 If you begin the name of the template with an underscore, it will be recognized as a partial. You can invoke partials inside a template using the Handlebars partial syntax:
 
-    Invoke a {{> partial }}
-
-**Important!** Handlebars does not understand nested partials. To support them, partials are named based on their path using `_` instead of `/` (skid => slash). So given:
-
-    templates/
-      _form.hbs
-      contacts/
-        _form.hbs
-      todos/
-        _form.hbs
-
-You will get three partials named `_form`, `_contacts_form`, and `_todos_form`; note that the partials begin with `_`.
+    Invoke a {{> path/to/_partial }}
 
 ## Using another version of `handlebars.js`
 

@@ -63,7 +63,7 @@ module HandlebarsAssets
 
       template2 = HandlebarsAssets::TiltHandlebars.new(scope2.pathname.to_s) { source }
 
-      assert_equal hbs_compiled_partial('_some_thing_test_underscore', source), template2.render(scope2, {})
+      assert_equal hbs_compiled_partial('some/thing/_test_underscore', source), template2.render(scope2, {})
     end
 
     def test_without_known_helpers_opt

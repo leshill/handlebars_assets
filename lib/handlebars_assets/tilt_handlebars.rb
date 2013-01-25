@@ -78,23 +78,15 @@ module HandlebarsAssets
       end
 
       def name
-        is_partial? ? partial_name : template_name
+        template_name
       end
 
       private
 
       attr_accessor :full_path, :template_path
 
-      def forced_underscore_name
-        '_' + relative_path
-      end
-
       def relative_path
         template_path.gsub(/^#{HandlebarsAssets::Config.path_prefix}\/(.*)$/i, "\\1")
-      end
-
-      def partial_name
-        forced_underscore_name.gsub(/\//, '_').gsub(/__/, '_').dump
       end
 
       def template_name
