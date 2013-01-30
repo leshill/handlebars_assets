@@ -1,6 +1,6 @@
 ## On master
 
-## 0.9.0 (2013-07-25)
+## 0.9.0 (2013-01-25)
 
 * Update to [this commit](https://github.com/wycats/handlebars.js/commit/a3376e24b1a25f72cf86d1d999bd2ea93fa4dc39) of `handlebars.js`
 * The hack that converted partial names to underscored paths (`shared/_time` -> `_shared_time`) is no longer necessary and has been removed. You should change all the partial references in your app when going to v0.9.x.
