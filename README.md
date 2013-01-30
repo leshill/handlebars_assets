@@ -6,9 +6,9 @@ Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handle
 
 Using `sprockets` with Sinatra or another framework? **handlebars_assets** works outside of Rails too (as of v0.2.0)
 
-# BREAKING CHANGE IN v0.9.0
+# BREAKING CHANGE AS OF v0.9.0
 
-My pull request to allow `/` in partials was pulled into Handlebars. The hack that converted partial names to underscored paths (`shared/_time` -> `_shared_time`) is no longer necessary and has been removed. You should change all the partial references in your app when going to v0.9.x.
+My pull request to allow `/` in partials was pulled into Handlebars. The hack that converted partial names to underscored paths (`shared/_time` -> `_shared_time`) is no longer necessary and has been removed. You should change all the partial references in your app when upgrading from a version prior to v0.9.0.
 
 ## Edge version of handlebars.js
 
