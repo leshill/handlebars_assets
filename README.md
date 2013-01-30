@@ -118,7 +118,7 @@ simply turn on the config option
 
     HandlebarsAssets::Config.ember = true
 
-## `.hamlbars`
+## `.hamlbars` and `.slimbars`
 
 If you name your templates with the extension `.hamlbars`, you can use Haml syntax for your markup! Use `HandlebarsAssets::Config.haml_options` to pass custom options to the Haml rendering engine.
 
@@ -131,6 +131,8 @@ The Haml will be pre-processed so that the Handlebars template is basically this
 
     <h1> {{title}} </h1>
     <p> {{body}} </p>
+
+The same applies to `.slimbars` and the Slim gem. Use `HandlebarsAssets::Config.slim_options` to pass custom options to the Slim rendering engine.
 
 ## Partials
 
@@ -176,6 +178,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Blake Williams     (@BlakeWilliams) : .handlebars extension
 * Tristan Koch       (@trkoch)        : Strip leading whitespace from compiled templates
 * Brian Cardarella   (@bcardarella)   : Ember support
+* David Lee          (@davidlee)      : Slim support
 
 # Contributing
 
