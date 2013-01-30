@@ -1,5 +1,9 @@
 ## On master
 
+## 0.10.0 (2013-01-29)
+
+* Support `.slimbars` extension for Slim templates - @davidlee
+
 ## 0.9.0 (2013-01-25)
 
 * Update to [this commit](https://github.com/wycats/handlebars.js/commit/a3376e24b1a25f72cf86d1d999bd2ea93fa4dc39) of `handlebars.js`
