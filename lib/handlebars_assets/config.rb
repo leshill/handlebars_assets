@@ -5,7 +5,7 @@ module HandlebarsAssets
   module Config
     extend self
 
-    attr_writer :compiler, :compiler_path, :ember, :haml_options, :slim_options, :known_helpers, :known_helpers_only, :options, :path_prefix, :template_namespace
+    attr_writer :compiler, :compiler_path, :ember, :haml_options, :known_helpers, :known_helpers_only, :options, :path_prefix, :slim_options, :template_namespace
 
     def compiler
       @compiler || 'handlebars.js'
@@ -27,14 +27,6 @@ module HandlebarsAssets
       @haml_options || {}
     end
 
-    def slim_available?
-      defined? ::Slim::Engine
-    end
-
-    def slim_options
-      @slim_options || {}
-    end
-
     def known_helpers
       @known_helpers || []
     end
@@ -49,6 +41,14 @@ module HandlebarsAssets
 
     def path_prefix
       @path_prefix || 'templates'
+    end
+
+    def slim_available?
+      defined? ::Slim::Engine
+    end
+
+    def slim_options
+      @slim_options || {}
     end
 
     def template_namespace
