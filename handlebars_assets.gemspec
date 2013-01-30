@@ -24,5 +24,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_development_dependency "haml"
   s.add_development_dependency "slim"
-  s.add_development_dependency "multi_json"
 end

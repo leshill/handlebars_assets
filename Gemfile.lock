@@ -33,6 +33,5 @@ PLATFORMS
 DEPENDENCIES
   haml
   handlebars_assets!
-  multi_json
   rake
   slim
