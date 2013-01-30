@@ -129,6 +129,7 @@ module HandlebarsAssets
     end
 
     def test_ember_render
+      require 'multi_json'
       root = '/myapp/app/assets/templates'
       file = 'test_render.hbs'
       scope = make_scope root, file

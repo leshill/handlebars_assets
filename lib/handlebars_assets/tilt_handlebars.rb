@@ -24,6 +24,8 @@ module HandlebarsAssets
 
       source = if template_path.is_haml?
                 Haml::Engine.new(data, HandlebarsAssets::Config.haml_options).render
+              elsif template_path.is_slim?
+                Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }.render
                else
                  data
                end
@@ -54,9 +56,16 @@ module HandlebarsAssets
     end
 
     def initialize_engine
-      require 'haml'
-    rescue LoadError
-      # haml not available
+      begin
+        require 'haml'
+      rescue LoadError
+        # haml not available
+      end
+      begin
+        require 'slim'
+      rescue LoadError
+        # slim not available
+      end
     end
 
     protected
@@ -71,6 +80,10 @@ module HandlebarsAssets
 
       def is_haml?
         full_path.to_s.end_with?('.hamlbars')
+      end
+
+      def is_slim?
+        full_path.to_s.end_with?('.slimbars')
       end
 
       def is_partial?
