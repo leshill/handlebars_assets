@@ -210,6 +210,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Tristan Koch       (@trkoch)        : Strip leading whitespace from compiled templates
 * Brian Cardarella   (@bcardarella)   : Ember support
 * David Lee          (@davidlee)      : Slim support
+* Phil Cohen         (@phlipper)      : README cleanup
 
 # Contributing
 
