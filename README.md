@@ -20,9 +20,11 @@ My pull request to allow `/` in partials was pulled into Handlebars. The hack th
 
 Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
 
-    group :assets do
-      gem 'handlebars_assets'
-    end
+```ruby
+group :assets do
+  gem 'handlebars_assets'
+end
+```
 
 ## Installation without Rails 3.1+
 
@@ -30,27 +32,34 @@ Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
 
 Load `handlebars_assets` in your `Gemfile`
 
-    gem 'handlebars_assets'
+```ruby
+gem 'handlebars_assets'
+```
 
 Add the `HandlebarsAssets.path` to your `Sprockets::Environment` instance. This
 lets Sprockets know where the Handlebars JavaScript files are and is required
 for the next steps to work.
 
-    env = Sprockets::Environment.new
+```ruby
+env = Sprockets::Environment.new
 
-    require 'handlebars_assets'
-    env.append_path HandlebarsAssets.path
-
+require 'handlebars_assets'
+env.append_path HandlebarsAssets.path
+```
 
 # Compiling your JavaScript templates in the Rails asset pipeline
 
 Require `handlebars.runtime.js` in your JavaScript manifest (i.e. `application.js`)
 
-    //= require handlebars.runtime
+```javascript
+//= require handlebars.runtime
+```
 
 If you need to compile your JavaScript templates in the browser as well, you should instead require `handlebars.js` (which is significantly larger)
 
-    //= require handlebars
+```javascript
+//= require handlebars
+```
 
 ## Precompiling
 
@@ -64,13 +73,17 @@ If you are using `rake assets:precompile`, you have to re-run the `rake` command
 
 If you are deploying to Heroku, be sure to read the [Rails guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) and in your `config/application.rb` set:
 
-    config.assets.initialize_on_precompile = false
+```ruby
+config.assets.initialize_on_precompile = false
+```
 
 This avoids running your initializers when compiling assets (see the [guide](http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets) for why you would want that).
 
 However, that does mean that you cannot set your configuration in an initializer. This [issue](https://github.com/leshill/handlebars_assets/issues/34) has a workaround, or you can set:
 
-    config.assets.initialize_on_precompile = true
+```ruby
+config.assets.initialize_on_precompile = true
+```
 
 This will run all your initializers before precompiling assets.
 
@@ -78,7 +91,9 @@ This will run all your initializers before precompiling assets.
 
 You should locate your templates with your other assets, for example `app/assets/javascripts/templates`. In your JavaScript manifest file, use `require_tree` to pull in the templates
 
-    //= require_tree ./templates
+```javascripts
+//= require_tree ./templates
+```
 
 ## The template file
 
@@ -86,11 +101,13 @@ Write your Handlebars templates as standalone files in your templates directory.
 
 For example, if you have new, edit, and show templates for a Contact model
 
-    templates/
-      contacts/
-        new.hbs
-        edit.hbs
-        show.hbs
+```
+templates/
+  contacts/
+    new.hbs
+    edit.hbs
+    show.hbs
+```
 
 Your file extensions tell the asset pipeline how to process the file. Use `.hbs` to compile the template with Handlebars.
 
@@ -101,7 +118,9 @@ If your file is `templates/contacts/new.hbs`, the asset pipeline will generate J
 
 You can then invoke the resulting template in your application's JavaScript
 
-    HandlebarsTemplates['contacts/new'](context);
+```javascript
+HandlebarsTemplates['contacts/new'](context);
+```
 
 ## The template namespace
 
@@ -109,14 +128,18 @@ By default, the global JavaScript object that holds the compiled templates is `H
 be easily renamed. Another common template namespace is `JST`.  Just change the `template_namespace` configuration option
 when you initialize your application.
 
-    HandlebarsAssets::Config.template_namespace = 'JST'
+```ruby
+HandlebarsAssets::Config.template_namespace = 'JST'
+```
 
 ## Ember
 
 To compile your templates for use with [Ember.js](http://emberjs.com)
 simply turn on the config option
 
-    HandlebarsAssets::Config.ember = true
+```ruby
+HandlebarsAssets::Config.ember = true
+```
 
 ## `.hamlbars` and `.slimbars`
 
@@ -124,13 +147,17 @@ If you name your templates with the extension `.hamlbars`, you can use Haml synt
 
 For example, if you have a file `widget.hamlbars` that looks like this:
 
-    %h1 {{title}}
-    %p {{body}}
+```haml
+%h1 {{title}}
+%p {{body}}
+```
 
 The Haml will be pre-processed so that the Handlebars template is basically this:
 
-    <h1> {{title}} </h1>
-    <p> {{body}} </p>
+```html
+<h1> {{title}} </h1>
+<p> {{body}} </p>
+```
 
 The same applies to `.slimbars` and the Slim gem. Use `HandlebarsAssets::Config.slim_options` to pass custom options to the Slim rendering engine.
 
@@ -138,14 +165,18 @@ The same applies to `.slimbars` and the Slim gem. Use `HandlebarsAssets::Config.
 
 If you begin the name of the template with an underscore, it will be recognized as a partial. You can invoke partials inside a template using the Handlebars partial syntax:
 
-    Invoke a {{> path/to/_partial }}
+```
+Invoke a {{> path/to/_partial }}
+```
 
 ## Using another version of `handlebars.js`
 
 Occasionally you might need to use a version of `handlebars.js` other than the included version. You can set the `compiler_path` and `compiler` options to use a custom version of `handlebars.js`.
 
-    HandlebarsAssets::Config.compiler = 'my_handlebars.js' # Change the name of the compiler file
-    HandlebarsAssets::Config.compiler_path = Rails.root.join('app/assets/javascripts') # Change the location of the compiler file
+```ruby
+HandlebarsAssets::Config.compiler = 'my_handlebars.js' # Change the name of the compiler file
+HandlebarsAssets::Config.compiler_path = Rails.root.join('app/assets/javascripts') # Change the location of the compiler file
+```
 
 # Thanks
 
