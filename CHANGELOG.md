@@ -1,5 +1,10 @@
 ## On master
 
+## 0.11.0 (2013-02-15)
+
+* Update to handlebars.js 1.0.0-rc.3 - @akshayrawat
+* Add github markdown to README - @phlipper
+
 ## 0.10.0 (2013-01-29)
 
 * Support `.slimbars` extension for Slim templates - @davidlee
