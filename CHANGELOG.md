@@ -1,5 +1,11 @@
 ## On master
 
+## 0.12.0 (2013-02-17)
+
+* Support for patching `handlebars.js`
+* Make `test` the default Rake task
+* Update dev env to use `haml` v4.0.0
+
 ## 0.11.0 (2013-02-15)
 
 * Update to handlebars.js 1.0.0-rc.3 - @akshayrawat
