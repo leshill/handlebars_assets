@@ -6,7 +6,7 @@
       return '"CALLED PATCH"';
     }
     else {
-      return originalLookup(parent, name, type);
+      return originalLookup.call(this, parent, name, type);
     }
   };
 })(this);
