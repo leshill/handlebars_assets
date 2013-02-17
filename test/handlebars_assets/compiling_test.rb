@@ -16,5 +16,15 @@ module HandlebarsAssets
       compiled = Handlebars.precompile(source, HandlebarsAssets::Config.options)
       assert_match /PRECOMPILE CALLED/, compiled
     end
+
+    def test_patching_handlebars
+      source = "This is {{nested.handlebars}}"
+
+      HandlebarsAssets::Config.patch_path = File.expand_path '../../patch', __FILE__
+      HandlebarsAssets::Config.patch_files = ['patch.js']
+
+      compiled = Handlebars.precompile(source, HandlebarsAssets::Config.options)
+      assert_match /CALLED PATCH/, compiled
+    end
   end
 end

@@ -61,6 +61,8 @@ module HandlebarsAssets
       @known_helpers = nil
       @known_helpers_only = nil
       @options = nil
+      @patch_files = nil
+      @patch_path = nil
       @path_prefix = nil
       @template_namespace = nil
       @ember = nil
@@ -73,6 +75,7 @@ module HandlebarsAssets
     def self.reset!
       @context = nil
       @source = nil
+      @patch_path = nil
       @path = nil
       @assets_path = nil
     end
