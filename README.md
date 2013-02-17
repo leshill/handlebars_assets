@@ -89,7 +89,7 @@ This will run all your initializers before precompiling assets.
 
 You should locate your templates with your other assets, for example `app/assets/javascripts/templates`. In your JavaScript manifest file, use `require_tree` to pull in the templates
 
-```javascripts
+```javascript
 //= require_tree ./templates
 ```
 
@@ -174,6 +174,17 @@ Occasionally you might need to use a version of `handlebars.js` other than the i
 ```ruby
 HandlebarsAssets::Config.compiler = 'my_handlebars.js' # Change the name of the compiler file
 HandlebarsAssets::Config.compiler_path = Rails.root.join('app/assets/javascripts') # Change the location of the compiler file
+```
+
+## Patching `handlebars.js`
+
+If you need specific customizations to the `handlebars.js` compiler, you can use patch the compiler with your own JavaScript patches.
+
+The patch file(s) are concatenated with the `handlebars.js` file before compiling. Take a look at the test for details.
+
+```ruby
+HandlebarsAssets::Config.patch_files = 'my_patch.js'
+HandlebarsAssets::Config.patch_path = Rails.root.join('app/assets/javascripts') # Defaults to `Config.compiler_path`
 ```
 
 # Thanks
