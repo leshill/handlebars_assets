@@ -55,15 +55,9 @@ module HandlebarsAssets
               });
             PARTIAL
           else
-            unindent <<-PARTIAL
-                (function() {
-                  #{register_partial}
-                }).call(this);
-            PARTIAL
+            unindent basic
           end
         else
-          basic = <<-TEMPLATE
-          TEMPLATE
           if HandlebarsAssets::Config.use_amd?
             unindent <<-TEMPLATE
               define(['#{handlebars_amd_path}'], function(Handlebars) {
