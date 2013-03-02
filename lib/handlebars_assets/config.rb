@@ -7,7 +7,7 @@ module HandlebarsAssets
 
     attr_writer :compiler, :compiler_path, :ember, :haml_options,
       :known_helpers, :known_helpers_only, :options, :patch_files,
-      :patch_path, :path_prefix, :slim_options, :template_namespace
+      :patch_path, :path_prefix, :slim_options, :template_namespace, :use_amd, :handlebars_amd_path
 
     def compiler
       @compiler || 'handlebars.js'
@@ -63,6 +63,14 @@ module HandlebarsAssets
 
     def template_namespace
       @template_namespace || 'HandlebarsTemplates'
+    end
+
+    def handlebars_amd_path
+      @handlebars_amd_path || 'handlebars'
+    end
+
+    def use_amd?
+      @use_amd
     end
 
     private
