@@ -208,10 +208,55 @@ In your Gemfile move the handlebars_assets out of the asset group, if it was the
 This is required due to the initializer always running. There are alternative solutions, but this is KISS.
 
 At the current time (March 3, 2013) this AMD setup is known to work with the `acquaintable` fork of [requirejs-rails](https://github.com/acquaintable/requirejs-rails).  Interested to hear if it works with the official requirejs-rails release, which Iam unable to use due to the [hexdigest bugs](https://github.com/jwhitley/requirejs-rails/issues/search?q=hexdigest).
+
 ```ruby
   gem 'requirejs-rails', github: 'acquaintable/requirejs-rails'
   # moved out of assets group due to config/initializers/handlebars_assets.rb
   gem 'handlebars_assets', '~> 0.12.1'
+```
+
+Now how to use:
+
+I we have a Backbone Marionette View like this:
+
+```coffee
+define [
+  'jquery-adapter',
+  'underscore',
+  'backbone',
+  'marionette',
+  'handlebars'
+  'templates/like',
+], ($, _, Backbone, Marionette, Handlebars, likeTemplate) ->
+
+  class LikeView extends Marionette.ItemView
+
+    template: likeTemplate
+
+    initialize: (data) ->
+      @data = data
+      @render()
+
+    serializeData: =>
+      return @data
+```
+
+The `templates/like' module dependency (at 'app/assets/javascripts/templates/like.slimbars`) might look like this:
+
+```slim
+span
+  | Like {{ name }}
+p
+  | A Partial: {{> _example_partial1 }}
+p
+  | Another Partial: {{> _example_partial2 }}
+```
+
+And one of those partials (at `app/assets/javascripts/templates/_example_partial.slimbars`, note the preceding `_`) might look like:
+
+```slim
+h1 This is example partial #1
+img src='assets/rails.png'
 ```
 
 ## `.hamlbars` and `.slimbars`
