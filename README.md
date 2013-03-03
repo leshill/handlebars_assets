@@ -139,6 +139,81 @@ simply turn on the config option
 HandlebarsAssets::Config.ember = true
 ```
 
+## AMD, require.js, requirejs-rails
+
+`handlebars_assets` supports AMD since [PR #55](https://github.com/leshill/handlebars_assets/pull/55)
+
+If you are using [`requirejs-rails`](https://github.com/jwhitley/requirejs-rails) then you are in luck,
+as the following steps have that setup in mind.  Taken from an app using [underscore.js](http://underscorejs.org/), [backbone.js](http://backbonejs.org/), [backbone.marionette.js](https://github.com/marionettejs/backbone.marionette),
+[handlebars.js](http://handlebarsjs.com/), `handlebars_assets` (this gem), and [`requirejs-rails`](https://github.com/jwhitley/requirejs-rails)
+with [domReady.js](http://requirejs.org/docs/download.html#domReady) and [almond.js](https://github.com/jrburke/almond).
+
+```ruby
+HandlebarsAssets::Config.use_amd = true # default false
+HandlebarsAssets::Config.handlebars_amd_path = 'handlebars' # default 'handlebars'
+```
+
+There needs to be a way to register the partials with handlebars, since we *aren't* using the asset_pipeline's
+automatic `JST` functionality. Create a file like this in `assets/templates/handlebars_partials.js.coffee`
+
+```coffee
+# This is effectively a shim to load all the partials in the app into the Handlebars.partials object,
+# so they are available to Handlebars when rendering templates.
+# Any partial added to the app should be added here.  The partial doesn't need to be an AMD dependency of the View Model
+# (assuming Backbone) where it is used.
+# Partials are called from within view templates like this (.slimbars example):
+#    p
+#    | A Partial: {{> _example_partial1 }}
+#    p
+#    | Another Partial: {{> _example_partial2 }}
+#
+require [
+  'handlebars',
+  'templates/_example_partial1',
+  'templates/_example_partial2'
+], (Handlebars) ->
+  # This file has the effect of registering all the Handlebars partials in the app for use in Handlebars templates.
+  # The files above would be located at:
+  #   app/javascripts/templates/_example_partial1.slimbars
+  #   app/javascripts/templates/_example_partial2.slimbars
+```
+
+Then we need to make sure that requirejs-rails will load our handlebars_partials shim all the time so they are always
+available.  We make it a *top level dependency*, and add it as a known path.
+
+```yaml
+  deps: ['handlebars','handlebars_partials']
+  paths:
+    # ...
+    handlebars: 'handlebars'
+    handlebars_partials: 'templates/handlebars_partials'
+    # ...
+  shim:
+    # ...
+    handlebars:
+      exports: 'Handlebars'
+    handlebars_partials:
+      deps: ['handlebars']
+    # ...
+```
+
+In `config/application.rb` prepare requirejs-rails for the templates:
+
+```ruby
+    # Pass template files to requirejs
+    config.requirejs.logical_asset_filter += [/\.slimbars$/, /\.hamlbars$/]
+```
+
+In your Gemfile move the handlebars_assets out of the asset group, if it was there, so it is always loaded.
+This is required due to the initializer always running. There are alternative solutions, but this is KISS.
+
+At the current time (March 3, 2013) this AMD setup is known to work with the `acquaintable` fork of [requirejs-rails](https://github.com/acquaintable/requirejs-rails).  Interested to hear if it works with the official requirejs-rails release, which Iam unable to use due to the [hexdigest bugs](https://github.com/jwhitley/requirejs-rails/issues/search?q=hexdigest).
+```ruby
+  gem 'requirejs-rails', github: 'acquaintable/requirejs-rails'
+  # moved out of assets group due to config/initializers/handlebars_assets.rb
+  gem 'handlebars_assets', '~> 0.12.1'
+```
+
 ## `.hamlbars` and `.slimbars`
 
 If you name your templates with the extension `.hamlbars`, you can use Haml syntax for your markup! Use `HandlebarsAssets::Config.haml_options` to pass custom options to the Haml rendering engine.
