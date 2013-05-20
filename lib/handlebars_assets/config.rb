@@ -70,6 +70,7 @@ module HandlebarsAssets
     def generate_known_helpers_hash
       known_helpers.inject({}) do |hash, helper|
         hash[helper] = true
+        hash
       end
     end
 
