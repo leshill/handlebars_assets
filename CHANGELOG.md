@@ -1,5 +1,9 @@
 ## On master
 
+## 0.12.1 (2013-05-21)
+
+* Update to handlebars 1.0.0-rc.4 - @turadg
+
 ## 0.12.0 (2013-02-17)
 
 * Support for patching `handlebars.js`
