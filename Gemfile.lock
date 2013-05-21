@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    handlebars_assets (0.12.0)
+    handlebars_assets (0.12.1)
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
       tilt
@@ -21,14 +21,14 @@ GEM
       multi_json (~> 1.0)
     haml (4.0.0)
       tilt
-    hike (1.2.1)
-    multi_json (1.4.0)
-    rack (1.4.1)
+    hike (1.2.2)
+    multi_json (1.7.3)
+    rack (1.5.2)
     rake (10.0.3)
     slim (1.3.6)
       temple (~> 0.5.5)
       tilt (~> 1.3.3)
-    sprockets (2.8.1)
+    sprockets (2.9.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
