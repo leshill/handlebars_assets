@@ -22,6 +22,7 @@ GEM
     haml (4.0.0)
       tilt
     hike (1.2.2)
+    json (1.7.7)
     multi_json (1.7.3)
     rack (1.5.2)
     rake (10.0.3)
@@ -43,5 +44,6 @@ DEPENDENCIES
   debugger
   haml
   handlebars_assets!
+  json (~> 1.7.7)
   rake
   slim
