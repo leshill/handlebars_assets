@@ -1,5 +1,9 @@
 ## On master
 
+## 0.12.2 (2013-05-27)
+
+* Synchronize Sprockets engine registers with Rails - @mark-rushakoff
+
 ## 0.12.1 (2013-05-21)
 
 * Update to handlebars 1.0.0-rc.4 - @turadg
