@@ -223,6 +223,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Akshay Rawat       (@akshayrawat)    : Update to handlebars.js 1.0.0-rc.3
 * Turadg Aleahmad    (@turadg)         : Update to handlebars 1.0.0-rc.4
 * Mark Rushakoff     (@mark-rushakoff) : Synchronize Sprockets engine registers with Rails
+* Alex Riedler       (@AlexRiedler)    : Pass scope and locals up the chain
 
 # Contributing
 
