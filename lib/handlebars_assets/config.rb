@@ -9,6 +9,10 @@ module HandlebarsAssets
       :known_helpers, :known_helpers_only, :options, :patch_files,
       :patch_path, :path_prefix, :slim_options, :template_namespace
 
+    def configure
+      yield self
+    end
+
     def compiler
       @compiler || 'handlebars.js'
     end
