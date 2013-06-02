@@ -1,5 +1,9 @@
 ## On master
 
+## 0.13.0 (2013-06-02)
+
+* Update to handlebars 1.0.0 - @lee
+
 ## 0.12.3 (2013-05-28)
 
 * Pass scope and locals up the chain - @AlexRiedler
