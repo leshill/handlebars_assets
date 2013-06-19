@@ -225,6 +225,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Mark Rushakoff     (@mark-rushakoff) : Synchronize Sprockets engine registers with Rails
 * Alex Riedler       (@AlexRiedler)    : Pass scope and locals up the chain
 * lee                (@lee)            : Update to handlebars 1.0.0
+* Ken Collins        (@metaskills)     : Register with Sprockets
 
 # Contributing
 
