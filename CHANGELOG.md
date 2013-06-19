@@ -1,5 +1,9 @@
 ## On master
 
+## 0.14.0 (2013-06-19)
+
+* Register with Sprockets instead of `app.assets` - @metaskills
+
 ## 0.13.0 (2013-06-02)
 
 * Update to handlebars 1.0.0 - @lee
