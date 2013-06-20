@@ -1,7 +1,6 @@
 module HandlebarsAssets
   class Engine < ::Rails::Engine
-    initializer "sprockets.handlebars", :after => "sprockets.environment", :group => :all do |app|
-      next unless app.assets
+    config.before_initialize do |app|
       Sprockets.register_engine('.hbs', TiltHandlebars)
       Sprockets.register_engine('.handlebars', TiltHandlebars)
       Sprockets.register_engine('.hamlbars', TiltHandlebars) if HandlebarsAssets::Config.haml_available?
