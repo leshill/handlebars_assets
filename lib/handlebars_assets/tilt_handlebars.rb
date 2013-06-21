@@ -30,28 +30,16 @@ module HandlebarsAssets
                  data
                end
 
-      if HandlebarsAssets::Config.ember?
-        "window.Ember.TEMPLATES[#{template_path.name}] = Ember.Handlebars.compile(#{MultiJson.dump source});"
-      else
-        compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
-
-        template_namespace = HandlebarsAssets::Config.template_namespace
-
-        if template_path.is_partial?
-          unindent <<-PARTIAL
-            (function() {
-              Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
-            }).call(this);
-          PARTIAL
+      if HandlebarsAssets::Config.multiple_frameworks? && HandlebarsAssets::Config.ember?
+        if template_path.is_ember?
+          compile_ember(source, template_path)
         else
-          unindent <<-TEMPLATE
-            (function() {
-              this.#{template_namespace} || (this.#{template_namespace} = {});
-              this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
-              return this.#{template_namespace}[#{template_path.name}];
-            }).call(this);
-          TEMPLATE
+          compile_default(source, template_path)
         end
+      elsif HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?
+        compile_ember(source, template_path)
+      else
+        compile_default(source, template_path)
       end
     end
 
@@ -65,6 +53,32 @@ module HandlebarsAssets
         require 'slim'
       rescue LoadError
         # slim not available
+      end
+    end
+
+    def compile_ember(source, template_path)
+      "window.Ember.TEMPLATES[#{template_path.name}] = Ember.Handlebars.compile(#{MultiJson.dump source});"
+    end
+
+    def compile_default(source, template_path)
+      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
+
+      template_namespace = HandlebarsAssets::Config.template_namespace
+
+      if template_path.is_partial?
+        unindent <<-PARTIAL
+          (function() {
+            Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
+          }).call(this);
+        PARTIAL
+      else
+        unindent <<-TEMPLATE
+          (function() {
+            this.#{template_namespace} || (this.#{template_namespace} = {});
+            this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
+            return this.#{template_namespace}[#{template_path.name}];
+          }).call(this);
+        TEMPLATE
       end
     end
 
@@ -88,6 +102,10 @@ module HandlebarsAssets
 
       def is_partial?
         template_path.gsub(%r{.*/}, '').start_with?('_')
+      end
+
+      def is_ember?
+        full_path.to_s =~ %r{.ember(.hamlbars|.slimbars)?$}
       end
 
       def name
