@@ -37,20 +37,42 @@ module HandlebarsAssets
 
         template_namespace = HandlebarsAssets::Config.template_namespace
 
+        handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
+
+        handlebars_template = "Handlebars.template(#{compiled_hbs})"
+
         if template_path.is_partial?
-          unindent <<-PARTIAL
-            (function() {
-              Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
-            }).call(this);
-          PARTIAL
+          register_partial = "Handlebars.registerPartial(#{template_path.name}, #{handlebars_template});"
+          basic = <<-PARTIAL
+                (function() {
+                  #{register_partial}
+                }).call(this);
+            PARTIAL
+          if HandlebarsAssets::Config.use_amd?
+            unindent <<-PARTIAL
+              define(['#{handlebars_amd_path}'], function(Handlebars) {
+                #{basic}
+              });
+            PARTIAL
+          else
+            unindent basic
+          end
         else
-          unindent <<-TEMPLATE
-            (function() {
-              this.#{template_namespace} || (this.#{template_namespace} = {});
-              this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
-              return this.#{template_namespace}[#{template_path.name}];
-            }).call(this);
-          TEMPLATE
+          if HandlebarsAssets::Config.use_amd?
+            unindent <<-TEMPLATE
+              define(['#{handlebars_amd_path}'], function(Handlebars) {
+                return #{handlebars_template};
+              });
+            TEMPLATE
+          else
+            unindent <<-TEMPLATE
+              (function() {
+                this.#{template_namespace} || (this.#{template_namespace} = {});
+                this.#{template_namespace}[#{template_path.name}] = #{handlebars_template};
+                return this.#{template_namespace}[#{template_path.name}];
+              }).call(this);
+            TEMPLATE
+          end
         end
       end
     end
