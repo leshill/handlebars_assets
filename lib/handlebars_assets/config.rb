@@ -9,6 +9,10 @@ module HandlebarsAssets
       :known_helpers, :known_helpers_only, :options, :patch_files,
       :patch_path, :path_prefix, :slim_options, :template_namespace, :use_amd, :handlebars_amd_path
 
+    def configure
+      yield self
+    end
+
     def compiler
       @compiler || 'handlebars.js'
     end
@@ -78,6 +82,7 @@ module HandlebarsAssets
     def generate_known_helpers_hash
       known_helpers.inject({}) do |hash, helper|
         hash[helper] = true
+        hash
       end
     end
 

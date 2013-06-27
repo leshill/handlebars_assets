@@ -23,9 +23,9 @@ module HandlebarsAssets
       template_path = TemplatePath.new(scope)
 
       source = if template_path.is_haml?
-                 Haml::Engine.new(data, HandlebarsAssets::Config.haml_options).render
+                 Haml::Engine.new(data, HandlebarsAssets::Config.haml_options).render(scope, locals)
                elsif template_path.is_slim?
-                 Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }.render
+                 Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }.render(scope, locals)
                else
                  data
                end

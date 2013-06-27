@@ -12,7 +12,7 @@ My pull request to allow `/` in partials was pulled into Handlebars. The hack th
 
 ## Version of handlebars.js
 
-`handlebars_assets` is packaged with an 1.0.0-rc3 of `handlebars.js`. See the section on using another version if that does not work for you.
+`handlebars_assets` is packaged with an 1.0.0-rc4 of `handlebars.js`. See the section on using another version if that does not work for you.
 
 ## Installation with Rails 3.1+
 
@@ -324,23 +324,28 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 
 # Contributors
 
-* Matt Burke         (@spraints)      : execjs support
-*                    (@kendagriff)    : 1.8.7 compatibility
-* Thorben Schröder   (@walski)        : 3.1 asset group for precompile
-* Erwan Barrier      (@erwanb)        : Support for plain sprockets
-* Brendan Loudermilk (@bloudermilk)   : HandlebarsAssets.path
-* Dan Evans          (@danevans)      : Rails 2 support
-* Ben Woosley        (@empact)        : Update to handlebars.js 1.0.0.beta.6
-*                    (@cw-moshe)      : Remove 'templates/' from names
-* Spike Brehm        (@spikebrehm)    : Config.template\_namespace option
-* Ken Mayer          (@kmayer)        : Quick fix for template\_namespace option
-* Brad Murray        (@wyaeld)        : Generic options support
-* Blake Williams     (@BlakeWilliams) : .handlebars extension
-* Tristan Koch       (@trkoch)        : Strip leading whitespace from compiled templates
-* Brian Cardarella   (@bcardarella)   : Ember support
-* David Lee          (@davidlee)      : Slim support
-* Phil Cohen         (@phlipper)      : README cleanup
-* Akshay Rawat       (@akshayrawat)   : Update to handlebars.js 1.0.0-rc.3
+* Matt Burke         (@spraints)       : execjs support
+*                    (@kendagriff)     : 1.8.7 compatibility
+* Thorben Schröder   (@walski)         : 3.1 asset group for precompile
+* Erwan Barrier      (@erwanb)         : Support for plain sprockets
+* Brendan Loudermilk (@bloudermilk)    : HandlebarsAssets.path
+* Dan Evans          (@danevans)       : Rails 2 support
+* Ben Woosley        (@empact)         : Update to handlebars.js 1.0.0.beta.6
+*                    (@cw-moshe)       : Remove 'templates/' from names
+* Spike Brehm        (@spikebrehm)     : Config.template\_namespace option
+* Ken Mayer          (@kmayer)         : Quick fix for template\_namespace option
+* Brad Murray        (@wyaeld)         : Generic options support
+* Blake Williams     (@BlakeWilliams)  : .handlebars extension
+* Tristan Koch       (@trkoch)         : Strip leading whitespace from compiled templates
+* Brian Cardarella   (@bcardarella)    : Ember support
+* David Lee          (@davidlee)       : Slim support
+* Phil Cohen         (@phlipper)       : README cleanup
+* Akshay Rawat       (@akshayrawat)    : Update to handlebars.js 1.0.0-rc.3
+* Turadg Aleahmad    (@turadg)         : Update to handlebars 1.0.0-rc.4
+* Mark Rushakoff     (@mark-rushakoff) : Synchronize Sprockets engine registers with Rails
+* Alex Riedler       (@AlexRiedler)    : Pass scope and locals up the chain
+* lee                (@lee)            : Update to handlebars 1.0.0
+* Ken Collins        (@metaskills)     : Register with Sprockets
 
 # Contributing
 

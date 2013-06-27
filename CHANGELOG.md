@@ -1,5 +1,31 @@
 ## On master
 
+## 0.14.1 (2013-06-21)
+
+* Roll back "Register with Sprockets instead of `app.assets`" until we can get a definitive answer on what the problem really is.
+
+## 0.14.0 (2013-06-19)
+
+* Register with Sprockets instead of `app.assets` - @metaskills
+
+## 0.13.0 (2013-06-02)
+
+* Update to handlebars 1.0.0 - @lee
+
+## 0.12.3 (2013-05-28)
+
+* Pass scope and locals up the chain - @AlexRiedler
+* Nicer rvmrc - @AlexRiedler
+* Allow configure block - @AlexRiedler
+
+## 0.12.2 (2013-05-27)
+
+* Synchronize Sprockets engine registers with Rails - @mark-rushakoff
+
+## 0.12.1 (2013-05-21)
+
+* Update to handlebars 1.0.0-rc.4 - @turadg
+
 ## 0.12.0 (2013-02-17)
 
 * Support for patching `handlebars.js`
