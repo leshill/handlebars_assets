@@ -1,3 +1,4 @@
+require 'sprockets'
 require "handlebars_assets/version"
 
 module HandlebarsAssets
@@ -14,7 +15,6 @@ module HandlebarsAssets
   if defined?(Rails) && defined?(::Rails::Engine)
     require 'handlebars_assets/engine'
   else
-    require 'sprockets'
     Sprockets.register_engine '.hbs', TiltHandlebars
     Sprockets.register_engine '.handlebars', TiltHandlebars
     Sprockets.register_engine('.hamlbars', TiltHandlebars) if HandlebarsAssets::Config.haml_available?
