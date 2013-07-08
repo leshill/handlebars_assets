@@ -5,9 +5,10 @@ module HandlebarsAssets
   module Config
     extend self
 
-    attr_writer :compiler, :compiler_path, :ember, :haml_options,
-      :known_helpers, :known_helpers_only, :options, :patch_files,
-      :patch_path, :path_prefix, :slim_options, :template_namespace, :use_amd, :handlebars_amd_path
+    attr_writer :compiler, :compiler_path, :ember, :multiple_frameworks,
+      :haml_options, :known_helpers, :known_helpers_only, :options,
+      :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
+      :use_amd, :handlebars_amd_path
 
     def configure
       yield self
@@ -23,6 +24,10 @@ module HandlebarsAssets
 
     def ember?
       @ember
+    end
+
+    def multiple_frameworks?
+      @multiple_frameworks
     end
 
     def haml_available?

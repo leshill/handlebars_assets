@@ -1,5 +1,8 @@
 ## On master
 
+* Allow use of ember and other handlebars simultaneously - @rbhitchcock
+* Fix multi-framework to allow hbs, hamlbars, and slimbars - @Darep
+
 ## 0.14.1 (2013-06-21)
 
 * Roll back "Register with Sprockets instead of `app.assets`" until we can get a definitive answer on what the problem really is.

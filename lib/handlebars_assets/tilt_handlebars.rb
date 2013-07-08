@@ -30,50 +30,16 @@ module HandlebarsAssets
                  data
                end
 
-      if HandlebarsAssets::Config.ember?
-        "window.Ember.TEMPLATES[#{template_path.name}] = Ember.Handlebars.compile(#{MultiJson.dump source});"
-      else
-        compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
-
-        template_namespace = HandlebarsAssets::Config.template_namespace
-
-        handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
-
-        handlebars_template = "Handlebars.template(#{compiled_hbs})"
-
-        if template_path.is_partial?
-          register_partial = "Handlebars.registerPartial(#{template_path.name}, #{handlebars_template});"
-          basic = <<-PARTIAL
-                (function() {
-                  #{register_partial}
-                }).call(this);
-            PARTIAL
-          if HandlebarsAssets::Config.use_amd?
-            unindent <<-PARTIAL
-              define(['#{handlebars_amd_path}'], function(Handlebars) {
-                #{basic}
-              });
-            PARTIAL
-          else
-            unindent basic
-          end
+      if HandlebarsAssets::Config.multiple_frameworks? && HandlebarsAssets::Config.ember?
+        if template_path.is_ember?
+          compile_ember(source, template_path)
         else
-          if HandlebarsAssets::Config.use_amd?
-            unindent <<-TEMPLATE
-              define(['#{handlebars_amd_path}'], function(Handlebars) {
-                return #{handlebars_template};
-              });
-            TEMPLATE
-          else
-            unindent <<-TEMPLATE
-              (function() {
-                this.#{template_namespace} || (this.#{template_namespace} = {});
-                this.#{template_namespace}[#{template_path.name}] = #{handlebars_template};
-                return this.#{template_namespace}[#{template_path.name}];
-              }).call(this);
-            TEMPLATE
-          end
+          compile_default(source, template_path)
         end
+      elsif HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?
+        compile_ember(source, template_path)
+      else
+        compile_default(source, template_path)
       end
     end
 
@@ -90,7 +56,56 @@ module HandlebarsAssets
       end
     end
 
+    # No support for AMD with Ember yet.
+    def compile_ember(source, template_path)
+      "window.Ember.TEMPLATES[#{template_path.name}] = Ember.Handlebars.compile(#{MultiJson.dump source});"
+    end
+
+    def compile_default(source, template_path)
+      if template_path.is_partial?
+        HandlebarsAssets::Config.use_amd? ? compile_amd_partial(compile_partial(template_path)) : unindent compile_partial(template_path)
+      else
+        HandlebarsAssets::Config.use_amd? ? compile_amd_template : compile_template(template_path)
+      end
+    end
+
     protected
+
+    def compile_partial(template_path)
+      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
+      <<-PARTIAL
+          (function() {
+            Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
+          }).call(this);
+      PARTIAL
+    end
+    def compile_amd_partial(basic)
+      unindent <<-PARTIAL
+          define(['#{handlebars_amd_path}'], function(Handlebars) {
+            #{basic}
+          });
+      PARTIAL
+    end
+
+    def compile_template(template_path)
+      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
+      template_namespace = HandlebarsAssets::Config.template_namespace
+      unindent <<-TEMPLATE
+          (function() {
+            this.#{template_namespace} || (this.#{template_namespace} = {});
+            this.#{template_namespace}[#{template_path.name}] = Handlebars.template(#{compiled_hbs});
+            return this.#{template_namespace}[#{template_path.name}];
+          }).call(this);
+      TEMPLATE
+    end
+
+    def compile_amd_template
+      unindent <<-TEMPLATE
+          define(['#{handlebars_amd_path}'], function(Handlebars) {
+            return #{handlebars_template};
+          });
+      TEMPLATE
+    end
 
     def prepare; end
 
@@ -110,6 +125,10 @@ module HandlebarsAssets
 
       def is_partial?
         template_path.gsub(%r{.*/}, '').start_with?('_')
+      end
+
+      def is_ember?
+        full_path.to_s =~ %r{.ember(.hbs|.hamlbars|.slimbars)?$}
       end
 
       def name
