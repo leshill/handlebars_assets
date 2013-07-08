@@ -62,17 +62,17 @@ module HandlebarsAssets
     end
 
     def compile_default(source, template_path)
+      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
       if template_path.is_partial?
-        HandlebarsAssets::Config.use_amd? ? compile_amd_partial(compile_partial(template_path)) : unindent compile_partial(template_path)
+        HandlebarsAssets::Config.use_amd? ? compile_amd_partial(compile_partial(compiled_hbs, template_path)) : unindent(compile_partial(compiled_hbs, template_path))
       else
-        HandlebarsAssets::Config.use_amd? ? compile_amd_template : compile_template(template_path)
+        HandlebarsAssets::Config.use_amd? ? compile_amd_template(compiled_hbs) : compile_template(compiled_hbs, template_path)
       end
     end
 
     protected
 
-    def compile_partial(template_path)
-      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
+    def compile_partial(compiled_hbs, template_path)
       <<-PARTIAL
           (function() {
             Handlebars.registerPartial(#{template_path.name}, Handlebars.template(#{compiled_hbs}));
@@ -80,6 +80,7 @@ module HandlebarsAssets
       PARTIAL
     end
     def compile_amd_partial(basic)
+      handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
       unindent <<-PARTIAL
           define(['#{handlebars_amd_path}'], function(Handlebars) {
             #{basic}
@@ -87,8 +88,7 @@ module HandlebarsAssets
       PARTIAL
     end
 
-    def compile_template(template_path)
-      compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
+    def compile_template(compiled_hbs, template_path)
       template_namespace = HandlebarsAssets::Config.template_namespace
       unindent <<-TEMPLATE
           (function() {
@@ -99,7 +99,9 @@ module HandlebarsAssets
       TEMPLATE
     end
 
-    def compile_amd_template
+    def compile_amd_template(compiled_hbs)
+      handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
+      handlebars_template = "Handlebars.template(#{compiled_hbs})"
       unindent <<-TEMPLATE
           define(['#{handlebars_amd_path}'], function(Handlebars) {
             return #{handlebars_template};
