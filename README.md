@@ -346,6 +346,8 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Alex Riedler       (@AlexRiedler)    : Pass scope and locals up the chain
 * lee                (@lee)            : Update to handlebars 1.0.0
 * Ken Collins        (@metaskills)     : Register with Sprockets
+* Blake Hitchcock    (@rbhitchcock)    : Support ember and other handlebars use simultaneously
+* ajk                (@Darep)          : Fix .hbs extension for multi-framework support
 
 # Contributing
 

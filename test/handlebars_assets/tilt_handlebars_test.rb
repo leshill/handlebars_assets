@@ -10,6 +10,14 @@ module HandlebarsAssets
       HandlebarsAssets::Handlebars.reset!
     end
 
+    def compile_haml(source)
+      Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render
+    end
+
+    def compile_slim(source)
+      Slim::Template.new(HandlebarsAssets::Config.slim_options) { source }.render
+    end
+
     def test_render
       root = '/myapp/app/assets/templates'
       file = 'test_render.hbs'
@@ -138,6 +146,50 @@ module HandlebarsAssets
       template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
 
       expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+      assert_equal expected_compiled, template.render(scope, {})
+    end
+
+    def test_multiple_frameworks_with_ember_render
+      root = '/myapp/app/assets/templates'
+      non_ember = 'test_render.hbs'
+      ember_ext_no_hbs = 'test_render.ember'
+      ember_ext = 'test_render.ember.hbs'
+      ember_with_haml = 'test_render.ember.hamlbars'
+      ember_with_slim = 'test_render.ember.slimbars'
+
+      HandlebarsAssets::Config.ember = true
+      HandlebarsAssets::Config.multiple_frameworks = true
+
+      # File without ember extension should compile to default namespace
+      scope = make_scope root, non_ember
+      source = "This is {{handlebars}}"
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      assert_equal hbs_compiled('test_render', source), template.render(scope, {})
+
+      # File with ember extension should compile to ember specific namespace
+      expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+      scope = make_scope root, ember_ext_no_hbs
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      assert_equal expected_compiled, template.render(scope, {})
+
+      # File with ember.hbs extension should compile to ember specific namespace
+      expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+      scope = make_scope root, ember_ext
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      assert_equal expected_compiled, template.render(scope, {})
+
+      # File with ember.hamlbars extension should compile to ember specific namespace
+      expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("<p>This is {{handlebars}}</p>\\n");};
+      scope = make_scope root, ember_with_haml
+      source = "%p This is {{handlebars}}"
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { compile_haml(source) }
+      assert_equal expected_compiled, template.render(scope, {})
+
+      # File with ember.slimbars extension should compile to ember specific namespace
+      expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("<p>This is {{handlebars}}</p>");};
+      source = "p This is {{handlebars}}"
+      scope = make_scope root, ember_with_slim
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { compile_slim(source) }
       assert_equal expected_compiled, template.render(scope, {})
     end
   end
