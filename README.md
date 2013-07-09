@@ -247,6 +247,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Ken Collins        (@metaskills)     : Register with Sprockets
 * Blake Hitchcock    (@rbhitchcock)    : Support ember and other handlebars use simultaneously
 * ajk                (@Darep)          : Fix .hbs extension for multi-framework support
+*                    (@mattmenefee)    : README section for `hamlbars`
 
 # Contributing
 
