@@ -159,6 +159,25 @@ The Haml will be pre-processed so that the Handlebars template is basically this
 
 The same applies to `.slimbars` and the Slim gem. Use `HandlebarsAssets::Config.slim_options` to pass custom options to the Slim rendering engine.
 
+<strong>Note:</strong> To use the `hb` handlebars helper with Haml, you'll also need to include the Hamlbars gem in your Gemfile:
+
+```ruby
+  gem 'hamlbars', '~> 2.0'
+```
+
+This will then allow you to do things like Haml blocks:
+
+```haml
+%ul.authors
+= hb 'each authors' do
+  %li<
+    = succeed ',' do
+      = hb 'lastName'
+    = hb 'firstName'
+```
+
+Reference [hamlbars](https://github.com/jamesotron/hamlbars) for more information.
+
 ## Partials
 
 If you begin the name of the template with an underscore, it will be recognized as a partial. You can invoke partials inside a template using the Handlebars partial syntax:
