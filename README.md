@@ -133,11 +133,21 @@ HandlebarsAssets::Config.template_namespace = 'JST'
 ## Ember
 
 To compile your templates for use with [Ember.js](http://emberjs.com)
-simply turn on the config option
+simply turn on the config option:
 
 ```ruby
 HandlebarsAssets::Config.ember = true
 ```
+
+If you need to compile templates for Ember and another framework then enable
+multiple frameworks:
+
+```ruby
+HandlebarsAssets::Config.multiple_frameworks = true
+```
+
+After `mutliple_frameworks` has been enabled templates with the `.ember.hbs`
+extension will be made available to Ember.
 
 ## `.hamlbars` and `.slimbars`
 
