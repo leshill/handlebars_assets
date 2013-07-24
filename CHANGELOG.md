@@ -3,6 +3,7 @@
 * Allow use of ember and other handlebars simultaneously - @rbhitchcock
 * Fix multi-framework to allow hbs, hamlbars, and slimbars - @Darep
 * Add `hamlbars` usage example - @mattmenefee
+* README section for `multiple_frameworks` - @sorentwo
 
 ## 0.14.1 (2013-06-21)
 
