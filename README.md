@@ -258,6 +258,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * Blake Hitchcock    (@rbhitchcock)    : Support ember and other handlebars use simultaneously
 * ajk                (@Darep)          : Fix .hbs extension for multi-framework support
 *                    (@mattmenefee)    : README section for `hamlbars`
+* Parker Selbert     (@sorentwo)       : README section for `multiple_frameworks`
 
 # Contributing
 
