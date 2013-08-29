@@ -14,6 +14,16 @@ My pull request to allow `/` in partials was pulled into Handlebars. The hack th
 
 `handlebars_assets` is packaged with an 1.0.0-rc4 of `handlebars.js`. See the section on using another version if that does not work for you.
 
+## Installation with Rails 4.0+
+
+Load `handlebars_assets` in your `Gemfile`
+
+```ruby
+gem 'handlebars_assets'
+```
+
+As of Rails 4.0, the `assets` group is not supported in the Gemfile ([source](http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#upgrading-from-rails-3-2-to-rails-4-0-gemfile)).
+
 ## Installation with Rails 3.1+
 
 Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
