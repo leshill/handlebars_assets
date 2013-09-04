@@ -4,6 +4,7 @@
 * Fix multi-framework to allow hbs, hamlbars, and slimbars - @Darep
 * Add `hamlbars` usage example - @mattmenefee
 * README section for `multiple_frameworks` - @sorentwo
+* README clarification - @panchoqv
 
 ## 0.14.1 (2013-06-21)
 
