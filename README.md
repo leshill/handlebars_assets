@@ -269,6 +269,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 * ajk                (@Darep)          : Fix .hbs extension for multi-framework support
 *                    (@mattmenefee)    : README section for `hamlbars`
 * Parker Selbert     (@sorentwo)       : README section for `multiple_frameworks`
+* Francisco QV       (@panchoqv)       : README clarification
 
 # Contributing
 
