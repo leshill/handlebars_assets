@@ -270,6 +270,7 @@ Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.
 *                    (@mattmenefee)    : README section for `hamlbars`
 * Parker Selbert     (@sorentwo)       : README section for `multiple_frameworks`
 * Francisco QV       (@panchoqv)       : README clarification
+* Dylan Markow       (@dmarkow)        : README cleanup
 
 # Contributing
 
