@@ -12,7 +12,7 @@ My pull request to allow `/` in partials was pulled into Handlebars. The hack th
 
 ## Version of handlebars.js
 
-`handlebars_assets` is packaged with an 1.0.0-rc4 of `handlebars.js`. See the section on using another version if that does not work for you.
+`handlebars_assets` is packaged with the current stable release of `handlebars.js`. See the section on using another version if that does not work for you.
 
 ## Installation with Rails 4.0+
 
