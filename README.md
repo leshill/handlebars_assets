@@ -234,12 +234,13 @@ Thank you Yehuda Katz (@wycats) for [handlebars.js](https://github.com/wycats/ha
 
 Thank you Charles Lowell (@cowboyd) for [therubyracer](https://github.com/cowboyd/therubyracer) and [handlebars.rb](https://github.com/cowboyd/handlebars.rb).
 
+# Maintainer
+
+This gem is maintained by Alex Riedler [Github](https://github.com/AlexRiedler).
+
 # Author
 
-Hi, I'm Les Hill and I make things go.
-
-Follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.com/leshill).
-
+Les Hill, follow me on [Github](https://github.com/leshill) and [Twitter](https://twitter.com/leshill).
 
 # Contributors
 
