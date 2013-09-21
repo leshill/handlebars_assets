@@ -8,11 +8,11 @@ module HandlebarsAssets
     PATH
   end
 
-  def register_extensions(sprockets_environment)
-      sprockets_environment.register_engine('.hbs', TiltHandlebars)
-      sprockets_environment.register_engine('.handlebars', TiltHandlebars)
-      sprockets_environment.register_engine('.hamlbars', TiltHandlebars) if HandlebarsAssets::Config.haml_available?
-      sprockets_environment.register_engine('.slimbars', TiltHandlebars) if HandlebarsAssets::Config.slim_available?
+  def self.register_extensions(sprockets_environment)
+      Sprockets.register_engine('.hbs', TiltHandlebars)
+      Sprockets.register_engine('.handlebars', TiltHandlebars)
+      Sprockets.register_engine('.hamlbars', TiltHandlebars) if HandlebarsAssets::Config.haml_available?
+      Sprockets.register_engine('.slimbars', TiltHandlebars) if HandlebarsAssets::Config.slim_available?
   end
 
   autoload(:Config, 'handlebars_assets/config')
@@ -20,8 +20,5 @@ module HandlebarsAssets
   autoload(:TiltHandlebars, 'handlebars_assets/tilt_handlebars')
 end
 
-if defined?(Rails)
-  require 'handlebar_assets/railtie'
-else
-  register_extensions(Sprockets)
-end
+HandlebarsAssets.register_extensions(Sprockets)
+require 'handlebars_assets/engine' if defined?(Rails)
