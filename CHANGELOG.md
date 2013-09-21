@@ -6,6 +6,7 @@
 * README section for `multiple_frameworks` - @sorentwo
 * README clarification - @panchoqv
 * README cleanup - @dmarkow
+* README cleanup additional - @AlexRiedler
 
 ## 0.14.1 (2013-06-21)
 
