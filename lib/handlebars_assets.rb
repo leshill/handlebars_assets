@@ -9,15 +9,15 @@ module HandlebarsAssets
   end
 
   def self.register_extensions(sprockets_environment)
-      Sprockets.register_engine('.hbs', TiltHandlebars)
-      Sprockets.register_engine('.handlebars', TiltHandlebars)
-      Sprockets.register_engine('.hamlbars', TiltHandlebars) if HandlebarsAssets::Config.haml_available?
-      Sprockets.register_engine('.slimbars', TiltHandlebars) if HandlebarsAssets::Config.slim_available?
+      Sprockets.register_engine('.hbs', HandlebarsTemplate)
+      Sprockets.register_engine('.handlebars', HandlebarsTemplate)
+      Sprockets.register_engine('.hamlbars', HandlebarsTemplate) if HandlebarsAssets::Config.haml_available?
+      Sprockets.register_engine('.slimbars', HandlebarsTemplate) if HandlebarsAssets::Config.slim_available?
   end
 
   autoload(:Config, 'handlebars_assets/config')
   autoload(:Handlebars, 'handlebars_assets/handlebars')
-  autoload(:TiltHandlebars, 'handlebars_assets/tilt_handlebars')
+  autoload(:HandlebarsTemplate, 'handlebars_assets/handlebars_template')
 end
 
 HandlebarsAssets.register_extensions(Sprockets)

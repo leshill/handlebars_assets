@@ -7,7 +7,8 @@ module HandlebarsAssets
 
     attr_writer :compiler, :compiler_path, :ember, :multiple_frameworks,
       :haml_options, :known_helpers, :known_helpers_only, :options,
-      :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace
+      :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
+      :precompile
 
     def configure
       yield self
@@ -58,7 +59,11 @@ module HandlebarsAssets
     end
 
     def path_prefix
-      @path_prefix || 'templates'
+      @path_prefix ||= 'templates'
+    end
+
+    def precompile
+      @precompile ||= true
     end
 
     def slim_available?
