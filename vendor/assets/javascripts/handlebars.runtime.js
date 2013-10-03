@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 @license
 */
+<<<<<<< HEAD
 /* exported Handlebars */
 var Handlebars = (function() {
 // handlebars/safe-string.js
@@ -33,6 +34,39 @@ var __module3__ = (function() {
   // Build out our basic SafeString type
   function SafeString(string) {
     this.string = string;
+=======
+
+// lib/handlebars/browser-prefix.js
+(function(undefined) {
+  var Handlebars = {};
+;
+// lib/handlebars/base.js
+
+Handlebars.VERSION = "1.0.0";
+Handlebars.COMPILER_REVISION = 4;
+
+Handlebars.REVISION_CHANGES = {
+  1: '<= 1.0.rc.2', // 1.0.rc.2 is actually rev2 but doesn't report it
+  2: '== 1.0.0-rc.3',
+  3: '== 1.0.0-rc.4',
+  4: '>= 1.0.0'
+};
+
+Handlebars.helpers  = {};
+Handlebars.partials = {};
+
+var toString = Object.prototype.toString,
+    functionType = '[object Function]',
+    objectType = '[object Object]';
+
+Handlebars.registerHelper = function(name, fn, inverse) {
+  if (toString.call(name) === objectType) {
+    if (inverse || fn) { throw new Handlebars.Exception('Arg not supported with multiple helpers'); }
+    Handlebars.Utils.extend(this.helpers, name);
+  } else {
+    if (inverse) { fn.not = inverse; }
+    this.helpers[name] = fn;
+>>>>>>> implement AMD support (requires documentation)
   }
 
   SafeString.prototype.toString = function() {
@@ -482,6 +516,7 @@ var __module5__ = (function(__dependency1__, __dependency2__, __dependency3__) {
     }
   }
 
+<<<<<<< HEAD
   __exports__.invokePartial = invokePartial;function noop() { return ""; }
 
   __exports__.noop = noop;
@@ -528,3 +563,19 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 
   return __module0__;
 })();
+=======
+Handlebars.template = Handlebars.VM.template;
+;
+// lib/handlebars/browser-suffix.js
+  if (typeof module === 'object' && module.exports) {
+    // CommonJS
+    module.exports = Handlebars;
+  }
+  if (typeof define === "function" && define.amd) {
+    // AMD modules
+    define(function() { return Handlebars; });
+  }
+  // other, i.e. browser
+  this.Handlebars = Handlebars;
+}).call(this);
+>>>>>>> implement AMD support (requires documentation)

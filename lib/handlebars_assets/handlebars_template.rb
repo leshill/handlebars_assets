@@ -65,6 +65,7 @@ module HandlebarsAssets
       end
     end
 
+    # DEFER: No support for AMD with Ember yet...
     def compile_ember(source)
       "window.Ember.TEMPLATES[#{@template_path.name}] = Ember.Handlebars.compile(#{source.to_json});"
     end
@@ -80,20 +81,37 @@ module HandlebarsAssets
 
       template_namespace = HandlebarsAssets::Config.template_namespace
 
-      if @template_path.is_partial?
-        unindent <<-PARTIAL
-          (function() {
-            Handlebars.registerPartial(#{@template_path.name}, #{template});
-          }).call(this);
-        PARTIAL
+      if HandlebarsAssets::Config.amd?
+        handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
+        if @template_path.is_partial?
+          unindent <<-PARTIAL
+            define(['#{handlebars_amd_path}'],function(Handlebars){
+              Handlebars.registerPartial(#{@template_path.name}, #{template})
+            ;})
+          PARTIAL
+        else
+          unindent <<-TEMPLATE
+            define(['#{handlebars_amd_path}'],function(Handlebars){
+              return #{template};
+            });
+          TEMPLATE
+        end
       else
-        unindent <<-TEMPLATE
-          (function() {
-            this.#{template_namespace} || (this.#{template_namespace} = {});
-            this.#{template_namespace}[#{@template_path.name}] = #{template};
-            return this.#{template_namespace}[#{@template_path.name}];
-          }).call(this);
-        TEMPLATE
+        if @template_path.is_partial?
+          unindent <<-PARTIAL
+            (function() {
+              Handlebars.registerPartial(#{@template_path.name}, #{template});
+            }).call(this);
+          PARTIAL
+        else
+          unindent <<-TEMPLATE
+            (function() {
+              this.#{template_namespace} || (this.#{template_namespace} = {});
+              this.#{template_namespace}[#{@template_path.name}] = #{template};
+              return this.#{template_namespace}[#{@template_path.name}];
+            }).call(this);
+          TEMPLATE
+        end
       end
     end
 

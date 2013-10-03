@@ -11,7 +11,7 @@ module HandlebarsAssets
       :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
       :precompile, :haml_enabled, :slim_enabled,
       :handlebars_extensions, :hamlbars_extensions, :slimbars_extensions,
-      :amd
+      :amd, :handlebars_amd_path
 
     def compiler
       @compiler || 'handlebars.js'
@@ -107,6 +107,16 @@ module HandlebarsAssets
 
     def ember_extensions
       @ember_extensions ||= ['.ember']
+    end
+
+    def amd?
+      @amd || false
+    end
+
+    # path specified by the require.js paths
+    # during configuration for the handlebars
+    def handlebars_amd_path
+      @handlebars_amd_path || 'handlebars'
     end
 
     private
