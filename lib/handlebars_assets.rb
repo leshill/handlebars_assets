@@ -20,5 +20,4 @@ module HandlebarsAssets
   autoload(:HandlebarsTemplate, 'handlebars_assets/handlebars_template')
 end
 
-HandlebarsAssets.register_extensions(Sprockets)
 require 'handlebars_assets/engine' if defined?(Rails)
