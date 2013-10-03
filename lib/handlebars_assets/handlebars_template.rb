@@ -105,11 +105,19 @@ module HandlebarsAssets
       end
 
       def is_haml?
-        @full_path.end_with?('.hamlbars')
+        result = false
+        ::HandlebarsAssets::Config.hamlbars_extensions.each do |ext|
+          result ||= !(@full_path =~ /#{ext}(\.[a-zA-Z0-9]*)*$/).nil?
+        end
+        result
       end
 
       def is_slim?
-        @full_path.end_with?('.slimbars')
+        result = false
+        ::HandlebarsAssets::Config.slimbars_extensions.each do |ext|
+          result ||= !(@full_path =~ /#{ext}(\.[a-zA-Z0-9]*)*$/).nil?
+        end
+        result
       end
 
       def is_partial?
@@ -117,7 +125,11 @@ module HandlebarsAssets
       end
 
       def is_ember?
-        @full_path =~ %r{.ember(.hbs|.hamlbars|.slimbars)?$}
+        result = false
+        ::HandlebarsAssets::Config.ember_extensions.each do |ext|
+          result ||= !(@full_path =~ /#{ext}(\.[a-zA-Z0-9]*)*$/).nil?
+        end
+        result
       end
 
       def name

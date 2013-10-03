@@ -1,23 +1,43 @@
 require 'handlebars_assets/version'
-require 'sprockets'
 
 module HandlebarsAssets
+  autoload(:Config, 'handlebars_assets/config')
+  autoload(:Handlebars, 'handlebars_assets/handlebars')
+  autoload(:HandlebarsTemplate, 'handlebars_assets/handlebars_template')
+
   PATH = File.expand_path('../../vendor/assets/javascripts', __FILE__)
 
   def self.path
     PATH
   end
 
-  def self.register_extensions(sprockets_environment)
-      Sprockets.register_engine('.hbs', HandlebarsTemplate)
-      Sprockets.register_engine('.handlebars', HandlebarsTemplate)
-      Sprockets.register_engine('.hamlbars', HandlebarsTemplate) if HandlebarsAssets::Config.haml_available?
-      Sprockets.register_engine('.slimbars', HandlebarsTemplate) if HandlebarsAssets::Config.slim_available?
+  def self.configure
+    yield Config
   end
 
-  autoload(:Config, 'handlebars_assets/config')
-  autoload(:Handlebars, 'handlebars_assets/handlebars')
-  autoload(:HandlebarsTemplate, 'handlebars_assets/handlebars_template')
+  def self.register_extensions(sprockets_environment)
+      Config.handlebars_extensions.each do |ext|
+        sprockets_environment.register_engine(ext, HandlebarsTemplate)
+      end
+      if Config.haml_enabled? && Config.haml_available?
+        Config.hamlbars_extensions.each do |ext|
+          sprockets_environment.register_engine(ext, HandlebarsTemplate)
+        end
+      end
+      if Config.slim_enabled? && Config.slim_available?
+        Config.slimbars_extensions.each do |ext|
+          sprockets_environment.register_engine(ext, HandlebarsTemplate)
+        end
+      end
+  end
+
 end
 
-require 'handlebars_assets/engine' if defined?(Rails)
+# Register the engine (which will register extension in the app)
+# or ASSUME using sprockets
+if defined?(Rails)
+  require 'handlebars_assets/engine'
+else
+  require 'sprockets'
+  ::HandlebarsAssets.register_extensions(Sprockets)
+end
