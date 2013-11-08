@@ -7,6 +7,7 @@
 * README clarification - @panchoqv
 * README cleanup - @dmarkow
 * README cleanup additional - @AlexRiedler
+* Upgrade `handlebars` to 1.1.2 - @sorentwo
 
 ## 0.14.1 (2013-06-21)
 
