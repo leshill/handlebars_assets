@@ -1,4 +1,5 @@
 require 'tilt'
+require 'multi_json'
 
 module HandlebarsAssets
   module Unindent
@@ -57,7 +58,7 @@ module HandlebarsAssets
     end
 
     def compile_ember(source, template_path)
-      "window.Ember.TEMPLATES[#{template_path.name}] = Ember.Handlebars.compile(#{MultiJson.dump source});"
+      "window.Ember.TEMPLATES[#{template_path.name}] = Ember.Handlebars.compile(#{::MultiJson.dump source});"
     end
 
     def compile_default(source, template_path)
