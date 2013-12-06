@@ -1,4 +1,4 @@
-## On master
+## 0.15 (2013-12-06)
 
 * Allow use of ember and other handlebars simultaneously - @rbhitchcock
 * Fix multi-framework to allow hbs, hamlbars, and slimbars - @Darep
@@ -8,6 +8,7 @@
 * README cleanup - @dmarkow
 * README cleanup additional - @AlexRiedler
 * Upgrade `handlebars` to 1.1.2 - @sorentwo
+* Fix MultiJson dependency - @AlexRiedler
 
 ## 0.14.1 (2013-06-21)
 
