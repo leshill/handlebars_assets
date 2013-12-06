@@ -11,7 +11,7 @@ module HandlebarsAssets
       :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
       :precompile, :haml_enabled, :slim_enabled,
       :handlebars_extensions, :hamlbars_extensions, :slimbars_extensions,
-      :amd, :handlebars_amd_path
+      :amd, :handlebars_amd_path, :amd_with_template_namespace
 
     def compiler
       @compiler || 'handlebars.js'
@@ -111,6 +111,12 @@ module HandlebarsAssets
 
     def amd?
       @amd || false
+    end
+
+    # indicate whether the template should
+    # be added to the global template namespace
+    def amd_with_template_namespace
+      @amd_with_template_namespace || false
     end
 
     # path specified by the require.js paths
