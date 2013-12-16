@@ -136,6 +136,8 @@ If your file is `templates/contacts/new.hbs`, the asset pipeline will generate J
 
 You can then invoke the resulting template in your application's JavaScript
 
+NOTE: There will be no javascript object `HandlebarsTemplates` unless at least ONE template is included.
+
 ```javascript
 HandlebarsTemplates['contacts/new'](context);
 ```
