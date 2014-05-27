@@ -1,7 +1,7 @@
 ## 0.16 (2014-05-27)
 
 * README clarification - @jithugopal
-* Upgrade `handlebars` to 1.1.3 - @neodude
+* Upgrade `handlebars` to 1.3 - @neodude
 
 ## 0.15 (2013-12-06)
 
