@@ -1,3 +1,8 @@
+## 0.16 (2014-05-27)
+
+* README clarification - @jithugopal
+* Upgrade `handlebars` to 1.1.3 - @neodude
+
 ## 0.15 (2013-12-06)
 
 * Allow use of ember and other handlebars simultaneously - @rbhitchcock
