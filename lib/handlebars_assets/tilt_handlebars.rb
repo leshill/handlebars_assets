@@ -106,7 +106,7 @@ module HandlebarsAssets
       end
 
       def is_ember?
-        full_path.to_s =~ %r{\.ember(\.hbs|\.hamlbars|\.slimbars)?$}
+        full_path.to_s =~ %r{\.ember(\.hbs|\.hamlbars|\.slimbars)?}
       end
 
       def name
