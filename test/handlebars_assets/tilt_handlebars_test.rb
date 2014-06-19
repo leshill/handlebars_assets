@@ -157,6 +157,7 @@ module HandlebarsAssets
       ember_ext = 'test_render.ember.hbs'
       ember_with_haml = 'test_render.ember.hamlbars'
       ember_with_slim = 'test_render.ember.slimbars'
+      ember_ext_with_erb = 'test_render.ember.hbs.erb'
 
       HandlebarsAssets::Config.ember = true
       HandlebarsAssets::Config.multiple_frameworks = true
@@ -176,6 +177,12 @@ module HandlebarsAssets
       # File with ember extension should compile to ember specific namespace
       expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
       scope = make_scope root, ember_ext_no_hbs
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      assert_equal expected_compiled, template.render(scope, {})
+
+      # File with ember and erb extension should compile to ember specific namespace
+      expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+      scope = make_scope root, ember_ext_with_erb
       template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
       assert_equal expected_compiled, template.render(scope, {})
 
