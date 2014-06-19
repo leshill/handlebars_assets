@@ -152,6 +152,7 @@ module HandlebarsAssets
     def test_multiple_frameworks_with_ember_render
       root = '/myapp/app/assets/templates'
       non_ember = 'test_render.hbs'
+      non_ember_but_with_ember = 'test_member.hbs'
       ember_ext_no_hbs = 'test_render.ember'
       ember_ext = 'test_render.ember.hbs'
       ember_with_haml = 'test_render.ember.hamlbars'
@@ -165,6 +166,12 @@ module HandlebarsAssets
       source = "This is {{handlebars}}"
       template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
       assert_equal hbs_compiled('test_render', source), template.render(scope, {})
+
+      # File without ember extension but with ember in it should compile to default namespace
+      scope = make_scope root, non_ember_but_with_ember
+      source = "This is {{handlebars}}"
+      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      assert_equal hbs_compiled('test_member', source), template.render(scope, {})
 
       # File with ember extension should compile to ember specific namespace
       expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
