@@ -1,3 +1,10 @@
+## 0.17 (2014-06-21)
+
+* Massive revamp - @AlexRiedler
+* Changed how sprockets is registered - @AlexRiedler
+* AMD loading - @AlexRiedler
+* Fix extension being too liberal issues - @langalex
+
 ## 0.16 (2014-05-27)
 
 * README clarification - @jithugopal
