@@ -1,4 +1,5 @@
 require 'tilt'
+require 'json'
 
 module HandlebarsAssets
   module Unindent
@@ -66,7 +67,7 @@ module HandlebarsAssets
     end
 
     def compile_ember(source)
-      "window.Ember.TEMPLATES[#{@template_path.name}] = Ember.Handlebars.compile(#{source.to_json});"
+      "window.Ember.TEMPLATES[#{@template_path.name}] = Ember.Handlebars.compile(#{JSON.dump(source)});"
     end
 
     def compile_default(source)
@@ -75,7 +76,7 @@ module HandlebarsAssets
           compiled_hbs = Handlebars.precompile(source, HandlebarsAssets::Config.options)
           "Handlebars.template(#{compiled_hbs})"
         else
-          "Handlebars.compile(#{source.to_json})"
+          "Handlebars.compile(#{JSON.dump(source)})"
         end
 
       template_namespace = HandlebarsAssets::Config.template_namespace
@@ -107,7 +108,12 @@ module HandlebarsAssets
       def is_haml?
         result = false
         ::HandlebarsAssets::Config.hamlbars_extensions.each do |ext|
-          result ||= !(@full_path =~ /#{ext}(\.[a-zA-Z0-9]*)*$/).nil?
+          if ext.start_with? '.'
+            ext = '\\#{ext}'
+            result ||= !(@full_path =~ /#{ext}(\..*)*$/).nil?
+          else
+            result ||= !(@full_path =~ /\.#{ext}(\..*)*$/).nil?
+          end
         end
         result
       end
@@ -115,7 +121,12 @@ module HandlebarsAssets
       def is_slim?
         result = false
         ::HandlebarsAssets::Config.slimbars_extensions.each do |ext|
-          result ||= !(@full_path =~ /#{ext}(\.[a-zA-Z0-9]*)*$/).nil?
+          if ext.start_with? '.'
+            ext = '\\#{ext}'
+            result ||= !(@full_path =~ /#{ext}(\..*)*$/).nil?
+          else
+            result ||= !(@full_path =~ /\.#{ext}(\..*)*$/).nil?
+          end
         end
         result
       end
@@ -127,7 +138,12 @@ module HandlebarsAssets
       def is_ember?
         result = false
         ::HandlebarsAssets::Config.ember_extensions.each do |ext|
-          result ||= !(@full_path =~ /\.#{ext}(\.[a-zA-Z0-9]*)*$/).nil?
+          if ext.start_with? '.'
+            ext = '\\#{ext}'
+            result ||= !(@full_path =~ /#{ext}(\..*)*$/).nil?
+          else
+            result ||= !(@full_path =~ /\.#{ext}(\..*)*$/).nil?
+          end
         end
         result
       end
