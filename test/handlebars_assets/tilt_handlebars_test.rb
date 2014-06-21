@@ -171,7 +171,7 @@ module HandlebarsAssets
       # File without ember extension but with ember in it should compile to default namespace
       scope = make_scope root, non_ember_but_with_ember
       source = "This is {{handlebars}}"
-      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      template = HandlebarsAssets::HandlebarsTemplate.new(scope.pathname.to_s) { source }
       assert_equal hbs_compiled('test_member', source), template.render(scope, {})
 
       # File with ember extension should compile to ember specific namespace
@@ -183,7 +183,7 @@ module HandlebarsAssets
       # File with ember and erb extension should compile to ember specific namespace
       expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
       scope = make_scope root, ember_ext_with_erb
-      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      template = HandlebarsAssets::HandlebarsTemplate.new(scope.pathname.to_s) { source }
       assert_equal expected_compiled, template.render(scope, {})
 
       # File with ember.hbs extension should compile to ember specific namespace

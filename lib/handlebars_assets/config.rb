@@ -94,19 +94,19 @@ module HandlebarsAssets
     end
 
     def handlebars_extensions
-      @hbs_extensions ||= ['.hbs', 'handlebars']
+      @hbs_extensions ||= ['hbs', 'handlebars']
     end
 
     def hamlbars_extensions
-      @hamlbars_extensions ||= ['.hamlbars']
+      @hamlbars_extensions ||= ['hamlbars']
     end
 
     def slimbars_extensions
-      @slimbars_extensions ||= ['.slimbars']
+      @slimbars_extensions ||= ['slimbars']
     end
 
     def ember_extensions
-      @ember_extensions ||= ['.ember']
+      @ember_extensions ||= ['ember']
     end
 
     private
