@@ -81,20 +81,59 @@ module HandlebarsAssets
 
       template_namespace = HandlebarsAssets::Config.template_namespace
 
-      if @template_path.is_partial?
-        unindent <<-PARTIAL
-          (function() {
-            Handlebars.registerPartial(#{@template_path.name}, #{template});
-          }).call(this);
-        PARTIAL
+      if HandlebarsAssets::Config.amd?
+        handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
+        if HandlebarsAssets::Config.amd_with_template_namespace
+          if @template_path.is_partial?
+            unindent <<-PARTIAL
+              define(['#{handlebars_amd_path}'],function(Handlebars){
+                var t = #{template};
+                Handlebars.registerPartial(#{@template_path.name}, t);
+                return t;
+              ;})
+            PARTIAL
+          else
+            unindent <<-TEMPLATE
+              define(['#{handlebars_amd_path}'],function(Handlebars){
+                return #{template};
+              });
+            TEMPLATE
+          end
+        else
+          if @template_path.is_partial?
+            unindent <<-PARTIAL
+              define(['#{handlebars_amd_path}'],function(Handlebars){
+                var t = #{template};
+                Handlebars.registerPartial(#{@template_path.name}, t);
+                return t;
+              ;})
+            PARTIAL
+          else
+            unindent <<-TEMPLATE
+              define(['#{handlebars_amd_path}'],function(Handlebars){
+                this.#{template_namespace} || (this.#{template_namespace} = {});
+                this.#{template_namespace}[#{@template_path.name}] = #{template};
+                return this.#{template_namespace}[#{@template_path.name}];
+              });
+            TEMPLATE
+          end
+        end
       else
-        unindent <<-TEMPLATE
-          (function() {
-            this.#{template_namespace} || (this.#{template_namespace} = {});
-            this.#{template_namespace}[#{@template_path.name}] = #{template};
-            return this.#{template_namespace}[#{@template_path.name}];
-          }).call(this);
-        TEMPLATE
+        if @template_path.is_partial?
+          unindent <<-PARTIAL
+            (function() {
+              Handlebars.registerPartial(#{@template_path.name}, #{template});
+            }).call(this);
+          PARTIAL
+        else
+          unindent <<-TEMPLATE
+            (function() {
+              this.#{template_namespace} || (this.#{template_namespace} = {});
+              this.#{template_namespace}[#{@template_path.name}] = #{template};
+              return this.#{template_namespace}[#{@template_path.name}];
+            }).call(this);
+          TEMPLATE
+        end
       end
     end
 
