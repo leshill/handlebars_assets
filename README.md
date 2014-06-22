@@ -10,6 +10,8 @@ Using `sprockets` with Sinatra or another framework? **handlebars_assets** works
 
 @AlexRiedler has made some larger changes to this repository for going forward; If you have existing monkey patches they may not work, and the configuration schema has changed slightly to handle multiple extensions for the same compilation pipeline.
 
+If you have any problems, please post an issue! I will attempt to fix ASAP
+
 # BREAKING CHANGE AS OF v0.9.0
 
 My pull request to allow `/` in partials was pulled into Handlebars. The hack that converted partial names to underscored paths (`shared/_time` -> `_shared_time`) is no longer necessary and has been removed. You should change all the partial references in your app when upgrading from a version prior to v0.9.0.

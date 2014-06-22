@@ -1,4 +1,4 @@
-## 0.17 (2014-06-21)
+## 0.17 (2014-06-22)
 
 * Massive revamp - @AlexRiedler
 * Changed how sprockets is registered - @AlexRiedler
