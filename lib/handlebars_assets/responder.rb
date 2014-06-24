@@ -10,7 +10,7 @@ module HandlebarsAssets
     # to the locals hash, and ensure ':html' is in
     # the list of requested formats.
     def to_handlebars
-      display @resource, resource_options if resourceful?
+      display resource, resource_options if resourceful?
     end
     alias_method :to_hbs, :to_handlebars
 
@@ -25,7 +25,7 @@ module HandlebarsAssets
     # Merge any user-supplied locals with the formatted resource
     # and return the Hash
     def resource_locals
-      (options.delete(:locals) || {}).merge!(@resource.send(:"to_#{format}"))
+      (options.delete(:locals) || {}).merge!(resource.send(:"to_#{format}"))
     end
 
     # Merge any user-supplied formats with our
