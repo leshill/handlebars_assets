@@ -1,14 +1,10 @@
 require 'action_view/template/handlers/hbs'
 
 module HandlebarsAssets
+  # NOTE: must be an engine because we are including assets in the gem
   class Engine < ::Rails::Engine
-    initializer "sprockets.handlebars", :after => "sprockets.environment", :group => :all do |app|
-      next unless app.assets
-      app.assets.register_engine('.jst.hbs', TiltHandlebars)
-      app.assets.register_engine('.hbs', TiltHandlebars)
-      app.assets.register_engine('.handlebars', TiltHandlebars)
-      app.assets.register_engine('.hamlbars', TiltHandlebars) if HandlebarsAssets::Config.haml_available?
-      app.assets.register_engine('.slimbars', TiltHandlebars) if HandlebarsAssets::Config.slim_available?
+    initializer "handlebars_assets.assets.register" do |app|
+      ::HandlebarsAssets::register_extensions(app.assets)
     end
 
     initializer "handlebars.register_template_handler" do

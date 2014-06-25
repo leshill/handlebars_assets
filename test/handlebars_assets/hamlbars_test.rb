@@ -6,7 +6,7 @@ module HandlebarsAssets
     include CompilerSupport
 
     def compile_haml(source)
-      Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render
+      (Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render).chomp
     end
 
     def teardown
@@ -20,7 +20,7 @@ module HandlebarsAssets
       scope = make_scope root, file
       source = "%p This is {{handlebars}}"
 
-      template = HandlebarsAssets::TiltHandlebars.new(scope.pathname.to_s) { source }
+      template = HandlebarsAssets::HandlebarsTemplate.new(scope.pathname.to_s) { source }
 
       assert_equal hbs_compiled('test_render', compile_haml(source)), template.render(scope, {})
     end

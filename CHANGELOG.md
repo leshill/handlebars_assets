@@ -1,3 +1,15 @@
+## 0.17 (2014-06-22)
+
+* Massive revamp - @AlexRiedler
+* Changed how sprockets is registered - @AlexRiedler
+* AMD loading - @AlexRiedler, based on @pboling changes (THANKS!)
+* Fix extension being too liberal issues - @langalex
+
+## 0.16 (2014-05-27)
+
+* README clarification - @jithugopal
+* Upgrade `handlebars` to 1.3 - @neodude
+
 ## 0.15 (2013-12-06)
 
 * Allow use of ember and other handlebars simultaneously - @rbhitchcock
