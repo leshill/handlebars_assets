@@ -36,7 +36,7 @@ module HandlebarsAssets
 
     # :nodoc:
     def supported_formats
-      [:html]
+      [:js, :jst]
     end
   end
 end

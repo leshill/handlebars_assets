@@ -20,8 +20,8 @@ module HandlebarsAssets
   #     end
   #   end
   #
-  # Bike must define #to_hbs (or #to_handlebars) that
-  # returns a Hash of JSON-compatible objects.
+  # Your class must define #to_hbs (or #to_handlebars)
+  # that returns a Hash of JSON-compatible objects.
   #
   # You can specify the location of your templates:
   #
@@ -36,10 +36,11 @@ module HandlebarsAssets
   # if you keep your templates in that directory
   #
   # If you support other mime types (like JSON), in the same
-  # controller, you'll need to name your template according
-  # to standard Rails rules, e.g.:
+  # controller, you'll need to give your template a 'js' or
+  # 'jst' format in order to keep Rails from trying to use
+  # the view for everything:
   #
-  #   show.html.hbs # *not* template.hbs
+  #   show.js.hbs # *not* show.hbs or show.html.hbs
   #
   module Controller
     extend ActiveSupport::Concern
@@ -53,7 +54,7 @@ module HandlebarsAssets
       self.responder = HandlebarsAssets::Responder
 
       def self.handlebars_templates(options = {})
-        paths = options[:paths] || options[:path]
+        paths = options[:paths] || options[:path] || []
         Array(paths).reverse_each { |p| prepend_view_path(p) }
       end
 
