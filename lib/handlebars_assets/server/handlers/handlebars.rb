@@ -1,14 +1,11 @@
-module ActionView
-  class Template
+module HandlebarsAssets
+  module Server
     module Handlers
-
-      class HBS
-        # include HandlebarsAssets::Unindent
-        
+      class Handlebars
         def self.call(template)
           new.call(template)
         end
-        
+
         def call(template)
           if template.locals.blank?
             "#{template.source.inspect}.html_safe"
@@ -21,7 +18,7 @@ module ActionView
             end
             variable_names.reject! { |name| name.starts_with? '@_' }
 
-            variables = variable_names.inject({}) { |acc,name| acc[name.sub(/^@/, "")] = controller.instance_variable_get(name); acc } 
+            variables = variable_names.inject({}) { |acc,name| acc[name.sub(/^@/, "")] = controller.instance_variable_get(name); acc }
             variables.merge!(local_assigns)
 
             HandlebarsAssets::Handlebars.render(#{template.source.inspect}, variables).html_safe
@@ -29,7 +26,6 @@ module ActionView
           end
         end
       end
-      
     end
   end
 end

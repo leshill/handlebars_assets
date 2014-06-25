@@ -98,7 +98,7 @@ module HandlebarsAssets
     end
 
     def handlebars_extensions
-      @hbs_extensions ||= ['hbs', 'handlebars']
+      @hbs_extensions ||= %w(hbs handlebars)
     end
 
     def hamlbars_extensions
