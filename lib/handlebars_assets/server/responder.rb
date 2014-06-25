@@ -8,7 +8,7 @@ module HandlebarsAssets
       # <code>render</code> with the appropriate new options.
       #
       # Add the HBS-compatible version of the resource
-      # to the locals hash, and ensure ':html' is in
+      # to the locals hash, and ensure [:js, :jst] is in
       # the list of requested formats.
       def to_handlebars
         display resource, resource_options if resourceful?
