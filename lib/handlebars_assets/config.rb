@@ -17,6 +17,10 @@ module HandlebarsAssets
       @compiler || 'handlebars.js'
     end
 
+    def compiler_runtime
+      @compiler_runtime || 'handlebars.runtime.js'
+    end
+
     def self.configure
       yield self
     end

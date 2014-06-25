@@ -7,13 +7,12 @@ module HandlebarsAssets
       ::HandlebarsAssets::register_extensions(app.assets)
     end
 
-    initializer "handlebars.register_template_handler" do
+    initializer 'handlebars.register_template_handler' do
       ActiveSupport.on_load(:action_view) do
         [:'jst.hbs', :hbs, :handlebars].each do |ext|
           ActionView::Template.register_template_handler(ext, ActionView::Template::Handlers::HBS)
         end
       end
     end
-    
   end
 end
