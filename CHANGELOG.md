@@ -1,3 +1,7 @@
+## 0.17.1 (2014-06-28)
+
+* Fix engine initialization error on rails during assets precompile - @AlexRiedler
+
 ## 0.17 (2014-06-22)
 
 * Massive revamp - @AlexRiedler
