@@ -1,3 +1,7 @@
+## 0.17.2 (2014-09-08)
+
+* Support for Ruby v1.8 - @blainekasten
+
 ## 0.17.1 (2014-06-28)
 
 * Fix engine initialization error on rails during assets precompile - @AlexRiedler
