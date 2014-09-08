@@ -6,8 +6,9 @@ Gem::Specification.new do |s|
   s.name        = "handlebars_assets"
   s.version     = HandlebarsAssets::VERSION
   s.authors     = ["Les Hill"]
+  s.licenses    = ["MIT"]
   s.email       = ["leshill@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/leshill/handlebars_assets"
   s.summary     = "Compile Handlebars templates in the Rails asset pipeline."
   s.description = "Compile Handlebars templates in the Rails asset pipeline."
 
