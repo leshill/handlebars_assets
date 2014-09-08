@@ -1,3 +1,7 @@
+## 0.18 (2014-09-08)
+
+* Update to handlebars v2.0.0 - @AlexRiedler
+
 ## 0.17.2 (2014-09-08)
 
 * Support for Ruby v1.8 - @blainekasten
