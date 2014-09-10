@@ -6,7 +6,7 @@ module HandlebarsAssets
   module Config
     extend self
 
-    attr_writer :compiler, :compiler_path, :ember, :multiple_frameworks,
+    attr_writer :compiler, :compiler_runtime, :compiler_path, :ember, :multiple_frameworks,
       :haml_options, :known_helpers, :known_helpers_only, :options,
       :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
       :precompile, :haml_enabled, :slim_enabled,
@@ -15,6 +15,10 @@ module HandlebarsAssets
 
     def compiler
       @compiler || 'handlebars.js'
+    end
+
+    def compiler_runtime
+      @compiler_runtime || 'handlebars.runtime.js'
     end
 
     def self.configure
@@ -94,7 +98,7 @@ module HandlebarsAssets
     end
 
     def handlebars_extensions
-      @hbs_extensions ||= ['hbs', 'handlebars']
+      @hbs_extensions ||= %w(hbs handlebars)
     end
 
     def hamlbars_extensions

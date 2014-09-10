@@ -5,7 +5,6 @@ require 'pathname'
 module HandlebarsAssets
   class Handlebars
     class << self
-
       def precompile(*args)
         context.call('Handlebars.precompile', *args)
       end
