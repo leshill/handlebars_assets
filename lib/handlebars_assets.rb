@@ -31,6 +31,10 @@ module HandlebarsAssets
       end
   end
 
+  def self.add_to_asset_versioning(sprockets_environment)
+    sprockets_environment.config.version += "-#{HandlebarsAssets::VERSION}"
+  end
+
 end
 
 # Register the engine (which will register extension in the app)
