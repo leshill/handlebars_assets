@@ -1,3 +1,7 @@
+## 0.18.1 (2015-02-18)
+
+* Fix issue regarding sprockets versioning of assets
+
 ## 0.18 (2014-09-08)
 
 * Update to handlebars v2.0.0 - @AlexRiedler
