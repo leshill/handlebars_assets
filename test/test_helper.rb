@@ -3,7 +3,7 @@ require 'handlebars_assets/config'
 require 'handlebars_assets/handlebars_template'
 require 'handlebars_assets/handlebars'
 
-require 'test/unit'
+require 'minitest/autorun'
 
 module SprocketsScope
   # Try to act like sprockets.

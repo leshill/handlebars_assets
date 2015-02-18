@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "multi_json"
   s.add_runtime_dependency "sprockets", ">= 2.0.3"
 
-  s.add_development_dependency "debugger"
+  s.add_development_dependency "minitest"
   s.add_development_dependency "haml"
   s.add_development_dependency "rake"
   s.add_development_dependency "slim"

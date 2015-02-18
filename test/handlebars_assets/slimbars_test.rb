@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module HandlebarsAssets
-  class SlimbarsTest < Test::Unit::TestCase
+  class SlimbarsTest < ::Minitest::Test
     include SprocketsScope
     include CompilerSupport
 
