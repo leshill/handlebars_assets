@@ -1,3 +1,8 @@
+## 0.19 (2015-02-18)
+
+* Upgrade to Handlebars v3.0
+* Re-fix the issue regarding sprockets
+
 ## 0.18.1 (2015-02-18)
 
 * Fix issue regarding sprockets versioning of assets
