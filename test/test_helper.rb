@@ -23,7 +23,7 @@ module CompilerSupport
 
   def compile_hbs(source)
     compiler_src = Pathname(HandlebarsAssets::Config.compiler_path).join(HandlebarsAssets::Config.compiler).read
-    ExecJS.compile(compiler_src).call('Handlebars.precompile', source, HandlebarsAssets::Config.options)
+    ExecJS.compile("var window = {}; " + compiler_src).call('Handlebars.precompile', source, HandlebarsAssets::Config.options)
   end
 
   def hbs_compiled(template_name, source)

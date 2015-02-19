@@ -25,6 +25,10 @@ THE SOFTWARE.
 @license
 */
 /* exported Handlebars */
+if (!window) {
+  var window = {};
+}
+
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory);
@@ -331,7 +335,7 @@ var __module1__ = (function(__dependency1__, __dependency2__) {
             if(context.hasOwnProperty(key)) {
               // We're running the iterations one step out of sync so we can detect
               // the last iteration without have to scan the object twice and create
-              // an itermediate keys array. 
+              // an itermediate keys array.
               if (priorKey) {
                 execIteration(priorKey, i-1);
               }
