@@ -1,3 +1,3 @@
 module HandlebarsAssets
-  VERSION = "0.19"
+  VERSION = "0.19.1"
 end
