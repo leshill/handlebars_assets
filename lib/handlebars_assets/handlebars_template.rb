@@ -144,15 +144,21 @@ module HandlebarsAssets
         @full_path = path
       end
 
+      def check_extension(ext)
+        result = false
+        if ext.start_with? '.'
+          ext = "\\#{ext}"
+          result ||= !(@full_path =~ /#{ext}(\..*)*$/).nil?
+        else
+          result ||= !(@full_path =~ /\.#{ext}(\..*)*$/).nil?
+        end
+        result
+      end
+
       def is_haml?
         result = false
         ::HandlebarsAssets::Config.hamlbars_extensions.each do |ext|
-          if ext.start_with? '.'
-            ext = '\\#{ext}'
-            result ||= !(@full_path =~ /#{ext}(\..*)*$/).nil?
-          else
-            result ||= !(@full_path =~ /\.#{ext}(\..*)*$/).nil?
-          end
+          result ||= check_extension(ext)
         end
         result
       end
@@ -160,31 +166,21 @@ module HandlebarsAssets
       def is_slim?
         result = false
         ::HandlebarsAssets::Config.slimbars_extensions.each do |ext|
-          if ext.start_with? '.'
-            ext = '\\#{ext}'
-            result ||= !(@full_path =~ /#{ext}(\..*)*$/).nil?
-          else
-            result ||= !(@full_path =~ /\.#{ext}(\..*)*$/).nil?
-          end
+          result ||= check_extension(ext)
+        end
+        result
+      end
+
+      def is_ember?
+        result = false
+        ::HandlebarsAssets::Config.ember_extensions.each do |ext|
+          result ||= check_extension(ext)
         end
         result
       end
 
       def is_partial?
         @full_path.gsub(%r{.*/}, '').start_with?('_')
-      end
-
-      def is_ember?
-        result = false
-        ::HandlebarsAssets::Config.ember_extensions.each do |ext|
-          if ext.start_with? '.'
-            ext = '\\#{ext}'
-            result ||= !(@full_path =~ /#{ext}(\..*)*$/).nil?
-          else
-            result ||= !(@full_path =~ /\.#{ext}(\..*)*$/).nil?
-          end
-        end
-        result
       end
 
       def name

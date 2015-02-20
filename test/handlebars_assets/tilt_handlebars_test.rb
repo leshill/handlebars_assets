@@ -143,6 +143,7 @@ module HandlebarsAssets
       source = "This is {{handlebars}}"
 
       HandlebarsAssets::Config.ember = true
+      HandlebarsAssets::Config.multiple_frameworks = false
       template = HandlebarsAssets::HandlebarsTemplate.new(scope.pathname.to_s) { source }
 
       expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
