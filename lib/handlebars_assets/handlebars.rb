@@ -24,6 +24,8 @@ module HandlebarsAssets
             append_patch(patch_file)
           end
         end
+        # HACK/workaround because of invalid wrapper by handlebars v3.0.0
+        self.source += """if (typeof window === 'undefined') { this.window = {}; }"""
         source
       end
 

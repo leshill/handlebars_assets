@@ -1,3 +1,8 @@
+## 0.20 (2015-02-23)
+
+* Fix issues with window object, revert to native HB.js
+* Fix extension handling bug on some versions of rails
+
 ## 0.19 (2015-02-18)
 
 * Upgrade to Handlebars v3.0
