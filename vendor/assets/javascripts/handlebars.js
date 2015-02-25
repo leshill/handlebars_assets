@@ -25,10 +25,6 @@ THE SOFTWARE.
 @license
 */
 /* exported Handlebars */
-if (!window) {
-  var window = {};
-}
-
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory);

@@ -1,3 +1,7 @@
+## 0.20.1 (2015-02-24)
+
+* Actually revert to native HB.js
+
 ## 0.20 (2015-02-23)
 
 * Fix issues with window object, revert to native HB.js

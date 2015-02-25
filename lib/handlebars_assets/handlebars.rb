@@ -24,8 +24,6 @@ module HandlebarsAssets
             append_patch(patch_file)
           end
         end
-        # HACK/workaround because of invalid wrapper by handlebars v3.0.0
-        self.source += """if (typeof window === 'undefined') { this.window = {}; }"""
         source
       end
 
@@ -34,7 +32,7 @@ module HandlebarsAssets
       end
 
       def source
-        @source ||= path.read
+        @source ||= "if (!window) { var window = {}; }\n#{path.read}"
       end
 
       def patch_path
