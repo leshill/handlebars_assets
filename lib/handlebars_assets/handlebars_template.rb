@@ -190,7 +190,11 @@ module HandlebarsAssets
       private
 
       def relative_path
-        @full_path.match(/.*#{HandlebarsAssets::Config.path_prefix}\/((.*\/)*([^.]*)).*$/)[1]
+        path = @full_path.match(/.*#{HandlebarsAssets::Config.path_prefix}\/((.*\/)*([^.]*)).*$/)[1]
+        if is_partial? && ::HandlebarsAssets::Config.chomp_underscore_for_partials?
+          path.gsub!(%r~/_~, '/')
+        end
+        path
       end
 
       def template_name

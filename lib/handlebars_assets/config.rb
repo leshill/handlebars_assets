@@ -11,7 +11,8 @@ module HandlebarsAssets
       :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
       :precompile, :haml_enabled, :slim_enabled,
       :handlebars_extensions, :hamlbars_extensions, :slimbars_extensions,
-      :amd, :handlebars_amd_path, :amd_with_template_namespace
+      :amd, :handlebars_amd_path, :amd_with_template_namespace,
+      :chomp_underscore_for_partials
 
     def compiler
       @compiler || 'handlebars.js'
@@ -123,6 +124,14 @@ module HandlebarsAssets
     # during configuration for the handlebars
     def handlebars_amd_path
       @handlebars_amd_path || 'handlebars'
+    end
+
+    # Indicate if leading underscore should be allowed
+    # when creating partial definition.
+    # Allows compatibility with handlebars-rails
+    # https://github.com/cowboyd/handlebars-rails/blob/f73a2d11df8aa2c21d335b8f04a8c5b59ae6a790/lib/handlebars-rails/tilt.rb#L18
+    def chomp_underscore_for_partials?
+      @chomp_underscore_for_partials || false
     end
 
     private
