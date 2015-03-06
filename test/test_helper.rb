@@ -55,6 +55,7 @@ module HandlebarsAssets
     extend self
 
     def reset!
+      @chomp_underscore_for_partials = nil
       @compiler = nil
       @compiler_path = nil
       @haml_options = nil

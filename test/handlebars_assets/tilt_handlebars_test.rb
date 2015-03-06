@@ -74,6 +74,31 @@ module HandlebarsAssets
       assert_equal hbs_compiled_partial('some/thing/_test_underscore', source), template2.render(scope2, {})
     end
 
+    def test_chomped_underscore_partials
+      assert_equal HandlebarsAssets::Config.chomp_underscore_for_partials?, false
+
+      HandlebarsAssets::Config.chomp_underscore_for_partials = true
+      assert_equal HandlebarsAssets::Config.chomp_underscore_for_partials?, true
+
+      root = '/myapp/app/assets/javascripts'
+      file1 = 'app/templates/_test_underscore.hbs'
+      scope1 = make_scope root, file1
+      file2 = 'app/templates/some/thing/_test_underscore.hbs'
+      scope2 = make_scope root, file2
+      source = "This is {{handlebars}}"
+
+      HandlebarsAssets::Config.path_prefix = 'app/templates'
+
+      template1 = HandlebarsAssets::HandlebarsTemplate.new(scope1.pathname.to_s) { source }
+
+      assert_equal hbs_compiled_partial('test_underscore', source), template1.render(scope1, {})
+
+      template2 = HandlebarsAssets::HandlebarsTemplate.new(scope2.pathname.to_s) { source }
+
+      assert_equal hbs_compiled_partial('some/thing/test_underscore', source), template2.render(scope2, {})
+
+    end
+
     def test_without_known_helpers_opt
       root = '/myapp/app/assets/templates'
       file = 'test_without_known.hbs'
