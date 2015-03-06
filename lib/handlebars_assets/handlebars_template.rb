@@ -192,6 +192,9 @@ module HandlebarsAssets
       def relative_path
         path = @full_path.match(/.*#{HandlebarsAssets::Config.path_prefix}\/((.*\/)*([^.]*)).*$/)[1]
         if is_partial? && ::HandlebarsAssets::Config.chomp_underscore_for_partials?
+          #handle case if partial is in root level of template folder
+          path.gsub!(%r~^_~, '')
+          #handle case if partial is in a subfolder within the template folder
           path.gsub!(%r~/_~, '/')
         end
         path
