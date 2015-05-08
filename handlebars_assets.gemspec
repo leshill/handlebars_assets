@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "execjs", "~> 2.0"
   s.add_runtime_dependency "tilt", "~> 1.2"
   s.add_runtime_dependency "multi_json", "~> 1.0"
-  s.add_runtime_dependency "sprockets", "~> 2.0"
+  s.add_runtime_dependency "sprockets", ">= 2.0.0", "< 4.0"
 
   s.add_development_dependency "minitest", '~> 5.5'
   s.add_development_dependency "haml", '~> 4.0'
