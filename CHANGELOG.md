@@ -1,3 +1,8 @@
+## 0.20.2 (2015-02-24)
+
+* Relax Sprockets Dependencies - @rounders
+* Add option to CHOMP underscores on partials - @GreyKn
+
 ## 0.20.1 (2015-02-24)
 
 * Actually revert to native HB.js
