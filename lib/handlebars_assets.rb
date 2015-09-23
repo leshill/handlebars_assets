@@ -4,6 +4,7 @@ module HandlebarsAssets
   autoload(:Config, 'handlebars_assets/config')
   autoload(:Handlebars, 'handlebars_assets/handlebars')
   autoload(:HandlebarsTemplate, 'handlebars_assets/handlebars_template')
+  autoload(:HandlebarsProcessor, 'handlebars_assets/handlebars_template')
 
   PATH = File.expand_path('../../vendor/assets/javascripts', __FILE__)
 
@@ -29,6 +30,13 @@ module HandlebarsAssets
           sprockets_environment.register_engine(ext, HandlebarsTemplate)
         end
       end
+  end
+
+  def self.register_transformers(config)
+    config.assets.configure do |env|
+      env.register_mime_type 'text/x-handlebars-template', extensions: Config.handlebars_extensions
+      env.register_transformer 'text/x-handlebars-template', 'application/javascript', HandlebarsProcessor
+    end
   end
 
   def self.add_to_asset_versioning(sprockets_environment)

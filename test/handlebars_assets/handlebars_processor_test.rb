@@ -2,7 +2,7 @@ require 'test_helper'
 require_relative 'shared/adapter_tests'
 
 module HandlebarsAssets
-  class HandlebarsTemplateTest < Minitest::Test
+  class HandlebarsProcessorTest < Minitest::Test
     include AdapterTests
 
     def teardown
@@ -11,8 +11,7 @@ module HandlebarsAssets
     end
 
     def render_it(scope, source)
-      template = HandlebarsAssets::HandlebarsTemplate.new(scope.pathname.to_s) { source }
-      template.render(scope, {})
+      HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)
     end
   end
 end
