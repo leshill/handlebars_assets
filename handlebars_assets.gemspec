@@ -30,5 +30,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "slim", '~> 3.0'
   s.add_development_dependency 'json', '~> 1.7'
 
-  s.post_install_message = "Remember to rake assets:clean or rake assets:purge on update!"
+  s.post_install_message = "Remember to rake assets:clean or rake assets:purge on update! this is required because of handlebars updates"
 end

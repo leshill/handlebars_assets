@@ -1,3 +1,7 @@
+## 0.21.0 (2015-02-24)
+
+* Update Handlebars to v4.0.2
+
 ## 0.20.2 (2015-02-24)
 
 * Relax Sprockets Dependencies - @rounders
