@@ -1,4 +1,6 @@
 require 'test_helper'
+require 'haml'
+require 'slim'
 
 module HandlebarsAssets
   class HandlebarsTemplateTest < Minitest::Test
@@ -11,11 +13,11 @@ module HandlebarsAssets
     end
 
     def compile_haml(source)
-      Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render
+      ::Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render
     end
 
     def compile_slim(source)
-      Slim::Template.new(HandlebarsAssets::Config.slim_options) { source }.render
+      ::Slim::Template.new(HandlebarsAssets::Config.slim_options) { source }.render
     end
 
     def test_render
