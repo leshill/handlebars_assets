@@ -3,7 +3,7 @@ require 'test_helper'
 module HandlebarsAssets
   class CompilingTest < ::MiniTest::Test
 
-    def teardown
+    def setup
       HandlebarsAssets::Config.reset!
       HandlebarsAssets::Handlebars.reset!
     end

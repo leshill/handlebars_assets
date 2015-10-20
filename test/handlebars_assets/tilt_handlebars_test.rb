@@ -7,7 +7,7 @@ module HandlebarsAssets
     include CompilerSupport
     include SprocketsScope
 
-    def teardown
+    def setup
       HandlebarsAssets::Config.reset!
       HandlebarsAssets::Handlebars.reset!
     end
