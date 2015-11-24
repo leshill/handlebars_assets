@@ -1,3 +1,7 @@
+## 0.22.0 (2015-11-23)
+
+* Update Handlebars to v4.0.5
+
 ## 0.21.0 (2015-02-24)
 
 * Update Handlebars to v4.0.2
