@@ -3,7 +3,6 @@ module HandlebarsAssets
   class Engine < ::Rails::Engine
     initializer "handlebars_assets.assets.register", :group => :all do |app|
       ::HandlebarsAssets::register_extensions(app.assets)
-      app.assets.version += "#{::HandlebarsAssets::VERSION}"
     end
   end
 end
