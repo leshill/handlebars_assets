@@ -12,37 +12,19 @@ module HandlebarsAssets
     end
   end
 
+  # Sprockets <= 3
   class HandlebarsTemplate < Tilt::Template
-
-    include Unindent
-
     def self.default_mime_type
       'application/javascript'
     end
 
     def initialize_engine
-      begin
-        require 'haml'
-      rescue LoadError
-        # haml not available
-      end
-      begin
-        require 'slim'
-      rescue LoadError
-        # slim not available
-      end
+      HandleHelper.initialize_engine
     end
 
     def prepare
-      @template_path = TemplatePath.new(@file)
-      @engine =
-        if @template_path.is_haml?
-          Haml::Engine.new(data, HandlebarsAssets::Config.haml_options)
-        elsif @template_path.is_slim?
-          Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }
-        else
-          nil
-        end
+      @template_path = HandleHelper::TemplatePath.new(@file)
+      @engine = helper.choose_engine(data)
     end
 
     def evaluate(scope, locals, &block)
@@ -53,6 +35,69 @@ module HandlebarsAssets
           data
         end
 
+      helper.compile(source)
+    end
+
+    private
+
+    def helper
+      @helper ||= HandleHelper.new(path: @file)
+    end
+  end
+
+  # Sprockets 4
+  class HandlebarsProcessor
+    def self.call(input)
+      HandleHelper.initialize_engine
+
+      hh = HandleHelper.new(path: input[:filename])
+
+      template_string = input[:data]
+
+      engine = hh.choose_engine(template_string)
+      if engine
+        hh.compile(engine.render)
+      else
+        hh.compile(template_string)
+      end
+    end
+  end
+
+  class HandleHelper
+    include Unindent
+
+    def self.initialize_engine
+      return if @initialized
+
+      begin
+        require 'haml'
+      rescue LoadError
+        # haml not available
+      end
+      begin
+        require 'slim'
+      rescue LoadError
+        # slim not available
+      end
+
+      @initialized = true
+    end
+
+    def initialize(options)
+      @template_path = TemplatePath.new(options[:path])
+    end
+
+    def choose_engine(data)
+      if @template_path.is_haml?
+        Haml::Engine.new(data, HandlebarsAssets::Config.haml_options)
+      elsif @template_path.is_slim?
+        Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }
+      else
+        nil
+      end
+    end
+
+    def compile(source)
       # remove trailing \n on file, for some reason the directives pipeline adds this
       source.chomp!($/)
 
