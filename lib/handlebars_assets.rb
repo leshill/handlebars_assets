@@ -17,6 +17,7 @@ module HandlebarsAssets
   end
 
   def self.register_extensions(sprockets_environment)
+    if Gem::Version.new(Sprockets::VERSION) < Gem::Version.new('3')
       Config.handlebars_extensions.each do |ext|
         sprockets_environment.register_engine(ext, HandlebarsTemplate)
       end
@@ -30,19 +31,21 @@ module HandlebarsAssets
           sprockets_environment.register_engine(ext, HandlebarsTemplate)
         end
       end
-  end
-
-  def self.register_transformers(config)
-    config.assets.configure do |env|
-      env.register_mime_type 'text/x-handlebars-template', extensions: Config.handlebars_extensions
-      env.register_transformer 'text/x-handlebars-template', 'application/javascript', HandlebarsProcessor
+    else
+      sprockets_environment.register_mime_type 'text/x-handlebars-template', extensions: Config.handlebars_extensions
+      if Config.slim_enabled? && Config.slim_available?
+        sprockets_environment.register_mime_type 'text/x-handlebars-template', extensions: Config.slimbars_extensions
+      end
+      if Config.haml_enabled? && Config.haml_available?
+        sprockets_environment.register_mime_type 'text/x-handlebars-template', extensions: Config.hamlbars_extensions
+      end
+      sprockets_environment.register_transformer 'text/x-handlebars-template', 'application/javascript', HandlebarsProcessor
     end
   end
 
   def self.add_to_asset_versioning(sprockets_environment)
-    sprockets_environment.config.version += "-#{HandlebarsAssets::VERSION}"
+    sprockets_environment.version += "-#{HandlebarsAssets::VERSION}"
   end
-
 end
 
 # Register the engine (which will register extension in the app)
