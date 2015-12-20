@@ -2,7 +2,6 @@
 
 source "http://rubygems.org"
 
-gem "rails", "4.1.14"
-gem "rails-sprockets", "2.3.3"
+gem "tilt", "1.4.1"
 
 gemspec :path => "../"

@@ -1,11 +1,15 @@
-appraise "rails-5" do
-  gem "rails", "5.0.0.beta1"
+appraise "sprockets-3" do
+  gem "sprockets", "3.0.0"
 end
 
-appraise "rails-4-2" do
-  gem "rails", "4.2.5"
+appraise "sprockets-2" do
+  gem "sprockets", "2.3.3"
 end
 
-appraise "rails-4-1" do
-  gem "rails", "4.1.14"
+appraise "tilt-2" do
+  gem "tilt", "2.0.1"
+end
+
+appraise "tilt-1" do
+  gem "tilt", "1.4.1"
 end

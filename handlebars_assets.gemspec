@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "execjs", "~> 2.0"
-  s.add_runtime_dependency "tilt", "~> 1.2"
+  s.add_runtime_dependency "tilt", ">= 1.2"
   s.add_runtime_dependency "multi_json", "~> 1.0"
   s.add_runtime_dependency "sprockets", ">= 2.0.0"
 
