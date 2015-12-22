@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["leshill@gmail.com"]
   s.homepage    = "https://github.com/leshill/handlebars_assets"
   s.summary     = "Compile Handlebars templates in the Rails asset pipeline."
-  s.description = "A Railities Gem to compile hbs assets"
+  s.description = "A Railties Gem to compile hbs assets"
 
   s.rubyforge_project = "handlebars_assets"
 
