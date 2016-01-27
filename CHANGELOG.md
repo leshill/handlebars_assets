@@ -1,3 +1,9 @@
+## 0.23.0 (2016-01-26)
+
+* Fixes for Railties and certain versions of Rails
+* Only load if asset compilation is enabled
+* Add support for Sprockets 3.x + 4.x - @tjgrathwell
+
 ## 0.22.0 (2015-11-23)
 
 * Update Handlebars to v4.0.5
