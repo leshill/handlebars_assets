@@ -1,3 +1,7 @@
+## 0.23.1 (2016-08-04)
+
+* Fixes for Issue on Boot with Rails 3 and 4
+
 ## 0.23.0 (2016-01-26)
 
 * Fixes for Railties and certain versions of Rails
