@@ -41,30 +41,44 @@ module HandlebarsAssets
   # Sprockets 4
   class HandlebarsProcessor
 
-    def self.instance
-      @instance ||= new
+    attr_reader :cache_key
+
+    # Sprockets 2 API new and render
+    def initialize(filename, &block)
+      @filename = filename
+      @source = block.call
+      @cache_key = [self.class.name, ::HandlebarsAssets::VERSION, filename].freeze
     end
 
+    # Sprockets 2 API new and render
+    def render(context, _options)
+      self.class.run(@filename, @source, context)
+    end
+
+    # Sprockets 3 and 4 API
     def self.call(input)
-      instance.call(input)
+      filename = input[:source_path] || input[:filename]
+      source = inputs[:data]
+      context = input[:environment].context_class.new(input)
+
+      result = run(filename, source, context)
+      context.metadata.merge(data: result)
+    end
+
+    # Centralized Method for both APIs
+    def self.run(filename, source, context)
+      output = filename.chomp(File.extname(filename)) + '.js'
+
+      renderer = HandlebarsRenderer.new(path: filename)
+      engine = renderer.choose_engine(source)
+      renderer.compile(engine.render)
     end
 
     def self.cache_key
       instance.cache_key
     end
-
-    attr_reader :cache_key
-
-    def initialize(options = {})
-      @cache_key = [self.class.name, ::HandlebarsAssets::VERSION, options].freeze
-    end
-
-    def call(input)
-      renderer = HandlebarsRenderer.new(path: input[:filename])
-      engine = renderer.choose_engine(input[:data])
-      renderer.compile(engine.render)
-    end
   end
+
 
   class NoOpEngine
     def initialize(data)
