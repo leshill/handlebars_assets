@@ -35,7 +35,12 @@ module HandlebarsAssets
     end
 
     def haml_available?
-      defined? ::Haml::Engine
+      begin
+        require 'haml'
+        true
+      rescue LoadError
+        false
+      end
     end
 
     def haml_enabled?
@@ -48,7 +53,12 @@ module HandlebarsAssets
     end
 
     def slim_available?
-      defined? ::Slim::Engine
+      begin
+        require 'slim'
+        true
+      rescue LoadError
+        false
+      end
     end
 
     def slim_enabled?

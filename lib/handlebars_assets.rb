@@ -3,8 +3,8 @@ require 'handlebars_assets/version'
 module HandlebarsAssets
   autoload(:Config, 'handlebars_assets/config')
   autoload(:Handlebars, 'handlebars_assets/handlebars')
-  autoload(:HandlebarsTemplate, 'handlebars_assets/handlebars_template')
   autoload(:HandlebarsProcessor, 'handlebars_assets/handlebars_template')
+  autoload(:HandlebarsRenderer, 'handlebars_assets/handlebars_renderer')
 
   PATH = File.expand_path('../../vendor/assets/javascripts', __FILE__)
 
@@ -46,11 +46,6 @@ module HandlebarsAssets
   end
 end
 
-# Register the engine (which will register extension in the app)
-# or ASSUME using sprockets
-if defined?(Rails)
-  require 'handlebars_assets/engine'
-else
-  require 'sprockets'
-  ::HandlebarsAssets.install(Sprockets)
-end
+# bootstrap extensions, and install transformer
+require 'sprockets'
+::HandlebarsAssets.install(Sprockets)
