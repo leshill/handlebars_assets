@@ -62,7 +62,8 @@ module HandlebarsAssets
     def call(input)
       renderer = HandlebarsRenderer.new(path: input[:filename])
       engine = renderer.choose_engine(input[:data])
-      renderer.compile(engine.render)
+      context = input[:environment].context_class.new(input)
+      renderer.compile(engine.render(context))
     end
   end
 

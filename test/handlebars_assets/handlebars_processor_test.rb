@@ -11,7 +11,14 @@ module HandlebarsAssets
     end
 
     def render_it(scope, source)
-      HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)
+      environment = Sprockets::Environment.new
+      input = {
+        environment: environment,
+        filename: scope.pathname.to_s,
+        data: source,
+        metadata: {}
+      }
+      HandlebarsAssets::HandlebarsProcessor.call(input)
     end
   end
 end
