@@ -1,3 +1,7 @@
+## 0.23.2 (2017-05-07)
+
+* Remove requirement for MultiJSON
+
 ## 0.23.1 (2016-08-04)
 
 * Fixes for Issue on Boot with Rails 3 and 4
