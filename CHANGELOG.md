@@ -1,3 +1,11 @@
+## 0.23.3 (2019-02-20)
+
+* Update Handlebars to v4.1.2
+
+## 0.23.3 (2019-02-20)
+
+* Update Handlebars to v4.1.0
+
 ## 0.23.2 (2017-05-07)
 
 * Remove requirement for MultiJSON
