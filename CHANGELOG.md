@@ -1,3 +1,7 @@
+## 0.23.5 (2019-09-25)
+
+* Update Handlebars to v4.3.1
+
 ## 0.23.4 (2019-06-03)
 
 * Update Handlebars to v4.1.2
