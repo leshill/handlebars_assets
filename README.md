@@ -6,7 +6,7 @@ Yea, I think so too. That is why I wrote **handlebars_assets**. Give your Handle
 
 Using `sprockets` with Sinatra or another framework? **handlebars_assets** works outside of Rails too (as of v0.2.0)
 
-# BREAKING CHANGES AS OF OF v0.17
+# BREAKING CHANGES AS OF v0.17
 
 @AlexRiedler has made some larger changes to this repository for going forward; If you have existing monkey patches they may not work, and the configuration schema has changed slightly to handle multiple extensions for the same compilation pipeline.
 
