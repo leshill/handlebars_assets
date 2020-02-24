@@ -27,25 +27,25 @@ module CompilerSupport
   end
 
   def hbs_compiled(template_name, source)
-    compiled_hbs = compile_hbs(source)
+    compiled_hbs = compile_hbs(source).strip
     template_namespace = HandlebarsAssets::Config.template_namespace
 
-    unindent <<-END_EXPECTED
-      (function() {
-        this.#{template_namespace} || (this.#{template_namespace} = {});
-        this.#{template_namespace}[#{template_name.dump}] = Handlebars.template(#{compiled_hbs});
-        return this.#{template_namespace}[#{template_name.dump}];
-      }).call(this);
+    <<-END_EXPECTED
+(function() {
+  this.#{template_namespace} || (this.#{template_namespace} = {});
+  this.#{template_namespace}[#{template_name.dump}] = Handlebars.template(#{compiled_hbs});
+  return this.#{template_namespace}[#{template_name.dump}];
+}).call(this);
     END_EXPECTED
   end
 
   def hbs_compiled_partial(partial_name, source)
     compiled_hbs = compile_hbs(source)
 
-    unindent <<-END_EXPECTED
-      (function() {
-        Handlebars.registerPartial(#{partial_name.dump}, Handlebars.template(#{compiled_hbs}));
-      }).call(this);
+    <<-END_EXPECTED
+(function() {
+  Handlebars.registerPartial(#{partial_name.dump}, Handlebars.template(#{compiled_hbs}));
+}).call(this);
     END_EXPECTED
   end
 end
