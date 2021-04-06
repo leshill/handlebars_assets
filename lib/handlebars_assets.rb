@@ -17,7 +17,7 @@ module HandlebarsAssets
   end
 
   def self.register_extensions(sprockets_environment)
-    if Gem::Version.new(Sprockets::VERSION) < Gem::Version.new('3')
+    if Gem::Version.new(Sprockets::VERSION) < Gem::Version.new('4')
       Config.handlebars_extensions.each do |ext|
         sprockets_environment.register_engine(ext, HandlebarsTemplate)
       end
