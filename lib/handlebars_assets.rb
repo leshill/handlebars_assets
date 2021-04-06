@@ -32,14 +32,16 @@ module HandlebarsAssets
         end
       end
     else
-      sprockets_environment.register_mime_type 'text/x-handlebars-template', extensions: Config.handlebars_extensions
-      if Config.slim_enabled? && Config.slim_available?
-        sprockets_environment.register_mime_type 'text/x-handlebars-template', extensions: Config.slimbars_extensions
+      extensions = Config.handlebars_extensions
+      extensions += Config.slimbars_extensions if Config.slim_enabled? && Config.slim_available?
+      extensions += Config.hamlbars_extensions if Config.haml_enabled? && Config.haml_available?
+      mime_type = 'text/x-handlebars-template'
+      sprockets_environment.register_mime_type mime_type, extensions: extensions
+      sprockets_environment.register_transformer mime_type, 'application/javascript', HandlebarsProcessor
+
+      if Gem::Version.new(Sprockets::VERSION) >= Gem::Version.new('4')
+        sprockets_environment.register_transformer_suffix mime_type, 'application/\2+ruby', '.erb', Sprockets::ERBProcessor
       end
-      if Config.haml_enabled? && Config.haml_available?
-        sprockets_environment.register_mime_type 'text/x-handlebars-template', extensions: Config.hamlbars_extensions
-      end
-      sprockets_environment.register_transformer 'text/x-handlebars-template', 'application/javascript', HandlebarsProcessor
     end
   end
 
