@@ -5,13 +5,13 @@ module HandlebarsAssets
     include SprocketsScope
     include CompilerSupport
 
-    def compile_slim(source)
-      Slim::Template.new(HandlebarsAssets::Config.slim_options) { source }.render
-    end
-
-    def teardown
+    def setup
       HandlebarsAssets::Config.reset!
       HandlebarsAssets::Handlebars.reset!
+    end
+
+    def compile_slim(source)
+      Slim::Template.new(HandlebarsAssets::Config.slim_options) { source }.render
     end
 
     def test_render_slim

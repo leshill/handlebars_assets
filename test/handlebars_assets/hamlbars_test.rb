@@ -5,13 +5,13 @@ module HandlebarsAssets
     include SprocketsScope
     include CompilerSupport
 
-    def compile_haml(source)
-      (Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render).chomp
-    end
-
-    def teardown
+    def setup
       HandlebarsAssets::Config.reset!
       HandlebarsAssets::Handlebars.reset!
+    end
+
+    def compile_haml(source)
+      (Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render).chomp
     end
 
     def test_render_haml

@@ -5,7 +5,7 @@ module HandlebarsAssets
   class HandlebarsTemplateTest < Minitest::Test
     include AdapterTests
 
-    def teardown
+    def setup
       HandlebarsAssets::Config.reset!
       HandlebarsAssets::Handlebars.reset!
     end
