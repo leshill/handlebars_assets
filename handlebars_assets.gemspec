@@ -23,10 +23,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "tilt", ">= 1.2"
   s.add_runtime_dependency "sprockets", ">= 2.0.0"
 
-  s.add_development_dependency "minitest", '~> 5.5'
-  s.add_development_dependency "haml", '~> 4.0'
-  s.add_development_dependency "rake", '~> 10.0'
-  s.add_development_dependency "slim", '~> 3.0'
+  s.add_development_dependency "minitest", "~> 5.5"
+  s.add_development_dependency "haml", ">= 4.0", "< 7.0"
+  s.add_development_dependency "rake", ">= 10.0", "< 14.0"
+  s.add_development_dependency "slim", "~> 3.0"
   s.add_development_dependency "appraisal"
 
   s.post_install_message = "Remember to rake assets:clean or rake assets:purge on update! this is required because of handlebars updates"
