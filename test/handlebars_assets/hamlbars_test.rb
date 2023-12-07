@@ -6,7 +6,11 @@ module HandlebarsAssets
     include CompilerSupport
 
     def compile_haml(source)
-      (Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render).chomp
+      if Haml::VERSION >= "6.0.0"
+        ((Haml::Template.new(HandlebarsAssets::Config.haml_options) { source }).render).chomp
+      else
+        (Haml::Engine.new(source, HandlebarsAssets::Config.haml_options).render).chomp        
+      end
     end
 
     def teardown

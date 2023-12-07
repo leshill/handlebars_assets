@@ -1,7 +1,8 @@
 require 'test_helper'
+require 'minitest'
 
 module HandlebarsAssets
-  class CompilingTest < ::MiniTest::Test
+  class CompilingTest < Minitest::Test
 
     def teardown
       HandlebarsAssets::Config.reset!
@@ -14,7 +15,7 @@ module HandlebarsAssets
       HandlebarsAssets::Config.compiler_path = File.expand_path '../../edge', __FILE__
 
       compiled = Handlebars.precompile(source, HandlebarsAssets::Config.options)
-      assert_match /PRECOMPILE CALLED/, compiled
+      assert_match(/PRECOMPILE CALLED/, compiled)
     end
 
     def test_patching_handlebars
@@ -24,7 +25,7 @@ module HandlebarsAssets
       HandlebarsAssets::Config.patch_files = ['patch.js']
 
       compiled = Handlebars.precompile(source, HandlebarsAssets::Config.options)
-      assert_match /CALLED PATCH/, compiled
+      assert_match(/CALLED PATCH/, compiled)
     end
   end
 end

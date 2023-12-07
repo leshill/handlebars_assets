@@ -103,7 +103,11 @@ module HandlebarsAssets
 
     def choose_engine(data)
       if @template_path.is_haml?
-        Haml::Engine.new(data, HandlebarsAssets::Config.haml_options)
+        if Haml::VERSION >= "6.0.0"
+          Haml::Template.new(HandlebarsAssets::Config.haml_options) { data }
+        else
+          Haml::Engine.new(data, HandlebarsAssets::Config.haml_options)
+        end
       elsif @template_path.is_slim?
         Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }
       else
