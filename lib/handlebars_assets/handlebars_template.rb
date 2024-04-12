@@ -170,9 +170,9 @@ module HandlebarsAssets
           else
             unindent <<-TEMPLATE
               define(['#{handlebars_amd_path}'],function(Handlebars){
-                this.#{template_namespace} || (this.#{template_namespace} = {});
-                this.#{template_namespace}[#{@template_path.name}] = #{template};
-                return this.#{template_namespace}[#{@template_path.name}];
+                window.#{template_namespace} || (window.#{template_namespace} = {});
+                window.#{template_namespace}[#{@template_path.name}] = #{template};
+                return window.#{template_namespace}[#{@template_path.name}];
               });
             TEMPLATE
           end
@@ -187,10 +187,10 @@ module HandlebarsAssets
         else
           unindent <<-TEMPLATE
             (function() {
-              this.#{template_namespace} || (this.#{template_namespace} = {});
-              this.#{template_namespace}[#{@template_path.name}] = #{template};
-              return this.#{template_namespace}[#{@template_path.name}];
-            }).call(this);
+              window.#{template_namespace} || (window.#{template_namespace} = {});
+              window.#{template_namespace}[#{@template_path.name}] = #{template};
+              return window.#{template_namespace}[#{@template_path.name}];
+            }).call(window);
           TEMPLATE
         end
       end

@@ -33,7 +33,7 @@ THE SOFTWARE.
 		exports["Handlebars"] = factory();
 	else
 		root["Handlebars"] = factory();
-})(this, function() {
+})(this || window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
