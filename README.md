@@ -22,7 +22,7 @@ My pull request to allow `/` in partials was pulled into Handlebars. The hack th
 
 # Installation
 
-## Rails 4.0+
+## Rails 6.0+
 
 Load `handlebars_assets` in your `Gemfile`
 
@@ -32,23 +32,9 @@ gem 'handlebars_assets'
 
 Then follow [Javascript Setup](#javascript-setup)
 
-Side Note: _As of Rails 4.0, the `assets` group is not supported in the Gemfile ([source](http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#upgrading-from-rails-3-2-to-rails-4-0-gemfile))._
-
-## Rails 3.1+
-
-Load `handlebars_assets` in your `Gemfile` as part of the `assets` group
-
-```ruby
-group :assets do
-  gem 'handlebars_assets'
-end
-```
-
-Then follow [Javascript Setup](#javascript-setup)
-
 ## Sprockets (Non-Rails)
 
-`handlebars_assets` can work with earlier versions of Rails or other frameworks like Sinatra.
+`handlebars_assets` can also work with other frameworks like Sinatra.
 
 Load `handlebars_assets` in your `Gemfile`
 
@@ -86,9 +72,11 @@ If you need to compile your JavaScript templates in the browser as well, you sho
 Generally you want to locate your template with your other assets, for example `app/assets/javascripts/templates`. In your JavaScript manifest file, use `require_tree` to pull in the templates
 
 > app/assets/javascripts/application.js
+
 ```javascript
 //= require_tree ./templates
 ```
+
 This must be done before `//= require_tree .` otherwise all your templates will not have the intended prefix; and after your inclusion of handlebars/handlebars runtime.
 
 ## Rails Asset Precompiling
@@ -145,7 +133,7 @@ You can then invoke the resulting template in your application's JavaScript
 NOTE: There will be no javascript object `HandlebarsTemplates` unless at least ONE template is included.
 
 ```javascript
-HandlebarsTemplates['contacts/new'](context);
+HandlebarsTemplates["contacts/new"](context);
 ```
 
 ## Partials
@@ -161,7 +149,7 @@ Invoke a {{> path/to/_partial }}
 ## The template namespace
 
 By default, the global JavaScript object that holds the compiled templates is `HandlebarsTemplates`, but it can
-be easily renamed. Another common template namespace is `JST`.  Just change the `template_namespace` configuration option
+be easily renamed. Another common template namespace is `JST`. Just change the `template_namespace` configuration option
 when you initialize your application.
 
 ```ruby
@@ -201,8 +189,8 @@ For example, if you have a file `widget.hamlbars` that looks like this:
 The Haml will be pre-processed so that the Handlebars template is basically this:
 
 ```html
-<h1> {{title}} </h1>
-<p> {{body}} </p>
+<h1>{{title}}</h1>
+<p>{{body}}</p>
 ```
 
 The same applies to `.slimbars` and the Slim gem. Use `HandlebarsAssets::Config.slim_options` to pass custom options to the Slim rendering engine.
@@ -256,7 +244,7 @@ Thank you Charles Lowell (@cowboyd) for [therubyracer](https://github.com/cowboy
 
 # Maintainer
 
-This gem is maintained by Alex Riedler [Github](https://github.com/AlexRiedler).
+This gem is currently maintained by Alex Riedler [Github](https://github.com/AlexRiedler).
 
 # Author
 
@@ -264,35 +252,37 @@ Les Hill, follow me on [Github](https://github.com/leshill) and [Twitter](https:
 
 # Contributors
 
-* Matt Burke         (@spraints)       : execjs support
-*                    (@kendagriff)     : 1.8.7 compatibility
-* Thorben Schröder   (@walski)         : 3.1 asset group for precompile
-* Erwan Barrier      (@erwanb)         : Support for plain sprockets
-* Brendan Loudermilk (@bloudermilk)    : HandlebarsAssets.path
-* Dan Evans          (@danevans)       : Rails 2 support
-* Ben Woosley        (@empact)         : Update to handlebars.js 1.0.0.beta.6
-*                    (@cw-moshe)       : Remove 'templates/' from names
-* Spike Brehm        (@spikebrehm)     : Config.template\_namespace option
-* Ken Mayer          (@kmayer)         : Quick fix for template\_namespace option
-* Brad Murray        (@wyaeld)         : Generic options support
-* Blake Williams     (@BlakeWilliams)  : .handlebars extension
-* Tristan Koch       (@trkoch)         : Strip leading whitespace from compiled templates
-* Brian Cardarella   (@bcardarella)    : Ember support
-* David Lee          (@davidlee)       : Slim support
-* Phil Cohen         (@phlipper)       : README cleanup
-* Akshay Rawat       (@akshayrawat)    : Update to handlebars.js 1.0.0-rc.3
-* Turadg Aleahmad    (@turadg)         : Update to handlebars 1.0.0-rc.4
-* Mark Rushakoff     (@mark-rushakoff) : Synchronize Sprockets engine registers with Rails
-* Alex Riedler       (@AlexRiedler)    : Pass scope and locals up the chain
-* lee                (@lee)            : Update to handlebars 1.0.0
-* Ken Collins        (@metaskills)     : Register with Sprockets
-* Blake Hitchcock    (@rbhitchcock)    : Support ember and other handlebars use simultaneously
-* ajk                (@Darep)          : Fix .hbs extension for multi-framework support
-*                    (@mattmenefee)    : README section for `hamlbars`
-* Parker Selbert     (@sorentwo)       : README section for `multiple_frameworks`
-* Francisco QV       (@panchoqv)       : README clarification
-* Dylan Markow       (@dmarkow)        : README cleanup
-* Peter Boling       (@pboling)        : AMD Loading
+| Contributor                       | Work Done                                             |
+| --------------------------------- | ----------------------------------------------------- |
+| Matt Burke (@spraints)            | execjs support                                        |
+| (@kendagriff)                     | 1.8.7 compatibility                                   |
+| Thorben Schröder (@walski)        | 3.1 asset group for precompile                        |
+| Erwan Barrier (@erwanb)           | Support for plain sprockets                           |
+| Brendan Loudermilk (@bloudermilk) | HandlebarsAssets.path                                 |
+| Dan Evans (@danevans)             | Rails 2 support                                       |
+| Ben Woosley (@empact)             | Update to handlebars.js 1.0.0.beta.6                  |
+| (@cw-moshe)                       | Remove 'templates/' from names                        |
+| Spike Brehm (@spikebrehm)         | Config.template_namespace option                      |
+| Ken Mayer (@kmayer)               | Quick fix for template_namespace option               |
+| Brad Murray (@wyaeld)             | Generic options support                               |
+| Blake Williams (@BlakeWilliams)   | .handlebars extension                                 |
+| Tristan Koch (@trkoch)            | Strip leading whitespace from compiled templates      |
+| Brian Cardarella (@bcardarella)   | Ember support                                         |
+| David Lee (@davidlee)             | Slim support                                          |
+| Phil Cohen (@phlipper)            | README cleanup                                        |
+| Akshay Rawat (@akshayrawat)       | Update to handlebars.js 1.0.0-rc.3                    |
+| Turadg Aleahmad (@turadg)         | Update to handlebars 1.0.0-rc.4                       |
+| Mark Rushakoff (@mark-rushakoff)  | Synchronize Sprockets engine registers with Rails     |
+| Alex Riedler (@AlexRiedler)       | Pass scope and locals up the chain                    |
+| lee (@lee)                        | Update to handlebars 1.0.0                            |
+| Ken Collins (@metaskills)         | Register with Sprockets                               |
+| Blake Hitchcock (@rbhitchcock)    | Support ember and other handlebars use simultaneously |
+| ajk (@Darep)                      | Fix .hbs extension for multi-framework support        |
+| (@mattmenefee)                    | README section for `hamlbars`                         |
+| Parker Selbert (@sorentwo)        | README section for `multiple_frameworks`              |
+| Francisco QV (@panchoqv)          | README clarification                                  |
+| Dylan Markow (@dmarkow)           | README cleanup                                        |
+| Peter Boling (@pboling)           | AMD Loading                                           |
 
 # Contributing
 
