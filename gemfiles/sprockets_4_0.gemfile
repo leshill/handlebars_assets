@@ -2,6 +2,6 @@
 
 source "http://rubygems.org"
 
-gem "tilt", "2.0.11"
+gem "sprockets", "4.0.3"
 
 gemspec path: "../"

@@ -2,6 +2,6 @@
 
 source "http://rubygems.org"
 
-gem "sprockets", "3.0.0"
+gem "sprockets", "3.7.0"
 
-gemspec :path => "../"
+gemspec path: "../"
