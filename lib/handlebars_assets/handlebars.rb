@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Based on https://github.com/josh/ruby-coffee-script
 require 'execjs'
 require 'pathname'
@@ -5,7 +7,6 @@ require 'pathname'
 module HandlebarsAssets
   class Handlebars
     class << self
-
       def precompile(*args)
         context.call('Handlebars.precompile', *args)
       end

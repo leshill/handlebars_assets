@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'handlebars_assets/version'
 
 module HandlebarsAssets
@@ -38,5 +40,5 @@ if defined?(Rails)
   require 'handlebars_assets/engine'
 else
   require 'sprockets'
-  ::HandlebarsAssets.register_extensions(Sprockets)
+  HandlebarsAssets.register_extensions(Sprockets)
 end

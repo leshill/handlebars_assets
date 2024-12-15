@@ -1,15 +1,17 @@
-appraise "sprockets-4_2" do
-  gem "sprockets", "4.2.1"
+# frozen_string_literal: true
+
+appraise 'sprockets-4_2' do
+  gem 'sprockets', '4.2.1'
 end
 
-appraise "sprockets-4_1" do
-  gem "sprockets", "4.1.1"
+appraise 'sprockets-4_1' do
+  gem 'sprockets', '4.1.1'
 end
 
-appraise "sprockets-4_0" do
-  gem "sprockets", "4.0.3"
+appraise 'sprockets-4_0' do
+  gem 'sprockets', '4.0.3'
 end
 
-appraise "tilt-2" do
-  gem "tilt", "2.4.0"
+appraise 'tilt-2' do
+  gem 'tilt', '2.4.0'
 end

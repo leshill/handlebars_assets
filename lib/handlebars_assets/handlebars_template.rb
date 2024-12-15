@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+require 'English'
 require 'tilt'
 require 'json'
 
@@ -70,7 +73,7 @@ module HandlebarsAssets
       @data = data
     end
 
-    def render(*args)
+    def render(*_args)
       @data
     end
   end
@@ -112,7 +115,7 @@ module HandlebarsAssets
 
     def compile(source)
       # remove trailing \n on file, for some reason the directives pipeline adds this
-      source.chomp!($/)
+      source.chomp!($INPUT_RECORD_SEPARATOR)
 
       # handle the case of multiple frameworks combined with ember
       # DEFER: use extension setup for ember
@@ -190,8 +193,6 @@ module HandlebarsAssets
         TEMPLATE
       end
     end
-
-    protected
 
     class TemplatePath
       def initialize(path)

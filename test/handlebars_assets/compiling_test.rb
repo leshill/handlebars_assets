@@ -1,27 +1,28 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 require 'minitest'
 
 module HandlebarsAssets
   class CompilingTest < Minitest::Test
-
     def teardown
       HandlebarsAssets::Config.reset!
       HandlebarsAssets::Handlebars.reset!
     end
 
     def test_custom_handlebars
-      source = "This is {{handlebars}}"
+      source = 'This is {{handlebars}}'
 
-      HandlebarsAssets::Config.compiler_path = File.expand_path '../../edge', __FILE__
+      HandlebarsAssets::Config.compiler_path = File.expand_path '../edge', __dir__
 
       compiled = Handlebars.precompile(source, HandlebarsAssets::Config.options)
       assert_match(/PRECOMPILE CALLED/, compiled)
     end
 
     def test_patching_handlebars
-      source = "This is {{nested.handlebars}}"
+      source = 'This is {{nested.handlebars}}'
 
-      HandlebarsAssets::Config.patch_path = File.expand_path '../../patch', __FILE__
+      HandlebarsAssets::Config.patch_path = File.expand_path '../patch', __dir__
       HandlebarsAssets::Config.patch_files = ['patch.js']
 
       compiled = Handlebars.precompile(source, HandlebarsAssets::Config.options)
