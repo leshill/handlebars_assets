@@ -210,7 +210,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_haml?
+      def haml?
         result = false
         ::HandlebarsAssets::Config.hamlbars_extensions.each do |ext|
           result ||= check_extension(ext)
@@ -218,7 +218,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_slim?
+      def slim?
         result = false
         ::HandlebarsAssets::Config.slimbars_extensions.each do |ext|
           result ||= check_extension(ext)
@@ -226,7 +226,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_ember?
+      def ember?
         result = false
         ::HandlebarsAssets::Config.ember_extensions.each do |ext|
           result ||= check_extension(ext)
@@ -234,7 +234,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_partial?
+      def partial?
         @full_path.gsub(%r{.*/}, '').start_with?('_')
       end
 
