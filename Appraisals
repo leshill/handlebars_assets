@@ -10,10 +10,6 @@ appraise "sprockets-4_0" do
   gem "sprockets", "4.0.3"
 end
 
-appraise "sprockets-3" do
-  gem "sprockets", "3.7.0"
-end
-
 appraise "tilt-2" do
-  gem "tilt", "2.0.11"
+  gem "tilt", "2.4.0"
 end

@@ -2,6 +2,6 @@
 
 source "http://rubygems.org"
 
-gem "tilt", "2.0.11"
+gem "tilt", "2.4.0"
 
 gemspec path: "../"

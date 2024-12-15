@@ -40,7 +40,6 @@ module HandlebarsAssets
 
   # Sprockets 4
   class HandlebarsProcessor
-
     def self.instance
       @instance ||= new
     end
@@ -103,11 +102,7 @@ module HandlebarsAssets
 
     def choose_engine(data)
       if @template_path.is_haml?
-        if Haml::VERSION >= "6.0.0"
-          Haml::Template.new(HandlebarsAssets::Config.haml_options) { data }
-        else
-          Haml::Engine.new(data, HandlebarsAssets::Config.haml_options)
-        end
+        Haml::Template.new(HandlebarsAssets::Config.haml_options) { data }
       elsif @template_path.is_slim?
         Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }
       else
@@ -162,41 +157,37 @@ module HandlebarsAssets
               });
             TEMPLATE
           end
-        else
-          if @template_path.is_partial?
-            unindent <<-PARTIAL
+        elsif @template_path.is_partial?
+          unindent <<-PARTIAL
               define(['#{handlebars_amd_path}'],function(Handlebars){
                 var t = #{template};
                 Handlebars.registerPartial(#{@template_path.name}, t);
                 return t;
               ;})
-            PARTIAL
-          else
-            unindent <<-TEMPLATE
+          PARTIAL
+        else
+          unindent <<-TEMPLATE
               define(['#{handlebars_amd_path}'],function(Handlebars){
                 this.#{template_namespace} || (this.#{template_namespace} = {});
                 this.#{template_namespace}[#{@template_path.name}] = #{template};
                 return this.#{template_namespace}[#{@template_path.name}];
               });
-            TEMPLATE
-          end
+          TEMPLATE
         end
-      else
-        if @template_path.is_partial?
-          unindent <<-PARTIAL
+      elsif @template_path.is_partial?
+        unindent <<-PARTIAL
             (function() {
               Handlebars.registerPartial(#{@template_path.name}, #{template});
             }).call(this);
-          PARTIAL
-        else
-          unindent <<-TEMPLATE
+        PARTIAL
+      else
+        unindent <<-TEMPLATE
             (function() {
               this.#{template_namespace} || (this.#{template_namespace} = {});
               this.#{template_namespace}[#{@template_path.name}] = #{template};
               return this.#{template_namespace}[#{@template_path.name}];
             }).call(this);
-          TEMPLATE
-        end
+        TEMPLATE
       end
     end
 
@@ -253,12 +244,12 @@ module HandlebarsAssets
       private
 
       def relative_path
-        path = @full_path.match(/.*#{HandlebarsAssets::Config.path_prefix}\/((.*\/)*([^.]*)).*$/)[1]
+        path = @full_path.match(%r{.*#{HandlebarsAssets::Config.path_prefix}/((.*/)*([^.]*)).*$})[1]
         if is_partial? && ::HandlebarsAssets::Config.chomp_underscore_for_partials?
-          #handle case if partial is in root level of template folder
-          path.gsub!(%r~^_~, '')
-          #handle case if partial is in a subfolder within the template folder
-          path.gsub!(%r~/_~, '/')
+          # handle case if partial is in root level of template folder
+          path.gsub!(/^_/, '')
+          # handle case if partial is in a subfolder within the template folder
+          path.gsub!(%r{/_}, '/')
         end
         path
       end

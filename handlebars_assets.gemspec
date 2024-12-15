@@ -20,11 +20,11 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'execjs', '~> 2.10'
-  s.add_runtime_dependency 'sprockets', '>= 3.0'
+  s.add_runtime_dependency 'sprockets', '>= 4.0'
   s.add_runtime_dependency 'tilt', '>= 2.4'
 
   s.add_development_dependency 'appraisal'
-  s.add_development_dependency 'haml', '>= 4.0', '< 7.0'
+  s.add_development_dependency 'haml', '~> 6.3.0'
   s.add_development_dependency 'minitest', '~> 5.25'
   s.add_development_dependency 'rake', '~> 13.2'
   s.add_development_dependency 'slim', '~> 5.2.1'
