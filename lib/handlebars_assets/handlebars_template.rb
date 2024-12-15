@@ -104,9 +104,9 @@ module HandlebarsAssets
     end
 
     def choose_engine(data)
-      if @template_path.is_haml?
+      if @template_path.haml?
         Haml::Template.new(HandlebarsAssets::Config.haml_options) { data }
-      elsif @template_path.is_slim?
+      elsif @template_path.slim?
         Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }
       else
         NoOpEngine.new(data)
@@ -119,7 +119,7 @@ module HandlebarsAssets
 
       # handle the case of multiple frameworks combined with ember
       # DEFER: use extension setup for ember
-      if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.is_ember?) ||
+      if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.ember?) ||
          (HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?)
         compile_ember(trim_source)
       else
@@ -145,7 +145,7 @@ module HandlebarsAssets
       if HandlebarsAssets::Config.amd?
         handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
         if HandlebarsAssets::Config.amd_with_template_namespace
-          if @template_path.is_partial?
+          if @template_path.partial?
             unindent <<-PARTIAL
               define(['#{handlebars_amd_path}'],function(Handlebars){
                 var t = #{template};
@@ -160,7 +160,7 @@ module HandlebarsAssets
               });
             TEMPLATE
           end
-        elsif @template_path.is_partial?
+        elsif @template_path.partial?
           unindent <<-PARTIAL
               define(['#{handlebars_amd_path}'],function(Handlebars){
                 var t = #{template};
@@ -177,7 +177,7 @@ module HandlebarsAssets
               });
           TEMPLATE
         end
-      elsif @template_path.is_partial?
+      elsif @template_path.partial?
         unindent <<-PARTIAL
             (function() {
               Handlebars.registerPartial(#{@template_path.name}, #{template});
@@ -246,7 +246,7 @@ module HandlebarsAssets
 
       def relative_path
         path = @full_path.match(%r{.*#{HandlebarsAssets::Config.path_prefix}/((.*/)*([^.]*)).*$})[1]
-        if is_partial? && ::HandlebarsAssets::Config.chomp_underscore_for_partials?
+        if partial? && ::HandlebarsAssets::Config.chomp_underscore_for_partials?
           # handle case if partial is in root level of template folder
           path.gsub!(/^_/, '')
           # handle case if partial is in a subfolder within the template folder
