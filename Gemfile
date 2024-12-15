@@ -9,6 +9,7 @@ gem 'slim', '~> 5.2'
 gem 'minitest', '~> 5.25'
 gem 'rake', '~> 13.2'
 gem 'rubocop', require: false
+gem 'rubocop-rake', require: false
 
 # Specify your gem's dependencies in handlebars_assets.gemspec
 gemspec
