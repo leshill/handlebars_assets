@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HandlebarsAssets
   # Change config options in an initializer:
   #
@@ -7,12 +9,12 @@ module HandlebarsAssets
     extend self
 
     attr_writer :compiler, :compiler_path, :ember, :multiple_frameworks,
-      :haml_options, :known_helpers, :known_helpers_only, :options,
-      :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
-      :precompile, :haml_enabled, :slim_enabled,
-      :handlebars_extensions, :hamlbars_extensions, :slimbars_extensions,
-      :amd, :handlebars_amd_path, :amd_with_template_namespace,
-      :chomp_underscore_for_partials
+                :haml_options, :known_helpers, :known_helpers_only, :options,
+                :patch_files, :patch_path, :path_prefix, :slim_options, :template_namespace,
+                :precompile, :haml_enabled, :slim_enabled,
+                :handlebars_extensions, :hamlbars_extensions, :slimbars_extensions,
+                :amd, :handlebars_amd_path, :amd_with_template_namespace,
+                :chomp_underscore_for_partials
 
     def compiler
       @compiler || 'handlebars.js'
@@ -95,7 +97,7 @@ module HandlebarsAssets
     end
 
     def handlebars_extensions
-      @hbs_extensions ||= ['.hbs', '.handlebars']
+      @handlebars_extensions ||= ['.hbs', '.handlebars']
     end
 
     def hamlbars_extensions
@@ -137,9 +139,8 @@ module HandlebarsAssets
     private
 
     def generate_known_helpers_hash
-      known_helpers.inject({}) do |hash, helper|
+      known_helpers.each_with_object({}) do |helper, hash|
         hash[helper] = true
-        hash
       end
     end
 
@@ -149,6 +150,5 @@ module HandlebarsAssets
       options[:knownHelpers] = generate_known_helpers_hash if known_helpers.any?
       options
     end
-
   end
 end

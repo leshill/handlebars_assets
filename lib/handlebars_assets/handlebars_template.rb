@@ -1,4 +1,6 @@
-require 'tilt'
+# frozen_string_literal: true
+
+require 'English'
 require 'json'
 
 module HandlebarsAssets
@@ -12,35 +14,8 @@ module HandlebarsAssets
     end
   end
 
-  # Sprockets <= 3
-  class HandlebarsTemplate < Tilt::Template
-    def self.default_mime_type
-      'application/javascript'
-    end
-
-    def initialize_engine
-      HandlebarsRenderer.initialize_engine
-    end
-
-    def prepare
-      @engine = renderer.choose_engine(data)
-    end
-
-    def evaluate(scope, locals, &block)
-      source = @engine.render(scope, locals, &block)
-      renderer.compile(source)
-    end
-
-    private
-
-    def renderer
-      @renderer ||= HandlebarsRenderer.new(path: @file)
-    end
-  end
-
   # Sprockets 4
   class HandlebarsProcessor
-
     def self.instance
       @instance ||= new
     end
@@ -62,7 +37,8 @@ module HandlebarsAssets
     def call(input)
       renderer = HandlebarsRenderer.new(path: input[:filename])
       engine = renderer.choose_engine(input[:data])
-      renderer.compile(engine.render)
+      rendered = renderer.compile(engine.render)
+      { data: rendered, metadata: { dependencies: [input[:filename]] } }
     end
   end
 
@@ -71,7 +47,7 @@ module HandlebarsAssets
       @data = data
     end
 
-    def render(*args)
+    def render(*_args)
       @data
     end
   end
@@ -102,13 +78,9 @@ module HandlebarsAssets
     end
 
     def choose_engine(data)
-      if @template_path.is_haml?
-        if Haml::VERSION >= "6.0.0"
-          Haml::Template.new(HandlebarsAssets::Config.haml_options) { data }
-        else
-          Haml::Engine.new(data, HandlebarsAssets::Config.haml_options)
-        end
-      elsif @template_path.is_slim?
+      if @template_path.haml?
+        Haml::Template.new(HandlebarsAssets::Config.haml_options) { data }
+      elsif @template_path.slim?
         Slim::Template.new(HandlebarsAssets::Config.slim_options) { data }
       else
         NoOpEngine.new(data)
@@ -117,15 +89,15 @@ module HandlebarsAssets
 
     def compile(source)
       # remove trailing \n on file, for some reason the directives pipeline adds this
-      source.chomp!($/)
+      trim_source = source.chomp($INPUT_RECORD_SEPARATOR)
 
       # handle the case of multiple frameworks combined with ember
       # DEFER: use extension setup for ember
-      if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.is_ember?) ||
+      if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.ember?) ||
          (HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?)
-        compile_ember(source)
+        compile_ember(trim_source)
       else
-        compile_default(source)
+        compile_default(trim_source)
       end
     end
 
@@ -147,7 +119,7 @@ module HandlebarsAssets
       if HandlebarsAssets::Config.amd?
         handlebars_amd_path = HandlebarsAssets::Config.handlebars_amd_path
         if HandlebarsAssets::Config.amd_with_template_namespace
-          if @template_path.is_partial?
+          if @template_path.partial?
             unindent <<-PARTIAL
               define(['#{handlebars_amd_path}'],function(Handlebars){
                 var t = #{template};
@@ -162,45 +134,39 @@ module HandlebarsAssets
               });
             TEMPLATE
           end
-        else
-          if @template_path.is_partial?
-            unindent <<-PARTIAL
+        elsif @template_path.partial?
+          unindent <<-PARTIAL
               define(['#{handlebars_amd_path}'],function(Handlebars){
                 var t = #{template};
                 Handlebars.registerPartial(#{@template_path.name}, t);
                 return t;
               ;})
-            PARTIAL
-          else
-            unindent <<-TEMPLATE
+          PARTIAL
+        else
+          unindent <<-TEMPLATE
               define(['#{handlebars_amd_path}'],function(Handlebars){
                 this.#{template_namespace} || (this.#{template_namespace} = {});
                 this.#{template_namespace}[#{@template_path.name}] = #{template};
                 return this.#{template_namespace}[#{@template_path.name}];
               });
-            TEMPLATE
-          end
+          TEMPLATE
         end
-      else
-        if @template_path.is_partial?
-          unindent <<-PARTIAL
+      elsif @template_path.partial?
+        unindent <<-PARTIAL
             (function() {
               Handlebars.registerPartial(#{@template_path.name}, #{template});
-            }).call(this);
-          PARTIAL
-        else
-          unindent <<-TEMPLATE
+            }).call(this || window);
+        PARTIAL
+      else
+        unindent <<-TEMPLATE
             (function() {
               this.#{template_namespace} || (this.#{template_namespace} = {});
               this.#{template_namespace}[#{@template_path.name}] = #{template};
               return this.#{template_namespace}[#{@template_path.name}];
-            }).call(this);
-          TEMPLATE
-        end
+            }).call(this || window);
+        TEMPLATE
       end
     end
-
-    protected
 
     class TemplatePath
       def initialize(path)
@@ -218,7 +184,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_haml?
+      def haml?
         result = false
         ::HandlebarsAssets::Config.hamlbars_extensions.each do |ext|
           result ||= check_extension(ext)
@@ -226,7 +192,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_slim?
+      def slim?
         result = false
         ::HandlebarsAssets::Config.slimbars_extensions.each do |ext|
           result ||= check_extension(ext)
@@ -234,7 +200,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_ember?
+      def ember?
         result = false
         ::HandlebarsAssets::Config.ember_extensions.each do |ext|
           result ||= check_extension(ext)
@@ -242,7 +208,7 @@ module HandlebarsAssets
         result
       end
 
-      def is_partial?
+      def partial?
         @full_path.gsub(%r{.*/}, '').start_with?('_')
       end
 
@@ -253,12 +219,12 @@ module HandlebarsAssets
       private
 
       def relative_path
-        path = @full_path.match(/.*#{HandlebarsAssets::Config.path_prefix}\/((.*\/)*([^.]*)).*$/)[1]
-        if is_partial? && ::HandlebarsAssets::Config.chomp_underscore_for_partials?
-          #handle case if partial is in root level of template folder
-          path.gsub!(%r~^_~, '')
-          #handle case if partial is in a subfolder within the template folder
-          path.gsub!(%r~/_~, '/')
+        path = @full_path.match(%r{.*#{HandlebarsAssets::Config.path_prefix}/((.*/)*([^.]*)).*$})[1]
+        if partial? && ::HandlebarsAssets::Config.chomp_underscore_for_partials?
+          # handle case if partial is in root level of template folder
+          path.gsub!(/^_/, '')
+          # handle case if partial is in a subfolder within the template folder
+          path.gsub!(%r{/_}, '/')
         end
         path
       end

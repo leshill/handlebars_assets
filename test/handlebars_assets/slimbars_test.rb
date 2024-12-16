@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 module HandlebarsAssets
@@ -18,11 +20,11 @@ module HandlebarsAssets
       root = '/myapp/app/assets/templates'
       file = 'test_render.slimbars'
       scope = make_scope root, file
-      source = "p This is {{handlebars}}"
+      source = 'p This is {{handlebars}}'
 
-      template = HandlebarsAssets::HandlebarsTemplate.new(scope.pathname.to_s) { source }
+      rendered = HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)[:data]
 
-      assert_equal hbs_compiled('test_render', compile_slim(source)), template.render(scope, {})
+      assert_equal hbs_compiled('test_render', compile_slim(source)), rendered
     end
   end
 end

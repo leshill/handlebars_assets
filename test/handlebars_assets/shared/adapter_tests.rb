@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 require 'haml'
 require 'slim'
@@ -18,7 +20,7 @@ module AdapterTests
     root = '/myapp/app/assets/templates'
     file = 'test_render.hbs'
     scope = make_scope root, file
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
 
     assert_equal hbs_compiled('test_render', source), render_it(scope, source)
   end
@@ -29,7 +31,7 @@ module AdapterTests
     root = '/myapp/app/assets/javascripts'
     file = 'templates/test_template_misnaming.hbs'
     scope = make_scope root, file
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
 
     assert_equal hbs_compiled('test_template_misnaming', source), render_it(scope, source)
   end
@@ -38,7 +40,7 @@ module AdapterTests
     root = '/myapp/app/assets/javascripts'
     file = 'app/templates/test_path_prefix.hbs'
     scope = make_scope root, file
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
 
     HandlebarsAssets::Config.path_prefix = 'app/templates'
 
@@ -51,7 +53,7 @@ module AdapterTests
     scope1 = make_scope root, file1
     file2 = 'app/templates/some/thing/_test_underscore.hbs'
     scope2 = make_scope root, file2
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
 
     HandlebarsAssets::Config.path_prefix = 'app/templates'
 
@@ -71,21 +73,20 @@ module AdapterTests
     scope1 = make_scope root, file1
     file2 = 'app/templates/some/thing/_test_underscore.hbs'
     scope2 = make_scope root, file2
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
 
     HandlebarsAssets::Config.path_prefix = 'app/templates'
 
     assert_equal hbs_compiled_partial('test_underscore', source), render_it(scope1, source)
 
     assert_equal hbs_compiled_partial('some/thing/test_underscore', source), render_it(scope2, source)
-
   end
 
   def test_without_known_helpers_opt
     root = '/myapp/app/assets/templates'
     file = 'test_without_known.hbs'
     scope = make_scope root, file
-    source = "{{#with author}}By {{first_name}} {{last_name}}{{/with}}"
+    source = '{{#with author}}By {{first_name}} {{last_name}}{{/with}}'
 
     assert_equal hbs_compiled('test_without_known', source), render_it(scope, source)
   end
@@ -94,7 +95,7 @@ module AdapterTests
     root = '/myapp/app/assets/templates'
     file = 'test_known.hbs'
     scope = make_scope root, file
-    source = "{{#with author}}By {{first_name}} {{last_name}}{{/with}}"
+    source = '{{#with author}}By {{first_name}} {{last_name}}{{/with}}'
 
     HandlebarsAssets::Config.known_helpers_only = true
 
@@ -105,7 +106,7 @@ module AdapterTests
     root = '/myapp/app/assets/templates'
     file = 'test_custom_helper.hbs'
     scope = make_scope root, file
-    source = "{{#custom author}}By {{first_name}} {{last_name}}{{/custom}}"
+    source = '{{#custom author}}By {{first_name}} {{last_name}}{{/custom}}'
 
     assert_equal hbs_compiled('test_custom_helper', source), render_it(scope, source)
   end
@@ -114,10 +115,10 @@ module AdapterTests
     root = '/myapp/app/assets/templates'
     file = 'test_custom_known_helper.hbs'
     scope = make_scope root, file
-    source = "{{#custom author}}By {{first_name}} {{last_name}}{{/custom}}"
+    source = '{{#custom author}}By {{first_name}} {{last_name}}{{/custom}}'
 
     HandlebarsAssets::Config.known_helpers_only = true
-    HandlebarsAssets::Config.known_helpers = %w(custom)
+    HandlebarsAssets::Config.known_helpers = %w[custom]
 
     assert_equal hbs_compiled('test_custom_known_helper', source), render_it(scope, source)
   end
@@ -126,7 +127,7 @@ module AdapterTests
     root = '/myapp/app/assets/javascripts/templates'
     file = 'test_template_namespace.hbs'
     scope = make_scope root, file
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
 
     HandlebarsAssets::Config.template_namespace = 'JST'
 
@@ -137,12 +138,12 @@ module AdapterTests
     root = '/myapp/app/assets/templates'
     file = 'test_render.hbs'
     scope = make_scope root, file
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
 
     HandlebarsAssets::Config.ember = true
     HandlebarsAssets::Config.multiple_frameworks = false
 
-    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");}
     assert_equal expected_compiled, render_it(scope, source)
   end
 
@@ -161,38 +162,38 @@ module AdapterTests
 
     # File without ember extension should compile to default namespace
     scope = make_scope root, non_ember
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
     assert_equal hbs_compiled('test_render', source), render_it(scope, source)
 
     # File without ember extension but with ember in it should compile to default namespace
     scope = make_scope root, non_ember_but_with_ember
-    source = "This is {{handlebars}}"
+    source = 'This is {{handlebars}}'
     assert_equal hbs_compiled('test_member', source), render_it(scope, source)
 
     # File with ember extension should compile to ember specific namespace
-    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");}
     scope = make_scope root, ember_ext_no_hbs
     assert_equal expected_compiled, render_it(scope, source)
 
     # File with ember and erb extension should compile to ember specific namespace
-    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");}
     scope = make_scope root, ember_ext_with_erb
     assert_equal expected_compiled, render_it(scope, source)
 
     # File with ember.hbs extension should compile to ember specific namespace
-    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");};
+    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("This is {{handlebars}}");}
     scope = make_scope root, ember_ext
     assert_equal expected_compiled, render_it(scope, source)
 
     # File with ember.hamlbars extension should compile to ember specific namespace
-    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("<p>This is {{handlebars}}</p>");};
+    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("<p>This is {{handlebars}}</p>");}
     scope = make_scope root, ember_with_haml
-    source = "%p This is {{handlebars}}"
+    source = '%p This is {{handlebars}}'
     assert_equal expected_compiled, render_it(scope, source)
 
     # File with ember.slimbars extension should compile to ember specific namespace
-    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("<p>This is {{handlebars}}</p>");};
-    source = "p This is {{handlebars}}"
+    expected_compiled = %{window.Ember.TEMPLATES["test_render"] = Ember.Handlebars.compile("<p>This is {{handlebars}}</p>");}
+    source = 'p This is {{handlebars}}'
     scope = make_scope root, ember_with_slim
     assert_equal expected_compiled, render_it(scope, source)
   end

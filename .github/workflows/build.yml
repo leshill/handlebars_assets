@@ -1,0 +1,18 @@
+---
+name: Lint & Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3" # Not needed with a `.ruby-version` or `.tool-versions`
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: run lint
+        run: bundle exec rake rubocop
+      - name: install gems
+        run: bundle exec appraisal install
+      - name: run tests
+        run: bundle exec appraisal rake test

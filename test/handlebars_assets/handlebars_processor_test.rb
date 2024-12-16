@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 require_relative 'shared/adapter_tests'
 
@@ -11,7 +13,7 @@ module HandlebarsAssets
     end
 
     def render_it(scope, source)
-      HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)
+      HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)[:data]
     end
   end
 end

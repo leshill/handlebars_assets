@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'handlebars_assets'
 require 'handlebars_assets/config'
 require 'handlebars_assets/handlebars_template'
@@ -9,7 +11,7 @@ module SprocketsScope
   # Try to act like sprockets.
   def make_scope(root, file)
     Class.new do
-      define_method(:logical_path) { pathname.to_s.gsub(root + '/', '').gsub(/\..*/, '') }
+      define_method(:logical_path) { pathname.to_s.gsub("#{root}/", '').gsub(/\..*/, '') }
 
       define_method(:pathname) { Pathname.new(root) + file }
 
@@ -23,36 +25,36 @@ module CompilerSupport
 
   def compile_hbs(source)
     compiler_src = Pathname(HandlebarsAssets::Config.compiler_path).join(HandlebarsAssets::Config.compiler).read
-    ExecJS.compile("var window = {}; " + compiler_src).call('Handlebars.precompile', source, HandlebarsAssets::Config.options)
+    ExecJS.compile(compiler_src.to_s).call('Handlebars.precompile', source, HandlebarsAssets::Config.options)
   end
 
   def hbs_compiled(template_name, source)
     compiled_hbs = compile_hbs(source).strip
     template_namespace = HandlebarsAssets::Config.template_namespace
 
-    <<-END_EXPECTED
-(function() {
-  this.#{template_namespace} || (this.#{template_namespace} = {});
-  this.#{template_namespace}[#{template_name.dump}] = Handlebars.template(#{compiled_hbs});
-  return this.#{template_namespace}[#{template_name.dump}];
-}).call(this);
+    <<~END_EXPECTED
+      (function() {
+        this.#{template_namespace} || (this.#{template_namespace} = {});
+        this.#{template_namespace}[#{template_name.dump}] = Handlebars.template(#{compiled_hbs});
+        return this.#{template_namespace}[#{template_name.dump}];
+      }).call(this || window);
     END_EXPECTED
   end
 
   def hbs_compiled_partial(partial_name, source)
     compiled_hbs = compile_hbs(source)
 
-    <<-END_EXPECTED
-(function() {
-  Handlebars.registerPartial(#{partial_name.dump}, Handlebars.template(#{compiled_hbs}));
-}).call(this);
+    <<~END_EXPECTED
+      (function() {
+        Handlebars.registerPartial(#{partial_name.dump}, Handlebars.template(#{compiled_hbs}));
+      }).call(this || window);
     END_EXPECTED
   end
 end
 
 module HandlebarsAssets
   module Config
-    extend self
+    module_function
 
     def reset!
       @chomp_underscore_for_partials = nil
@@ -68,11 +70,9 @@ module HandlebarsAssets
       @template_namespace = nil
       @ember = nil
     end
-
   end
 
   class Handlebars
-
     def self.reset!
       @context = nil
       @source = nil
@@ -80,6 +80,5 @@ module HandlebarsAssets
       @path = nil
       @assets_path = nil
     end
-
   end
 end
