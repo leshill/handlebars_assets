@@ -22,7 +22,7 @@ module HandlebarsAssets
       scope = make_scope root, file
       source = 'p This is {{handlebars}}'
 
-      rendered = HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)
+      rendered = HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)[:data]
 
       assert_equal hbs_compiled('test_render', compile_slim(source)), rendered
     end

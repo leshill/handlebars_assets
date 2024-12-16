@@ -36,7 +36,8 @@ module HandlebarsAssets
     def call(input)
       renderer = HandlebarsRenderer.new(path: input[:filename])
       engine = renderer.choose_engine(input[:data])
-      renderer.compile(engine.render)
+      rendered = renderer.compile(engine.render)
+      { data: rendered, metadata: { dependencies: [input[:filename]] } }
     end
   end
 
@@ -91,12 +92,13 @@ module HandlebarsAssets
 
       # handle the case of multiple frameworks combined with ember
       # DEFER: use extension setup for ember
-      if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.ember?) ||
-         (HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?)
-        compile_ember(trim_source)
-      else
-        compile_default(trim_source)
-      end
+      data =
+        if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.ember?) ||
+           (HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?)
+          compile_ember(trim_source)
+        else
+          compile_default(trim_source)
+        end
     end
 
     def compile_ember(source)

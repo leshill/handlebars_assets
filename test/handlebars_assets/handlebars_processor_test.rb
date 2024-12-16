@@ -13,7 +13,7 @@ module HandlebarsAssets
     end
 
     def render_it(scope, source)
-      HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)
+      HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)[:data]
     end
   end
 end
