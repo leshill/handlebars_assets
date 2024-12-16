@@ -153,7 +153,7 @@ module HandlebarsAssets
         unindent <<-PARTIAL
             (function() {
               Handlebars.registerPartial(#{@template_path.name}, #{template});
-            }).call(this);
+            }).call(this || window);
         PARTIAL
       else
         unindent <<-TEMPLATE
@@ -161,7 +161,7 @@ module HandlebarsAssets
               this.#{template_namespace} || (this.#{template_namespace} = {});
               this.#{template_namespace}[#{@template_path.name}] = #{template};
               return this.#{template_namespace}[#{@template_path.name}];
-            }).call(this);
+            }).call(this || window);
         TEMPLATE
       end
     end

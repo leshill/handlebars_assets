@@ -25,8 +25,7 @@ module CompilerSupport
 
   def compile_hbs(source)
     compiler_src = Pathname(HandlebarsAssets::Config.compiler_path).join(HandlebarsAssets::Config.compiler).read
-    ExecJS.compile("var window = {}; #{compiler_src}").call('Handlebars.precompile', source,
-                                                            HandlebarsAssets::Config.options)
+    ExecJS.compile("#{compiler_src}").call('Handlebars.precompile', source, HandlebarsAssets::Config.options)
   end
 
   def hbs_compiled(template_name, source)
@@ -38,7 +37,7 @@ module CompilerSupport
         this.#{template_namespace} || (this.#{template_namespace} = {});
         this.#{template_namespace}[#{template_name.dump}] = Handlebars.template(#{compiled_hbs});
         return this.#{template_namespace}[#{template_name.dump}];
-      }).call(this);
+      }).call(this || window);
     END_EXPECTED
   end
 
@@ -48,7 +47,7 @@ module CompilerSupport
     <<~END_EXPECTED
       (function() {
         Handlebars.registerPartial(#{partial_name.dump}, Handlebars.template(#{compiled_hbs}));
-      }).call(this);
+      }).call(this || window);
     END_EXPECTED
   end
 end
