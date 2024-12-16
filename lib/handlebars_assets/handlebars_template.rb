@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 require 'json'
 
 module HandlebarsAssets
@@ -88,17 +89,16 @@ module HandlebarsAssets
 
     def compile(source)
       # remove trailing \n on file, for some reason the directives pipeline adds this
-      trim_source = source.chomp($/)
+      trim_source = source.chomp($INPUT_RECORD_SEPARATOR)
 
       # handle the case of multiple frameworks combined with ember
       # DEFER: use extension setup for ember
-      data =
-        if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.ember?) ||
-           (HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?)
-          compile_ember(trim_source)
-        else
-          compile_default(trim_source)
-        end
+      if (HandlebarsAssets::Config.multiple_frameworks? && @template_path.ember?) ||
+         (HandlebarsAssets::Config.ember? && !HandlebarsAssets::Config.multiple_frameworks?)
+        compile_ember(trim_source)
+      else
+        compile_default(trim_source)
+      end
     end
 
     def compile_ember(source)
