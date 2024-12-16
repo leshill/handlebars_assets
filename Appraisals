@@ -11,7 +11,3 @@ end
 appraise 'sprockets-4_0' do
   gem 'sprockets', '4.0.3'
 end
-
-appraise 'tilt-2' do
-  gem 'tilt', '2.4.0'
-end

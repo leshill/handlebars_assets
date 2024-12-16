@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'English'
-require 'tilt'
 require 'json'
 
 module HandlebarsAssets
@@ -12,32 +10,6 @@ module HandlebarsAssets
     # Leaves _additional_ indentation on later lines intact.
     def unindent(heredoc)
       heredoc.gsub(/^#{heredoc[/\A\s*/]}/, '')
-    end
-  end
-
-  # Sprockets <= 3
-  class HandlebarsTemplate < Tilt::Template
-    def self.default_mime_type
-      'application/javascript'
-    end
-
-    def initialize_engine
-      HandlebarsRenderer.initialize_engine
-    end
-
-    def prepare
-      @engine = renderer.choose_engine(data)
-    end
-
-    def evaluate(scope, locals, &block)
-      source = @engine.render(scope, locals, &block)
-      renderer.compile(source)
-    end
-
-    private
-
-    def renderer
-      @renderer ||= HandlebarsRenderer.new(path: @file)
     end
   end
 
@@ -115,7 +87,7 @@ module HandlebarsAssets
 
     def compile(source)
       # remove trailing \n on file, for some reason the directives pipeline adds this
-      trim_source = source.chomp($INPUT_RECORD_SEPARATOR)
+      trim_source = source.chomp($/)
 
       # handle the case of multiple frameworks combined with ember
       # DEFER: use extension setup for ember

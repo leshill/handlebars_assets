@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'execjs', '~> 2.10'
   s.add_dependency 'sprockets', '>= 4.0'
-  s.add_dependency 'tilt', '>= 2.4'
 
   s.post_install_message = 'Remember to rake assets:clean or rake assets:purge on update! this is required because of handlebars updates'
   s.metadata['rubygems_mfa_required'] = 'true'

@@ -26,9 +26,9 @@ module HandlebarsAssets
       scope = make_scope root, file
       source = '%p This is {{handlebars}}'
 
-      template = HandlebarsAssets::HandlebarsTemplate.new(scope.pathname.to_s) { source }
+      rendered = HandlebarsAssets::HandlebarsProcessor.call(filename: scope.pathname.to_s, data: source)
 
-      assert_equal hbs_compiled('test_render', compile_haml(source)), template.render(scope, {})
+      assert_equal hbs_compiled('test_render', compile_haml(source)), rendered
     end
   end
 end
