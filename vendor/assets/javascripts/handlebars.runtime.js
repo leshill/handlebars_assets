@@ -1,7 +1,7 @@
 /**!
 
  @license
- handlebars v4.7.9
+ handlebars v4.7.10
 
 Copyright (C) 2011-2019 by Yehuda Katz
 
@@ -209,7 +209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _internalProtoAccess = __webpack_require__(72);
 
-	var VERSION = '4.7.9';
+	var VERSION = '4.7.10';
 	exports.VERSION = VERSION;
 	var COMPILER_REVISION = 8;
 	exports.COMPILER_REVISION = COMPILER_REVISION;
@@ -383,8 +383,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function escapeExpression(string) {
 	  if (typeof string !== 'string') {
-	    // don't escape SafeStrings, since they're already safe
-	    if (string && string.toHTML) {
+	    // don't escape SafeStrings, since they're already safe. Other values with a
+	    // "toHTML" key, e.g. from JSON context data, are escaped like any object.
+	    if (string && typeof string.toHTML === 'function') {
 	      return string.toHTML();
 	    } else if (string == null) {
 	      return '';
@@ -447,11 +448,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      column = undefined,
 	      endColumn = undefined;
 
-	  if (loc) {
+	  // Hand-built ASTs may carry a partial loc; never let the location
+	  // bookkeeping mask the actual error message.
+	  if (loc && loc.start) {
 	    line = loc.start.line;
-	    endLineNumber = loc.end.line;
 	    column = loc.start.column;
-	    endColumn = loc.end.column;
+	    if (loc.end) {
+	      endLineNumber = loc.end.line;
+	      endColumn = loc.end.column;
+	    }
 
 	    message += ' - ' + line + ':' + column;
 	  }
@@ -659,6 +664,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _exception2 = _interopRequireDefault(_exception);
 
+	/**
+	 * Close an unfinished iterator after the block body threw, like for...of does,
+	 * so that generators can run their cleanup code.
+	 *
+	 * Errors thrown while closing, including by a `return` getter, are ignored:
+	 * the block's error is the cause and is the one the caller must see.
+	 *
+	 * @param {Iterator} iterator the iterator that was being consumed
+	 */
+	function closeIterator(iterator) {
+	  try {
+	    var _close = iterator['return'];
+	    if (_utils.isFunction(_close)) {
+	      _close.call(iterator);
+	    }
+	  } catch (closeError) {
+	    // NOP
+	  }
+	}
+
 	exports['default'] = function (instance) {
 	  instance.registerHelper('each', function (context, options) {
 	    if (!options) {
@@ -684,7 +709,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      data = _utils.createFrame(options.data);
 	    }
 
-	    function execIteration(field, index, last) {
+	    function execIteration(field, index, last, value) {
 	      if (data) {
 	        data.key = field;
 	        data.index = index;
@@ -696,9 +721,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 
-	      ret = ret + fn(context[field], {
+	      ret = ret + fn(value, {
 	        data: data,
-	        blockParams: _utils.blockParams([context[field], field], [contextPath + field, null])
+	        blockParams: _utils.blockParams([value, field], [contextPath + field, null])
 	      });
 	    }
 
@@ -706,18 +731,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (_utils.isArray(context)) {
 	        for (var j = context.length; i < j; i++) {
 	          if (i in context) {
-	            execIteration(i, i, i === context.length - 1);
+	            execIteration(i, i, i === context.length - 1, context[i]);
 	          }
 	        }
 	      } else if (typeof _Symbol === 'function' && context[_Symbol$iterator]) {
-	        var newContext = [];
 	        var iterator = _getIterator(context);
-	        for (var it = iterator.next(); !it.done; it = iterator.next()) {
-	          newContext.push(it.value);
-	        }
-	        context = newContext;
-	        for (var j = context.length; i < j; i++) {
-	          execIteration(i, i, i === context.length - 1);
+	        var current = iterator.next();
+	        while (!current.done) {
+	          var next = iterator.next();
+	          try {
+	            execIteration(i, i, next.done, current.value);
+	          } catch (e) {
+	            if (!next.done) {
+	              closeIterator(iterator);
+	            }
+	            throw e;
+	          }
+	          current = next;
+	          i++;
 	        }
 	      } else {
 	        (function () {
@@ -728,13 +759,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // the last iteration without have to scan the object twice and create
 	            // an itermediate keys array.
 	            if (priorKey !== undefined) {
-	              execIteration(priorKey, i - 1);
+	              execIteration(priorKey, i - 1, false, context[priorKey]);
 	            }
 	            priorKey = key;
 	            i++;
 	          });
 	          if (priorKey !== undefined) {
-	            execIteration(priorKey, i - 1, true);
+	            execIteration(priorKey, i - 1, true, context[priorKey]);
 	          }
 	        })();
 	      }
@@ -1971,6 +2002,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.createProtoAccessControl = createProtoAccessControl;
 	exports.resultIsAllowed = resultIsAllowed;
+	exports.isPrototypeConstructor = isPrototypeConstructor;
 	exports.resetLoggedProperties = resetLoggedProperties;
 
 	var _utils = __webpack_require__(4);
@@ -2015,6 +2047,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else {
 	    return checkWhiteList(protoAccessControl.properties, propertyName);
 	  }
+	}
+
+	/**
+	 * Detect a prototype object's own "constructor" back-reference, e.g.
+	 * `Function.prototype.constructor === Function`. Because "constructor" is an
+	 * "own" property of such objects, it would otherwise bypass the prototype-access
+	 * checks and expose dangerous constructors (allowing arbitrary code execution).
+	 *
+	 * Only functions can be constructors, so other values are never treated as one
+	 * and their `prototype` is never read.
+	 *
+	 * @param {*} parent the object the property is being read from
+	 * @param {string} propertyName the property being looked up
+	 * @param {*} result the already-resolved value of `parent[propertyName]`
+	 * @returns {boolean} true if the lookup resolves `parent`'s own constructor
+	 */
+
+	function isPrototypeConstructor(parent, propertyName, result) {
+	  return propertyName === 'constructor' && typeof result === 'function' && parent === result.prototype;
 	}
 
 	function checkWhiteList(protoAccessControlForType, propertyName) {
@@ -2163,7 +2214,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var result = env.VM.invokePartial.call(this, partial, context, options);
 
+	    // An empty result normally means the partial is template source that still
+	    // has to be compiled. A function partial has already been invoked, so an
+	    // empty result from it is a bug in that partial.
+	    if (result == null && Utils.isFunction(partial)) {
+	      throw new _exception2['default']('The partial ' + options.name + ' returned no output: partials must return a string');
+	    }
+
 	    if (result == null && env.compile) {
+	      // Only template source registered as a partial may be compiled here.
+	      // Anything else (e.g. an AST-shaped object) must not become code.
+	      if (typeof partial !== 'string') {
+	        throw new _exception2['default']('The partial ' + options.name + ' could not be compiled: partials must be strings or functions returning strings');
+	      }
 	      options.partials[options.name] = env.compile(partial, templateSpec.compilerOptions, env);
 	      result = options.partials[options.name](context, options);
 	    }
@@ -2200,7 +2263,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (result == null) {
 	        return result;
 	      }
-	      if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+	      // Own properties are trusted context data and returned as-is, except for
+	      // a prototype's own "constructor" back-reference (e.g.
+	      // Function.prototype.constructor === Function): that must still pass the
+	      // prototype-access deny list, otherwise the Function constructor becomes
+	      // reachable and arbitrary code can be executed.
+	      if (Object.prototype.hasOwnProperty.call(parent, propertyName) && !_internalProtoAccess.isPrototypeConstructor(parent, propertyName, result)) {
 	        return result;
 	      }
 
@@ -2368,8 +2436,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else {
 	      partial = lookupOwnProperty(options.partials, options.name);
 	    }
-	  } else if (!partial.call && !options.name) {
-	    // This is a dynamic partial that returned a string
+	  } else if (typeof partial !== 'function' && !options.name) {
+	    // This is a dynamic partial that returned a name rather than a compiled
+	    // partial. Only functions are accepted as partials here; any other value
+	    // (including an object with a "call" property) is treated as a name, so
+	    // that context data can never be compiled as a template.
 	    options.name = partial;
 	    partial = lookupOwnProperty(options.partials, partial);
 	  }
