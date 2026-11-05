@@ -1,6 +1,11 @@
+## 0.23.11 (2026-11-05)
+
+* Update Handlebars to v4.7.10
+
 ## 0.23.10 (2026-04-07)
 
 * Update Handlebars to v4.7.9
+
 ## 0.23.9 (2021-03-18)
 
 * Update Handlebars to v4.7.7
@@ -189,6 +194,7 @@
 ## 0.6.6 (2012-09-21)
 
 * handlebars.js v1.0.rc.1
+
 ## 0.6.5 (2012-09-09)
 
 * Generic options support, `HandlebarsAssets::Config.options = { data: true }` - @wyaeld
